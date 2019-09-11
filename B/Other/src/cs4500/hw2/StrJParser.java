@@ -21,6 +21,11 @@ import java.util.Objects;
  */
 public class StrJParser {
 
+  /**
+   * Reads the command line arguments, and gives instructions and System.in to methods that handle
+   * the rest.
+   * @param argv command line arguments
+   */
   public static void main(String[] argv) {
     boolean up = argv.length > 0 && argv[0].equals("-up");
 
@@ -29,6 +34,12 @@ public class StrJParser {
     System.out.println(parsedStrJ);
   }
 
+  /**
+   * Sorts the input on @param{in} based on @param{up}, and gives a JSON list.
+   * @param in the JSON to be sorted
+   * @param up if the keys should be sorted "upwards" on strings
+   * @return a JSON list
+   */
   public static String testableMain(Reader in, boolean up) {
     Objects.requireNonNull(in);
     JsonStreamParser p = new JsonStreamParser(in);
@@ -36,7 +47,7 @@ public class StrJParser {
     List<JsonElement> elements = new ArrayList<>();
     while (p.hasNext()) {
       JsonElement e = p.next();
-        elements.add(e);
+      elements.add(e);
     }
 
     Comparator<JsonElement> jsonComp = Comparator.comparing(StrJParser::sortKey);
@@ -46,8 +57,11 @@ public class StrJParser {
     return elements.toString();
   }
 
-
-
+  /**
+   * Gives the key for sorting on @param{input}.
+   * @param input element to extract the key from
+   * @return the sorting key for the element
+   */
   private static String sortKey(JsonElement input) {
     Objects.requireNonNull(input);
 
