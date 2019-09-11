@@ -1,4 +1,4 @@
-The package labyrinth contains the following:
+Write a Java 8 package called labyrinth. The package should contain the following:
 
 ColoredToken is an interface that supports the following operations:
  - A method, getColor, that returns the Color of the token 
