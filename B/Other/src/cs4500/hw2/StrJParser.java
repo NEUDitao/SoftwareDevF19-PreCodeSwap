@@ -45,9 +45,14 @@ public class StrJParser {
     JsonStreamParser p = new JsonStreamParser(in);
 
     List<JsonElement> elements = new ArrayList<>();
-    while (p.hasNext()) {
-      JsonElement e = p.next();
-      elements.add(e);
+    try {
+      while (p.hasNext()) { // will throw a JSONIOException if "in" is empty. Thanks Google.
+        JsonElement e = p.next();
+        elements.add(e);
+      }
+    } catch (JsonIOException e) {
+      // if given invalid JSON, or an empty input, blow up gracefully
+      return "[]";
     }
 
     Comparator<JsonElement> jsonComp = Comparator.comparing(StrJParser::sortKey);
