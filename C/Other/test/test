@@ -1,0 +1,3 @@
+#! /usr/bin/bash
+(cd ../.. && ./C) & sleep .25 &&  
+cat 1.json | nc localhost 8000 | diff -bBw --suppress-blank-empty - 1-out.json
