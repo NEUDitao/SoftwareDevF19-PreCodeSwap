@@ -14,26 +14,17 @@ public class TCPStrJParse {
 
   public static void main(String argv[]) throws IOException {
 
-    try( ServerSocket sSocket = new ServerSocket(portNumber)){
-
-      try(Socket socket = sSocket.accept()){
-
+    try (ServerSocket sSocket = new ServerSocket(portNumber);
+        Socket socket = sSocket.accept();
         InputStream stream = socket.getInputStream();
-
         InputStreamReader reader = new InputStreamReader(stream);
+        OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream())
+    ) {
 
-        //char[] chars = new char[1000];
+      String json = StrJParser.testableMain(reader, true);
 
-        //reader.read(chars);
-
-        String json = StrJParser.testableMain(reader, true);
-
-        OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream());
-
-        writer.write(json);
-        System.out.println(json);
-      }
-
+      writer.write(json);
+      System.out.println(json);
     }
 
   }
