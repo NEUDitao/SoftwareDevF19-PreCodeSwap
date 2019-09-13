@@ -20,11 +20,9 @@ public class TCPStrJParse {
         InputStreamReader reader = new InputStreamReader(stream);
         OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream())
     ) {
-
       String json = StrJParser.testableMain(reader, true);
 
       writer.write(json);
-      System.out.println(json);
     }
 
   }
