@@ -1,0 +1,3 @@
+#! /usr/bin/bash
+
+java -jar Other/out/artifacts/Other_jar/Other.jar "$@"
