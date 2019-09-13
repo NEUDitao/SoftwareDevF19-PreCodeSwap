@@ -1,3 +1,3 @@
 #! /usr/bin/bash
 
-java -jar Other/out/artifacts/Other_jar/Other.jar "$@"
+java -jar Other/TCPStrJParse/out/artifacts/Other_jar/Other.jar "$@"
