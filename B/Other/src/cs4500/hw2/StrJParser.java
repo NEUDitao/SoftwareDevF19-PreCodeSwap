@@ -14,6 +14,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -27,7 +28,7 @@ public class StrJParser {
    * @param argv command line arguments
    */
   public static void main(String[] argv) {
-    boolean up = argv.length > 0 && argv[0].equals("-up");
+    boolean up = argv.length > 0 && argv[0].equals("--up");
 
     String parsedStrJ = testableMain(new InputStreamReader(System.in), up);
 
@@ -77,5 +78,7 @@ public class StrJParser {
     } else {
       return input.getAsJsonObject().get("this").getAsString();
     }
+
+
   }
 }
