@@ -1,5 +1,8 @@
 import java.util.List;
 
+/**
+ * A connectivity specification for a Simple Graph.
+ */
 public interface Labyrinth {
 
   /**

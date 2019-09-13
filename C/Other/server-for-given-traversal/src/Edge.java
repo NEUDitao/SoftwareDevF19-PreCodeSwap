@@ -1,11 +1,14 @@
+/**
+ * Comes from one Node and points to another Node.
+ */
 public class Edge {
 
-  Node node1;
-  Node node2;
+  Node from;
+  Node to;
 
-  Edge(Node node1, Node node2) {
-    this.node1 = node1;
-    this.node2 = node2;
+  Edge(Node from, Node to) {
+    this.from = from;
+    this.to = to;
 
   }
 }
