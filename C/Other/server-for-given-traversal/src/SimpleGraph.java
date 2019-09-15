@@ -7,14 +7,14 @@ import java.util.List;
  */
 public class SimpleGraph extends Graph implements Labyrinth {
 
-  private SimpleGraph(List<Node> nodes) {
+  public SimpleGraph(List<Node> nodes, List<Edge> edges) {
     this.nodes = nodes;
-    this.edges = new LinkedList<>();
+    this.edges = edges;
   }
 
   @Override
   public Labyrinth createLabyrinth(List<Node> nodes) {
-    return new SimpleGraph(nodes);
+    return new SimpleGraph(nodes, new LinkedList<>());
   }
 
   @Override
