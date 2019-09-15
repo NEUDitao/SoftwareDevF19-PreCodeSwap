@@ -3,5 +3,5 @@
  */
 public class Token {
 
-  // this token is presumed to be red
+  // this token is presumed to have a color.
 }

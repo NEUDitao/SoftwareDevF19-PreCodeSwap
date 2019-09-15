@@ -1,4 +1,3 @@
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,8 @@ public class SimpleGraph extends Graph implements Labyrinth {
   /**
    * Determines if some colored token can reach some named Node by following the Edges within a
    * particular Labyrinth
-   * @param goal the node trying to be found
+   *
+   * @param goal  the node trying to be found
    * @param token the token queried
    * @return if the token can reach the node
    */
