@@ -50,25 +50,25 @@ public class LabyrinthClient {
     Iterator<JsonElement> it = element.iterator();
     it.next(); // "lab"
     List<NodePair> nodePairs = new LinkedList<>();
-    it.forEachRemaining(je->nodePairs.add(gson.fromJson(je, NodePair.class)));
+    it.forEachRemaining(je -> nodePairs.add(gson.fromJson(je, NodePair.class)));
     currentLabyrinth = labyrinthFactory.apply(nodePairs);
   }
 
   public void jsonAdd(JsonArray array) {
-    if (currentLabyrinth != null) {
-      ColorString cst = gson.fromJson(array.get(1), ColorString.class);
-      String name = array.get(2).getAsString();
-      currentLabyrinth.addColoredToken(tokenFactory.apply(cst.color), name);
-    }
+
+    ColorString cst = gson.fromJson(array.get(1), ColorString.class);
+    String name = array.get(2).getAsString();
+    currentLabyrinth.addColoredToken(tokenFactory.apply(cst.color), name);
+
   }
 
   public void jsonMove(JsonArray array) throws IOException {
-    if (currentLabyrinth != null){
-      ColorString cst = gson.fromJson(array.get(1), ColorString.class);
-      String name = array.get(2).getAsString();
-      boolean result = currentLabyrinth.reaches(tokenFactory.apply(cst.color), name);
-      writer.write(gson.toJson(result).toString());
-    }
+
+    ColorString cst = gson.fromJson(array.get(1), ColorString.class);
+    String name = array.get(2).getAsString();
+    boolean result = currentLabyrinth.reaches(tokenFactory.apply(cst.color), name);
+    writer.write(gson.toJson(result).toString());
+
   }
 
   public void doJSONToken(JsonElement element) throws IOException {
@@ -83,10 +83,14 @@ public class LabyrinthClient {
           }
           break;
         case "add":
-          jsonAdd(array);
+          if (currentLabyrinth != null) {
+            jsonAdd(array);
+          }
           break;
         case "move":
-          jsonMove(array);
+          if (currentLabyrinth != null) {
+            jsonMove(array);
+          }
           break;
       }
     }
