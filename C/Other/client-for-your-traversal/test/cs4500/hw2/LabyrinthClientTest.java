@@ -1,5 +1,6 @@
 package cs4500.hw2;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -88,17 +89,24 @@ class LabyrinthClientTest {
 
     when(labyrinthFunction.apply(any())).thenReturn(lab);
     when(tokenFunction.apply(any())).thenReturn(ct);
+    // mock the client to return true
+    when(lab.reaches(any(), any())).thenReturn(true);
 
     JsonArray ja = new JsonArray(1);
     ja.add("lab");
 
     labClient.jsonLab(ja);
 
+    assertEquals(output.toString(), "");
+
     ja = new JsonArray(3);
     ja.add("move");
     ja.add("red");
     ja.add("Matthias");
     labClient.jsonMove(ja);
+
+    assertEquals(output.toString(), "true");
+
 
     verify(lab).reaches(ct, "Matthias");
 
