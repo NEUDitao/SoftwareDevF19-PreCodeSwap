@@ -1,0 +1,3 @@
+#! /bin/bash
+
+java -jar Other/client-for-your-traversal/out/artifacts/IP_jar/IP.jar "$@"
