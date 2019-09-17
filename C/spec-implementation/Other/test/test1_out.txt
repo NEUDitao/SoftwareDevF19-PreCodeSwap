@@ -1,0 +1,3 @@
+Created labyrinth.
+white successfully added to A
+white can move to F

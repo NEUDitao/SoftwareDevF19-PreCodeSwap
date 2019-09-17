@@ -1,0 +1,3 @@
+["lab", {"from" : "A", "to" : "F"}]
+["add", "white", "A"]
+["move", "white", "F"]
