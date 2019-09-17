@@ -17,7 +17,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 import labyrinth.ColoredToken;
+import labyrinth.ColoredTokenImpl;
 import labyrinth.Labyrinth;
+import labyrinth.LabyrinthImpl;
 
 
 public class LabyrinthClient {
@@ -32,7 +34,8 @@ public class LabyrinthClient {
   public static void main(String[] args) throws IOException {
     try (Reader input = new InputStreamReader(System.in);
         Writer output = new OutputStreamWriter(System.out)) {
-      LabyrinthClient client = new LabyrinthClient(input, output, null, null);
+      LabyrinthClient client = new LabyrinthClient(input, output, ColoredTokenImpl::new,
+          LabyrinthImpl::new);
       client.start();
     }
   }

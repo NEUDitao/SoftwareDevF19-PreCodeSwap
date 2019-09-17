@@ -4,7 +4,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test for the Labyrinth interface.
+ * Test for the labyrinth.Labyrinth interface.
  */
 public class LabyrinthTest {
 

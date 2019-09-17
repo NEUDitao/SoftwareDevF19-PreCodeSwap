@@ -6,10 +6,10 @@ import java.util.List;
 public interface Labyrinth {
 
   /**
-   * Create a Labyrinth with named Nodes.
+   * Create a labyrinth.Labyrinth with named Nodes.
    *
    * @param nodes the nodes
-   * @return the Labyrinth created
+   * @return the labyrinth.Labyrinth created
    */
   Labyrinth createLabyrinth(List<Node> nodes);
 
@@ -18,13 +18,13 @@ public interface Labyrinth {
    *
    * @param token the colored token
    * @param node  node's name
-   * @return the updated Labyrinth.
+   * @return the updated labyrinth.Labyrinth.
    */
   Labyrinth addToken(Token token, Node node);
 
   /**
    * Determines if some colored token can reach some named Node by following the Edges within a
-   * particular Labyrinth
+   * particular labyrinth.Labyrinth
    *
    * @param token the token queried
    * @param goal  the node trying to be found

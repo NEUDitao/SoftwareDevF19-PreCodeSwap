@@ -1,11 +1,13 @@
-import java.awt.*;
+package labyrinth;
+
+import java.awt.Color;
 
 public class ColoredTokenImpl implements ColoredToken {
 
     Color color;
 
     /**
-     * Accepts a color and returns a ColoredToken of that color.
+     * Accepts a color and returns a labyrinth.ColoredToken of that color.
      * @param color Color of token
      */
     public ColoredTokenImpl(Color color) {

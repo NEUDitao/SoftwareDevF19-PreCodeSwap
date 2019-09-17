@@ -9,7 +9,7 @@ The specification also said createLabyrinth shouldn't take Edges. Since we
 don't know how to create the edges from the Nodes, we added the ability to
 add edges in the constructor for SimpleGraph.
 
-The definition of a ColoredToken vs a Token was ambiguous, and we did not
+The definition of a labyrinth.ColoredToken vs a Token was ambiguous, and we did not
 know how to proceed. 
 
 The code lives in ./Other/server-for-given-traversal/src

@@ -29,7 +29,7 @@ public class SimpleGraph extends Graph implements Labyrinth {
 
   /**
    * Determines if some colored token can reach some named Node by following the Edges within a
-   * particular Labyrinth
+   * particular labyrinth.Labyrinth
    *
    * @param goal  the node trying to be found
    * @param token the token queried

@@ -1,4 +1,4 @@
-## Protocol for a Labyrinth Server-Client Interaction 
+## Protocol for a labyrinth.Labyrinth Server-Client Interaction 
 
 The first three sections explain the interaction arrangements between the
 user, the `client` program, and the `server` component. The remaining

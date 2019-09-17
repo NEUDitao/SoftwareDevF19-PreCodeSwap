@@ -1,4 +1,4 @@
-package labyrinth;
+package labyrinth.old;
 
 import java.util.NoSuchElementException;
 

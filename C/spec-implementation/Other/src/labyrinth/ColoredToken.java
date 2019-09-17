@@ -1,4 +1,6 @@
-import java.awt.*;
+package labyrinth;
+
+import java.awt.Color;
 
 public interface ColoredToken {
 
