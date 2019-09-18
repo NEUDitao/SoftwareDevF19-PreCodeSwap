@@ -70,7 +70,7 @@ public class LabyrinthClient {
     ColorString cst = gson.fromJson(array.get(1), ColorString.class);
     String name = array.get(2).getAsString();
     boolean result = currentLabyrinth.reaches(tokenFactory.apply(cst.color), name);
-    writer.write(gson.toJson(result).toString());
+    // writer.write(gson.toJson(result).toString());
 
   }
 

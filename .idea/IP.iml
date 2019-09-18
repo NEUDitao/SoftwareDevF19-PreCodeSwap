@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/C/Other/client-for-your-traversal/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/B/Other/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/C/spec-implementation/Other/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/D/Other/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
+  </component>
+</module>
