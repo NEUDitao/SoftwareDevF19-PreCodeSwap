@@ -83,6 +83,8 @@ public class TCPLabyrinth implements Labyrinth {
     message.add(name);
     outgoingMessageQ.add(message);
 
+    // time to write
+
     outgoingMessageQ.add(0, this.lab);
 
     boolean returnable = false;
@@ -105,15 +107,16 @@ public class TCPLabyrinth implements Labyrinth {
           tempMessage.add("invalid");
           tempMessage.add(e);
         }
-        userOut.write(tempMessage.toString());
+        userOut.println(tempMessage.toString());
       }
 
     } catch (IOException e) {
-      userOut.write("sending message failed. Exiting program");
+      userOut.println("sending message failed. Exiting program");
       userOut.flush();
       System.exit(1);
     }
 
+    outgoingMessageQ.clear();
     return returnable;
   }
 }

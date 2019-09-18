@@ -1,9 +1,16 @@
 import com.google.gson.JsonArray;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonStreamParser;
+import cs4500.hw2.LabyrinthClient;
+import cs4500.hw2.NotARequestException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.Socket;
+import labyrinth.ColoredTokenImpl;
 
 public class TCPLabClient {
 
@@ -34,22 +41,37 @@ public class TCPLabClient {
     runClient(in, out, new InputStreamReader(System.in), new OutputStreamWriter(System.out), name);
   }
 
-  private static void runClient(InputStreamReader serverIn, OutputStreamWriter serverOut,
-      InputStreamReader userIn, OutputStreamWriter userOut, String name)
+  public static void runClient(Reader serverIn, Writer serverOut,
+      Reader userIn, Writer userOut, String name)
       throws IOException {
 
-    try (JsonReader serverScan = new JsonReader(serverIn);
-    JsonReader userScan = new JsonReader(userIn)) {
-      serverOut.write(name);
+    JsonStreamParser serverScan = new JsonStreamParser(serverIn);
+    JsonStreamParser userScan = new JsonStreamParser(userIn);
+    PrintWriter printOut = new PrintWriter(userOut);
 
-      String internalName = serverScan.nextString();
-      JsonArray serverCallMe = new JsonArray();
-      serverCallMe.add("the server will call me");
-      serverCallMe.add(internalName);
+    serverOut.write(name);
 
-      userOut.write(serverCallMe.toString());
+    String internalName = serverScan.next().getAsString();
+    JsonArray serverCallMe = new JsonArray();
+    serverCallMe.add("the server will call me");
+    serverCallMe.add(internalName);
 
-      // actually use TCPLabyrinth
+    userOut.write(serverCallMe.toString());
+
+    LabyrinthClient labClient = new LabyrinthClient(userIn, userOut, ColoredTokenImpl::new, l -> {
+      return new TCPLabyrinth(l, serverScan, serverOut, printOut);
+    });
+
+    while (userScan.hasNext()) {
+      JsonElement element = userScan.next();
+      try {
+        labClient.doJSONToken(element);
+      } catch (NotARequestException e) {
+        JsonArray errorMessage = new JsonArray();
+        errorMessage.add("not a request");
+        errorMessage.add(element);
+        printOut.println(errorMessage.toString());
+      }
     }
 
   }

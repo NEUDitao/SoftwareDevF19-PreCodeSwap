@@ -95,7 +95,11 @@ public class LabyrinthClient {
             jsonMove(array);
           }
           break;
+        default:
+          throw new NotARequestException("Given Json Array did not start with correct shtuff");
       }
+    } else {
+      throw new NotARequestException("Given Json was not an array");
     }
   }
 
