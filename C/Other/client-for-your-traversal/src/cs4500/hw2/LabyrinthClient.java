@@ -60,6 +60,9 @@ public class LabyrinthClient {
   public void jsonAdd(JsonArray array) {
 
     ColorString cst = gson.fromJson(array.get(1), ColorString.class);
+    if(cst == null){
+      throw new NotARequestException("Color not valid");
+    }
     String name = array.get(2).getAsString();
     currentLabyrinth.addColoredToken(tokenFactory.apply(cst.color), name);
 
@@ -68,6 +71,9 @@ public class LabyrinthClient {
   public void jsonMove(JsonArray array) throws IOException {
 
     ColorString cst = gson.fromJson(array.get(1), ColorString.class);
+    if(cst == null){
+      throw new NotARequestException("Color not valid");
+    }
     String name = array.get(2).getAsString();
     boolean result = currentLabyrinth.reaches(tokenFactory.apply(cst.color), name);
     // writer.write(gson.toJson(result).toString());
@@ -80,7 +86,7 @@ public class LabyrinthClient {
       switch (array.get(0).getAsString()) {
         case "lab":
           if (currentLabyrinth != null) {
-            System.exit(1);
+            throw new NotARequestException("Second labyrinth");
           } else {
             jsonLab(array);
           }
@@ -88,11 +94,15 @@ public class LabyrinthClient {
         case "add":
           if (currentLabyrinth != null) {
             jsonAdd(array);
+          } else{
+            throw new NotARequestException("No labyrinth yet");
           }
           break;
         case "move":
           if (currentLabyrinth != null) {
             jsonMove(array);
+          } else{
+            throw new NotARequestException("No labyrinth yet");
           }
           break;
         default:

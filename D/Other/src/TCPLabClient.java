@@ -1,8 +1,11 @@
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonStreamParser;
 import cs4500.hw2.LabyrinthClient;
 import cs4500.hw2.NotARequestException;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -14,6 +17,7 @@ import labyrinth.ColoredTokenImpl;
 
 public class TCPLabClient {
 
+  static Gson gson = new Gson();
 
   public static void main(String[] args) throws IOException {
 
@@ -49,7 +53,8 @@ public class TCPLabClient {
     JsonStreamParser userScan = new JsonStreamParser(userIn);
     PrintWriter printOut = new PrintWriter(userOut);
 
-    serverOut.write(name);
+    // escapes quotes
+    serverOut.write(gson.toJsonTree(name).toString());
 
     String internalName = serverScan.next().getAsString();
     JsonArray serverCallMe = new JsonArray();
@@ -62,16 +67,20 @@ public class TCPLabClient {
       return new TCPLabyrinth(l, serverScan, serverOut, printOut);
     });
 
-    while (userScan.hasNext()) {
-      JsonElement element = userScan.next();
-      try {
-        labClient.doJSONToken(element);
-      } catch (NotARequestException e) {
-        JsonArray errorMessage = new JsonArray();
-        errorMessage.add("not a request");
-        errorMessage.add(element);
-        printOut.println(errorMessage.toString());
+    try {
+      while (userScan.hasNext()) {
+        JsonElement element = userScan.next();
+        try {
+          labClient.doJSONToken(element);
+        } catch (NotARequestException e) {
+          JsonArray errorMessage = new JsonArray();
+          errorMessage.add("not a request");
+          errorMessage.add(element);
+          printOut.println(errorMessage.toString());
+        }
       }
+    } catch (JsonIOException e) {
+      // Gson throws exceptions when there's nothing coming in
     }
 
   }
