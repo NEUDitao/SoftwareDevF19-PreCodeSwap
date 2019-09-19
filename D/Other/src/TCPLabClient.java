@@ -5,7 +5,6 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonStreamParser;
 import cs4500.hw2.LabyrinthClient;
 import cs4500.hw2.NotARequestException;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -15,6 +14,9 @@ import java.io.Writer;
 import java.net.Socket;
 import labyrinth.ColoredTokenImpl;
 
+/**
+ * Main class for facilitating communication between user inputs and the server
+ */
 public class TCPLabClient {
 
   static Gson gson = new Gson();
@@ -45,6 +47,15 @@ public class TCPLabClient {
     runClient(in, out, new InputStreamReader(System.in), new OutputStreamWriter(System.out), name);
   }
 
+  /**
+   * Main function to run the client for labyrinths
+   *
+   * @param serverIn  The stream reading from the server
+   * @param serverOut The stream outputting to the server
+   * @param userIn    The stream reading from the user
+   * @param userOut   The stream outputting to the user
+   * @param name      The name that the user chooses
+   */
   public static void runClient(Reader serverIn, Writer serverOut,
       Reader userIn, Writer userOut, String name)
       throws IOException {

@@ -7,11 +7,12 @@ import java.util.Objects;
  * Represents a pair of nodes.
  */
 public class NodePair {
+
   public final String from;
   public final String to;
 
 
-  public NodePair(String from, String to){
+  public NodePair(String from, String to) {
     this.from = from;
     this.to = to;
   }
@@ -36,6 +37,7 @@ public class NodePair {
 
   /**
    * Turns this nodePair into a JsonArray of two elements, the first being from second being two
+   *
    * @return array of two elements
    */
   public JsonArray toJsonArray() {

@@ -1,7 +1,6 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
 
 /**
  * Test for the labyrinth.Labyrinth interface.

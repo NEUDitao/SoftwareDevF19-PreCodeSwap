@@ -29,6 +29,7 @@ public class TCPLabyrinth implements Labyrinth {
 
   /**
    * Constructor that takes in input/output from server, and writes to user.
+   *
    * @param nodePairs
    * @param serverIn
    * @param serverOut

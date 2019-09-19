@@ -26,6 +26,7 @@ public class StrJParser {
   /**
    * Reads the command line arguments, and gives instructions and System.in to methods that handle
    * the rest.
+   *
    * @param argv command line arguments
    */
   public static void main(String[] argv) {
@@ -38,6 +39,7 @@ public class StrJParser {
 
   /**
    * Sorts the input on @param{in} based on @param{up}, and gives a JSON list.
+   *
    * @param in the JSON to be sorted
    * @param up if the keys should be sorted "upwards" on strings
    * @return a JSON list
@@ -66,6 +68,7 @@ public class StrJParser {
 
   /**
    * Gives the key for sorting on @param{input}.
+   *
    * @param input element to extract the key from
    * @return the sorting key for the element
    */

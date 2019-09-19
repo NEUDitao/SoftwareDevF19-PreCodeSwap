@@ -21,7 +21,9 @@ import labyrinth.ColoredTokenImpl;
 import labyrinth.Labyrinth;
 import labyrinth.LabyrinthImpl;
 
-
+/**
+ * Generic handler of user inputs for labyrinth
+ */
 public class LabyrinthClient {
 
   private final Writer writer;
@@ -40,6 +42,14 @@ public class LabyrinthClient {
     }
   }
 
+  /**
+   * Constructs a LabyrinthClient
+   *
+   * @param reader           Input from the user
+   * @param writer           Output to the user
+   * @param tokenFactory     Function that creates tokens given a color
+   * @param labyrinthFactory Function that creates a labyrinth from a list of Nodepairs
+   */
   public LabyrinthClient(Reader reader, Writer writer, Function<Color, ColoredToken> tokenFactory,
       Function<List<NodePair>, Labyrinth> labyrinthFactory) {
     this.reader = reader;
@@ -49,7 +59,10 @@ public class LabyrinthClient {
     gson = new Gson();
   }
 
-  public void jsonLab(JsonArray element) {
+  /**
+   * Process a lab request
+   */
+  void jsonLab(JsonArray element) {
     Iterator<JsonElement> it = element.iterator();
     it.next(); // "lab"
     List<NodePair> nodePairs = new LinkedList<>();
@@ -57,10 +70,13 @@ public class LabyrinthClient {
     currentLabyrinth = labyrinthFactory.apply(nodePairs);
   }
 
-  public void jsonAdd(JsonArray array) {
+  /**
+   * Process an add request
+   */
+  void jsonAdd(JsonArray array) {
 
     ColorString cst = gson.fromJson(array.get(1), ColorString.class);
-    if(cst == null){
+    if (cst == null) {
       throw new NotARequestException("Color not valid");
     }
     String name = array.get(2).getAsString();
@@ -68,10 +84,13 @@ public class LabyrinthClient {
 
   }
 
-  public void jsonMove(JsonArray array) throws IOException {
+  /**
+   * Process a move request
+   */
+  void jsonMove(JsonArray array) throws IOException {
 
     ColorString cst = gson.fromJson(array.get(1), ColorString.class);
-    if(cst == null){
+    if (cst == null) {
       throw new NotARequestException("Color not valid");
     }
     String name = array.get(2).getAsString();
@@ -80,6 +99,11 @@ public class LabyrinthClient {
 
   }
 
+  /**
+   * Process a generic request
+   *
+   * @param element A well-formed JSON request to be processed
+   */
   public void doJSONToken(JsonElement element) throws IOException {
     if (element.isJsonArray()) {
       JsonArray array = element.getAsJsonArray();
@@ -94,14 +118,14 @@ public class LabyrinthClient {
         case "add":
           if (currentLabyrinth != null) {
             jsonAdd(array);
-          } else{
+          } else {
             throw new NotARequestException("No labyrinth yet");
           }
           break;
         case "move":
           if (currentLabyrinth != null) {
             jsonMove(array);
-          } else{
+          } else {
             throw new NotARequestException("No labyrinth yet");
           }
           break;
@@ -113,7 +137,7 @@ public class LabyrinthClient {
     }
   }
 
-  public void start() throws IOException {
+  private void start() throws IOException { // unused
     JsonStreamParser jsp = new JsonStreamParser(this.reader);
 
     while (jsp.hasNext()) {

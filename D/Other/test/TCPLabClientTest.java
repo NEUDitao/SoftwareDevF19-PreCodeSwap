@@ -64,9 +64,12 @@ class TCPLabClientTest {
     serverWriter = new StringWriter();
   }
 
-  static List<JsonElement> jsonElementCreator(String jsonz) {
+  /**
+   * Turns a string containing json into a list of distinct json elements
+   */
+  static List<JsonElement> jsonElementCreator(String jsons) {
 
-    JsonStreamParser jsp = new JsonStreamParser(jsonz);
+    JsonStreamParser jsp = new JsonStreamParser(jsons);
 
     ArrayList<JsonElement> returnable = new ArrayList<>();
 
@@ -75,6 +78,10 @@ class TCPLabClientTest {
     return returnable;
   }
 
+  /**
+   * Takes two strings containing possibly multiple json elements and determines whether they
+   * contain the same elements in the same order
+   */
   static void assertJsonEquals(String expected, String actual) {
     List<JsonElement> expectedList = jsonElementCreator(expected);
     List<JsonElement> actualList = jsonElementCreator(actual);
@@ -82,6 +89,9 @@ class TCPLabClientTest {
     assertEquals(expectedList, actualList);
   }
 
+  /**
+   * Given expected output to the server and output to the user, run a standard suite of tests
+   */
   void runTests(String expectedServerIn, String expectedUserOut) throws IOException {
 
     TCPLabClient.runClient(serverReader, serverWriter, read, write, "John Doe");
@@ -140,7 +150,9 @@ class TCPLabClientTest {
     runTests(expectedServerQuery2, expectedUserResponse2);
   }
 
-
+  /**
+   * Wrapper to make "not a request" arrays
+   */
   static String notARequestExpected(String inner) {
     return "[\"not a request\", " + inner + "]";
   }
@@ -164,9 +176,11 @@ class TCPLabClientTest {
   @UserInput(clientQuery2 + labFromClient + clientQueryBreak + clientQuery2)
   @ServerOutput(fromServerNameReturn + serverResponse2)
   void testClientBreak() throws IOException {
-    String expectedPrint = clientQueryBreakList.stream().map(TCPLabClientTest::notARequestExpected).reduce("", String::concat);
+    String expectedPrint = clientQueryBreakList.stream().map(TCPLabClientTest::notARequestExpected)
+        .reduce("", String::concat);
 
-    runTests(expectedServerQuery2, serverExpectedPrint + notARequestExpected(clientQuery2) + expectedPrint + theAnswerIs2);
+    runTests(expectedServerQuery2,
+        serverExpectedPrint + notARequestExpected(clientQuery2) + expectedPrint + theAnswerIs2);
   }
 
 }

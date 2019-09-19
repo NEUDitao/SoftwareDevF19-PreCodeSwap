@@ -107,7 +107,6 @@ class LabyrinthClientTest {
 
     assertEquals(output.toString(), "true");
 
-
     verify(lab).reaches(ct, "Matthias");
 
   }
@@ -139,7 +138,6 @@ class LabyrinthClientTest {
     labClient.doJSONToken(ja);
 
     verify(labClient).jsonMove(any());
-
 
 
   }
