@@ -20,7 +20,6 @@ public class LabyrinthImpl implements Labyrinth {
 
     /**
      * Accepts a List of unique Strings where each String is the name of a node, and returns a labyrinth.Labyrinth.
-     * @param loS List of Strings to be sorted and turned into a labyrinth.Labyrinth
      */
     public LabyrinthImpl(List<NodePair> pairs) {
         edges = new ArrayList<>();
