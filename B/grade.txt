@@ -1,3 +1,2 @@
-42 / 51
--5 Extra, unspecified files in assignment directory rather than `Other`
+47 / 51
 -4 on traversal.md; see traversal-grade.txt
