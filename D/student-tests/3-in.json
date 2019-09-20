@@ -1,0 +1,4 @@
+["lab",{"from":"a","to":"b"}]
+["add","white","a"]
+["add","red","c"]
+["move","white","a"]
