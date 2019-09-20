@@ -1,3 +1,12 @@
+Our plan to implement Tsuro involves three distinct parts, the TsuroGameBoard,
+the TsuroGameManager, and the Players. The TsuroGameBoard will keep track of the
+state of the board. The TsuroGameManager manages connecting the board and the
+players' actions, and the Players are in charge of asking the TsuroGameManager
+if moves it wants to do are valid, and having the Manager do the moves. Eventually,
+we will have a tournament manager, who is able to create individual TsuroGameManagers
+to handle individual games, and set up games appropriately based off information from
+them. We decided to do this to separate Players and the data in TsuroGameBoards as
+much as possible, using TsuroGameManagers as the glue that holds them all together.
 
 All players are implementations of an interface. When it is a player's turn to act, it receives information
 about the current state of the game, and the tiles available for that player to place.
