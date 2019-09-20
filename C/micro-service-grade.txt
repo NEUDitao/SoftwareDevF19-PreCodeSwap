@@ -1,6 +1,5 @@
-8
+16
 Dustin Jamner
 -0 Please write JSON specifications using JSON notation, it's easier to read
 -2 No clear steady state. You should make clear what messages can be sent repeatedly and when
--3 No mention of user/client interaction (a protocol diagram would help)
--3 No mention of any input to the client (a protocol diagram would help)
+-0 a protocol diagram would be good
