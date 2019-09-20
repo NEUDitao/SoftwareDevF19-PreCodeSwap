@@ -66,6 +66,7 @@ public class TCPLabClient {
 
     // escapes quotes
     serverOut.write(gson.toJsonTree(name).toString());
+    serverOut.flush();
 
     String internalName = serverScan.next().getAsString();
     JsonArray serverCallMe = new JsonArray();
