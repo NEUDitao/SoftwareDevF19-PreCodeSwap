@@ -95,6 +95,7 @@ public class TCPLabyrinth implements Labyrinth {
       serverOut.flush();
 
       JsonElement messageFromServer = serverIn.next();
+      System.out.println(messageFromServer);
 
       for (JsonElement e : messageFromServer.getAsJsonArray()) {
         JsonArray tempMessage = new JsonArray();

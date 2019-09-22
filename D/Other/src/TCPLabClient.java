@@ -82,7 +82,6 @@ public class TCPLabClient {
     try {
       while (userScan.hasNext()) {
         JsonElement element = userScan.next();
-        System.out.println(element);
         try {
           labClient.doJSONToken(element);
         } catch (NotARequestException e) {
