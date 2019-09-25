@@ -3,22 +3,27 @@ package com.tsuro.tile;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-
+/**
+ * Class for proving there are 35 unique tiles in Tsuro, and draws them.
+ */
 public class Tiles {
 
-
+  /**
+   * Runs the program.
+   */
   public static void main(String[] args) {
 
     Set<Tile> tiles = getAllTiles();
@@ -28,7 +33,12 @@ public class Tiles {
     renderAllTiles(tiles);
   }
 
-  private static void renderAllTiles(Set<Tile> tiles) {
+  /**
+   * Renders given tiles in a 6x6 grid.
+   *
+   * @param tiles tiles to be rendered
+   */
+  private static void renderAllTiles(Collection<Tile> tiles) {
     JFrame frame = new JFrame();
     JPanel panel = new JPanel(new GridBagLayout());
     frame.add(panel);
@@ -61,6 +71,11 @@ public class Tiles {
 
   }
 
+  /**
+   * Gets all the possible {@link Tile} formations in a game of Tsuro
+   *
+   * @return Set of {@link Tile}s
+   */
   private static Set<Tile> getAllTiles() {
     Set<Tile> returnable = new HashSet<>();
 
@@ -71,10 +86,19 @@ public class Tiles {
     return returnable;
   }
 
+  /**
+   * Gets all possible path combinations off of locations given.
+   *
+   * @param locs must be an even number of {@link Location}s
+   * @return a List of all the combinations of Paths
+   */
   private static List<List<Path>> getallPaths(List<Location> locs) {
+
+    Objects.requireNonNull(locs);
 
     ArrayList<List<Path>> theList = new ArrayList<>();
 
+    // if no locations given, only one possible combination of paths
     if (locs.isEmpty()) {
       theList.add(new ArrayList<>());
       return theList;
@@ -82,18 +106,32 @@ public class Tiles {
 
     List<Path> paths = getAllPathsFrom(locs.get(0), locs.subList(1, locs.size()));
 
+    // For all paths from starting location
     for (Path p : paths) {
       ArrayList<Location> clonedList = new ArrayList<>(locs);
       clonedList.remove(p.l1);
       clonedList.remove(p.l2);
+
+      // find all other permutations of paths without p
       List<List<Path>> loopList = getallPaths(clonedList);
+
+      // adds p to those permutations
       loopList.forEach(a -> a.add(p));
+
+      // repeat for other perms
       theList.addAll(loopList);
     }
 
     return theList;
   }
 
+  /**
+   * Gets all the paths from a singular Location to all the other locations in rest
+   *
+   * @param l    starting locations
+   * @param rest locations to get to
+   * @return List of all Paths from starting to ending locations
+   */
   private static List<Path> getAllPathsFrom(Location l, List<Location> rest) {
 
     return rest.stream().map(a -> new Path(l, a)).collect(Collectors.toList());

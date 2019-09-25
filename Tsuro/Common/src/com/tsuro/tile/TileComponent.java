@@ -4,24 +4,31 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.QuadCurve2D;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.swing.JComponent;
 
+/**
+ * A component for rendering tiles.
+ */
 public class TileComponent extends JComponent {
 
   private Tile tile;
   private final Color colors[] = {Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
 
+  /**
+   * Creates Tile Component that will render given tile.
+   */
   TileComponent(Tile tile) {
     Objects.requireNonNull(tile);
     this.tile = tile;
   }
 
+  /**
+   * Paints the tile.
+   */
   public void paint(Graphics g) {
     Objects.requireNonNull(g);
 

@@ -55,12 +55,6 @@ public class TsuroTile implements Tile {
     throw new IllegalStateException("start Location does not have a corresponding end");
   }
 
-  @Override
-  public Port portOn(Location start) {
-    Objects.requireNonNull(start);
-    // TODO when board implementation is clear
-    return null;
-  }
 
   @Override
   public Set<Path> getPaths() {

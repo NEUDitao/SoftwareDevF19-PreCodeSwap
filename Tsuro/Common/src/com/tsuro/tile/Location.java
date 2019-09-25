@@ -1,5 +1,8 @@
 package com.tsuro.tile;
 
+/**
+ * Represents one of 8 port locations on a {@link Tile}
+ */
 public enum Location {
 
   NORTHWEST(1.0 / 3, 0), NORTHEAST(2.0 / 3, 0), EASTNORTH(1, 1.0 / 3),
@@ -32,15 +35,27 @@ public enum Location {
   private Location rotated;
   private Location paired;
 
+  /**
+   * Constructs a location's ratios to be used when rendering where the location is
+   * @param x x-coord
+   * @param y y-coord
+   */
   Location(double x, double y) {
     this.x = x;
     this.y = y;
   }
 
+  /**
+   * Rotates this Location
+   * @return Location that's been rotated to
+   */
   Location rotate() {
     return this.rotated;
   }
 
+  /**
+   * Gets the Location on a another tile the starting port would be linked to
+   */
   Location getPaired() {
     return this.paired;
   }

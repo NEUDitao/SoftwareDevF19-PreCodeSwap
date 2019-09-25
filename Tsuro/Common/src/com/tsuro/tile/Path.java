@@ -8,11 +8,17 @@ public class Path {
   final Location l1;
   final Location l2;
 
+  /**
+   * Creates a path between l1 and l2.
+   */
   public Path(Location l1, Location l2) {
     this.l1 = l1;
     this.l2 = l2;
   }
 
+  /**
+   * Rotates this path. Returns new Path. No mutation.
+   */
   Path rotate() {
     return new Path(l1.rotate(), l2.rotate());
   }
