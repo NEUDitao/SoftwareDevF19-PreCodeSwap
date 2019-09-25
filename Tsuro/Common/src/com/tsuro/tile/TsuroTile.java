@@ -62,6 +62,11 @@ public class TsuroTile implements Tile {
     return null;
   }
 
+  @Override
+  public Set<Path> getPaths() {
+    return new HashSet<>(this.paths);
+  }
+
   private List<TsuroTile> getAllRotations() {
     TsuroTile currTile = this;
 

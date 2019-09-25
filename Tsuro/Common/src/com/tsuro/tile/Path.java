@@ -1,15 +1,12 @@
 package com.tsuro.tile;
 
-
-import java.util.Objects;
-
 /**
  * Represents the connection between two locations inside of a Tile.
  */
 public class Path {
 
-  Location l1;
-  Location l2;
+  final Location l1;
+  final Location l2;
 
   public Path(Location l1, Location l2) {
     this.l1 = l1;
@@ -35,6 +32,6 @@ public class Path {
 
   @Override
   public int hashCode() {
-    return Objects.hash(l1, l2);
+    return l1.hashCode() + l2.hashCode();
   }
 }
