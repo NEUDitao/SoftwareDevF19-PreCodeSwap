@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class TsuroTile implements Tile {
 
-  Set<Path> paths;
+  private Set<Path> paths;
 
   public TsuroTile(Collection<Path> paths) {
 
@@ -21,7 +21,8 @@ public class TsuroTile implements Tile {
     for (Path p : paths) {
       List<Location> locs = Arrays.asList(p.l1, p.l2);
       if (!valuesList.containsAll(locs)) {
-        throw new IllegalArgumentException("Path given in list was not valid");
+        throw new IllegalArgumentException(
+            "Path given in list was not valid, or used locations multiple times");
       }
       valuesList.removeAll(locs);
       this.paths.add(p);
@@ -89,7 +90,6 @@ public class TsuroTile implements Tile {
   }
 
   public int hashCode() {
-    return 1;
-    //return this.getAllRotations().stream().mapToInt(t -> t.paths.hashCode()).sum();
+    return this.getAllRotations().stream().mapToInt(t -> t.paths.hashCode()).sum();
   }
 }
