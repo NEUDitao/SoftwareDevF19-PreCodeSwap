@@ -65,7 +65,7 @@ A Board is an interface, implemented by:
 A Board has the following methods for players:
   - `Tile getTileAt(int, int)`
     - Gets the `Tile` at the given x and y coordinate
-  - `(int, int, Location) getLocationOf(Token)`
+  - `BoardLocation getLocationOf(Token)`
     - Gets the x and y coordinates, as well as the `Location` of a `Token` on the board. If the `Token` does not exist, throw an `Exception`
   - `java.util.Set<Token> getAllTokens()`
     - Gets all of the `Tokens` still on the `Board`
