@@ -35,7 +35,7 @@ public class TsuroTileTest {
 
 
   @org.junit.jupiter.api.Test
-  void rotate() {
+  public void rotate() {
 
     assertEquals(t1.rotate().getPaths(), t2.getPaths());
     assertEquals(t1.rotate().internalConnection(Location.WESTNORTH), Location.NORTHEAST);
@@ -45,7 +45,7 @@ public class TsuroTileTest {
   }
 
   @org.junit.jupiter.api.Test
-  void internalConnection() {
+  public void internalConnection() {
     assertEquals(t1.internalConnection(Location.SOUTHWEST), Location.WESTNORTH);
     assertEquals(t1.internalConnection(Location.WESTNORTH), Location.SOUTHWEST);
     assertEquals(t1.internalConnection(Location.NORTHWEST), Location.WESTSOUTH);
@@ -53,7 +53,7 @@ public class TsuroTileTest {
   }
 
   @org.junit.jupiter.api.Test
-  void getPaths() {
+  public void getPaths() {
     assertEquals(t1.getPaths(), new HashSet<Path>(Arrays.asList(p1, p2, p3, p4)));
     Set s = t1.getPaths();
     s.clear();
@@ -64,7 +64,7 @@ public class TsuroTileTest {
   }
 
   @org.junit.jupiter.api.Test
-  void testEquals() {
+  public void testEquals() {
     assertTrue(t1.equals(t2));
     assertTrue(t1.equals(t2.rotate().rotate()));
     assertFalse(t1.equals(t3));
@@ -72,7 +72,7 @@ public class TsuroTileTest {
   }
 
   @org.junit.jupiter.api.Test
-  void testConstructors() {
+  public void testConstructors() {
     Tile t4 = new TsuroTile(new HashSet<>(Arrays.asList(p1, p2, p3, p4)));
     assertEquals(t1, t4);
     assertThrows(IllegalArgumentException.class, () -> new TsuroTile(p1, p2, p3, p4, p5));
