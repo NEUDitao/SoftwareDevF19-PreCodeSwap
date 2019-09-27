@@ -1,6 +1,7 @@
 package com.tsuro.tile;
 
 import java.awt.Color;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -30,7 +31,9 @@ public class Tiles {
 
     System.out.println(tiles.size());
 
-    renderAllTiles(tiles);
+    if (!GraphicsEnvironment.isHeadless()) {
+      renderAllTiles(tiles);
+    }
   }
 
   /**
