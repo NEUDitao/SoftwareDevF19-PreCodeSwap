@@ -1,1 +1,1 @@
-java -ea -jar junit-platform-console-standalone-1.5.2.jar --class-path out/artifacts/Tsuro_jar/Tsuro.jar  --scan-class-path
+java -ea -jar Common/junit-platform-console-standalone-1.5.2.jar --class-path Common/out/artifacts/Tsuro_jar/Tsuro.jar  --scan-class-path
