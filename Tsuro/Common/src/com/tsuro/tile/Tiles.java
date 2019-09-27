@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import net.danielmelcer.shellshare.ANSIGoTo;
 import net.danielmelcer.shellshare.ImageToShellKt;
 
 /**
@@ -34,7 +35,6 @@ public class Tiles {
   public static void main(String[] args) {
 
     Set<Tile> tiles = getAllTiles();
-
 
     if (!GraphicsEnvironment.isHeadless()) {
       renderAllTiles(tiles);
@@ -84,6 +84,11 @@ public class Tiles {
 
   }
 
+  /**
+   * Renders tsurotiles for Command-line viewing
+   *
+   * @param tiles the tiles given
+   */
   private static void headlessRenderAllTiles(Collection<Tile> tiles) {
     List<Tile> listTiles = new ArrayList<>(tiles);
 
@@ -93,7 +98,7 @@ public class Tiles {
           continue;
         }
 
-        TileComponent comp = new TileComponent(listTiles.get(i*6 + j), 6);
+        TileComponent comp = new TileComponent(listTiles.get(i * 6 + j), 6);
         comp.setSize(new Dimension(100, 100));
         Point p = new Point(i * HEADLESS_TILE_SIZE * 2, j * HEADLESS_TILE_SIZE);
         Dimension d = new Dimension(HEADLESS_TILE_SIZE * 2, HEADLESS_TILE_SIZE);
@@ -105,6 +110,9 @@ public class Tiles {
 
       }
     }
+
+    ANSIGoTo goTo = new ANSIGoTo(0, HEADLESS_TILE_SIZE * 6);
+    System.out.print(goTo.toString());
   }
 
   /**
