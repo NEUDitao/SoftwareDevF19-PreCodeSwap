@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * A Class to test TsuroTiles.
  */
-class TsuroTileTest {
+public class TsuroTileTest {
 
   Path p1 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
   Path p2 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
