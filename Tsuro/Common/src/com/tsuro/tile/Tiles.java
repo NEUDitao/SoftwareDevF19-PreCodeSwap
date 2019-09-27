@@ -35,13 +35,15 @@ public class Tiles {
 
     Set<Tile> tiles = getAllTiles();
 
-    System.out.println(tiles.size());
 
     if (!GraphicsEnvironment.isHeadless()) {
       renderAllTiles(tiles);
     } else {
       headlessRenderAllTiles(tiles);
     }
+
+    System.out.println(tiles.size());
+
   }
 
   /**
