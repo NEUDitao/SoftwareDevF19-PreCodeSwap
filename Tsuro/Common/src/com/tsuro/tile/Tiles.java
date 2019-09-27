@@ -1,9 +1,12 @@
 package com.tsuro.tile;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,11 +19,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import net.danielmelcer.shellshare.ImageToShellKt;
 
 /**
  * Class for proving there are 35 unique tiles in Tsuro, and draws them.
  */
 public class Tiles {
+
+  final static int HEADLESS_TILE_SIZE = 9;
 
   /**
    * Runs the program.
@@ -33,6 +39,8 @@ public class Tiles {
 
     if (!GraphicsEnvironment.isHeadless()) {
       renderAllTiles(tiles);
+    } else {
+      headlessRenderAllTiles(tiles);
     }
   }
 
@@ -72,6 +80,27 @@ public class Tiles {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
+  }
+
+  private static void headlessRenderAllTiles(Collection<Tile> tiles) {
+    List<Tile> listTiles = new ArrayList<>(tiles);
+    for (int i = 0; i < 6; i++) {
+      for (int j = 0; j < 6; j++) {
+        if (i == 5 && j == 5) {
+          continue;
+        }
+        TileComponent comp = new TileComponent(listTiles.get(i*6 + j), 6);
+        comp.setSize(new Dimension(100, 100));
+        Point p = new Point(i * HEADLESS_TILE_SIZE * 2, j * HEADLESS_TILE_SIZE);
+        Dimension d = new Dimension(HEADLESS_TILE_SIZE * 2, HEADLESS_TILE_SIZE);
+        BufferedImage buff = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+
+        comp.paint(buff.getGraphics());
+        System.out.print(ImageToShellKt.imageToShell(buff, d, p));
+
+
+      }
+    }
   }
 
   /**

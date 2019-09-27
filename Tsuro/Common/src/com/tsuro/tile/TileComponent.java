@@ -17,13 +17,19 @@ public class TileComponent extends JComponent {
 
   private Tile tile;
   private final Color colors[] = {Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
+  private final int thickness;
 
   /**
    * Creates Tile Component that will render given tile.
    */
-  TileComponent(Tile tile) {
+  TileComponent(Tile tile, int thickness) {
     Objects.requireNonNull(tile);
     this.tile = tile;
+    this.thickness = thickness;
+  }
+
+  TileComponent(Tile tile) {
+    this(tile, 3);
   }
 
   /**
@@ -43,7 +49,7 @@ public class TileComponent extends JComponent {
           new QuadCurve2D.Double(p.l1.x * W, p.l1.y * H, .5 * W, .5 * H, p.l2.x * W, p.l2.y * H));
     }
 
-    g2d.setStroke(new BasicStroke(3));
+    g2d.setStroke(new BasicStroke(thickness));
 
     int i = 0;
     for (QuadCurve2D c : curves) {
