@@ -26,7 +26,7 @@ import net.danielmelcer.shellshare.ImageToShellKt;
  */
 public class Tiles {
 
-  final static int HEADLESS_TILE_SIZE = 9;
+  final static int HEADLESS_TILE_SIZE = 6;
 
   /**
    * Runs the program.
@@ -84,11 +84,13 @@ public class Tiles {
 
   private static void headlessRenderAllTiles(Collection<Tile> tiles) {
     List<Tile> listTiles = new ArrayList<>(tiles);
+
     for (int i = 0; i < 6; i++) {
       for (int j = 0; j < 6; j++) {
         if (i == 5 && j == 5) {
           continue;
         }
+
         TileComponent comp = new TileComponent(listTiles.get(i*6 + j), 6);
         comp.setSize(new Dimension(100, 100));
         Point p = new Point(i * HEADLESS_TILE_SIZE * 2, j * HEADLESS_TILE_SIZE);
