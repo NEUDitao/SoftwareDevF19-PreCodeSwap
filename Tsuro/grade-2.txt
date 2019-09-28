@@ -1,0 +1,5 @@
+30
+Dustin Jamner
+-0 You should use Java interfaces to enforce your logical interfaces (e.g. have a separate readonly interface of which board is a subtype)
+-5 No way to start a game with an intermediate game state
+-5 no easily identifiable function for enumerating the 35 unique tiles
