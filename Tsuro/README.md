@@ -12,4 +12,7 @@
 
   - analyzing tiles to find all 35 possible rotations
 
+## Tests
 
+  - To run all tests, do ./Test in the Tsuro Directory. This will run all JUnit
+    tests
