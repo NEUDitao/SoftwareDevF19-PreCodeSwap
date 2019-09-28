@@ -1,13 +1,20 @@
 package com.tsuro.tile;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents one of 8 port locations on a {@link Tile}
  */
 public enum Location {
 
-  NORTHWEST(1.0 / 3, 0), NORTHEAST(2.0 / 3, 0), EASTNORTH(1, 1.0 / 3),
-  EASTSOUTH(1, 2.0 / 3), SOUTHEAST(2.0 / 3, 1), SOUTHWEST(1.0 / 3, 1),
-  WESTSOUTH(0, 2.0 / 3), WESTNORTH(0, 1.0 / 3);
+  @SerializedName("A") NORTHWEST(1.0 / 3, 0),
+  @SerializedName("B") NORTHEAST(2.0 / 3, 0),
+  @SerializedName("C") EASTNORTH(1, 1.0 / 3),
+  @SerializedName("D") EASTSOUTH(1, 2.0 / 3),
+  @SerializedName("E") SOUTHEAST(2.0 / 3, 1),
+  @SerializedName("F") SOUTHWEST(1.0 / 3, 1),
+  @SerializedName("G") WESTSOUTH(0, 2.0 / 3),
+  @SerializedName("H") WESTNORTH(0, 1.0 / 3);
 
   static {
     NORTHWEST.rotated = EASTNORTH;
@@ -59,4 +66,6 @@ public enum Location {
   Location getPaired() {
     return this.paired;
   }
+
+
 }

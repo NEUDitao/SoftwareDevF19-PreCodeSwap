@@ -1,5 +1,2 @@
-package com.tsuro.tile;
+package com.tsuro;
 
-public class TestAll {
-
-}

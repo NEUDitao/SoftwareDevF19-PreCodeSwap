@@ -82,4 +82,12 @@ public class TsuroTileTest {
         () -> new TsuroTile(p1, p1, p1, p1, p1, p1, p1, p1, p1, p1, p1, p1, p1, p1, p1));
   }
 
+  @org.junit.jupiter.api.Test
+  public void testStrictEquals() {
+    assertFalse(t1.strictEqual(t2));
+    assertTrue(t1.rotate().strictEqual(t2));
+    assertFalse(t1.rotate().strictEqual(t1));
+    assertTrue(t1.rotate().rotate().rotate().rotate().strictEqual(t1));
+  }
+
 }
