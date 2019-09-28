@@ -7,6 +7,8 @@
   - The directory Planning contains all of the documents describing how we
   designed our implementation of Tsuro
   - The directory Common contains all of the code for our implementation
+  - The directory .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free
+  to ignore it.
 
 # Project progress
 

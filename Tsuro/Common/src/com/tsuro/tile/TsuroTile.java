@@ -89,6 +89,11 @@ public class TsuroTile implements Tile {
 
   }
 
+  @Override
+  public boolean isEmpty() {
+    return false;
+  }
+
   public int hashCode() {
     return this.getAllRotations().stream().mapToInt(t -> t.paths.hashCode()).sum();
   }

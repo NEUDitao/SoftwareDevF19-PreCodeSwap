@@ -45,13 +45,24 @@ public class TileTypes {
 
   public TilePat turnTileIntoTilePat(Tile tile) {
 
+    Tile theTile;
     for (int i = 0; i < tiles.size(); i++) {
       if (tile.equals(tiles.get(i))) {
-        break;
+
+        theTile = tiles.get(i);
+        for (int j = 0; j < 4; j++) {
+          if (theTile.strictEqual(tile)) {
+            return new TilePat(i, j * 90);
+          } else {
+            theTile = theTile.rotate();
+          }
+        }
       }
     }
 
-    return null;
+    throw new IllegalArgumentException("Given tile doesn't exist?");
+
+
   }
 
 

@@ -37,13 +37,15 @@ public interface Tile {
     return this.getPaths().equals(o.getPaths());
   }
 
-  ;
-
-
   /**
    * Two tiles are equal if they can be transformed into each other through rotation.
    */
   @Override
   public boolean equals(Object o);
+
+  /**
+   * Determines if this tile is empty.
+   */
+  public boolean isEmpty();
 
 }
