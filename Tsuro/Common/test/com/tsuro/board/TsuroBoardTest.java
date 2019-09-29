@@ -2,6 +2,7 @@ package com.tsuro.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.tsuro.tile.EmptyTile;
 import com.tsuro.tile.Location;
@@ -59,8 +60,8 @@ class TsuroBoardTest {
     m1.put(new Point(2, 0), t2);
     m1.put(new Point(9, 9), loopy);
 
-    m2.put(BLACK_TOKEN, new BoardLocation(Location.SOUTHEAST, 0, 0));
-    m2.put(WHITE_TOKEN, new BoardLocation(Location.EASTNORTH, 2, 0));
+    m2.put(BLACK_TOKEN, new BoardLocation(Location.EASTNORTH, 0, 0));
+    m2.put(WHITE_TOKEN, new BoardLocation(Location.WESTNORTH, 2, 0));
     m2.put(RED_TOKEN, new BoardLocation(Location.NORTHWEST, 9, 9));
 
     // This calls fromIntermediatePlacements internally
@@ -124,7 +125,7 @@ class TsuroBoardTest {
 
   @Test
   void fromIntermediatePlacementsFacingTile() {
-    m1.put(new Point(0, 1), loopy);
+    m1.put(new Point(1, 0), loopy);
     assertConstructionFailsIntermediate("One of the tokens is facing another Tile");
   }
 
@@ -152,35 +153,58 @@ class TsuroBoardTest {
   }
 
   @Test
-  void placeTileOccupied() {
+  void placeFirstTileOccupied() {
     assertThrows(IllegalArgumentException.class,
         () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 0)),
         "Given location is already occupied");
   }
 
   @Test
-  void placeTileTouching() {
+  void placeFirstTileTouching() {
     assertThrows(IllegalArgumentException.class,
         () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 1)),
         "Given tile touches another tile already on the board");
   }
 
   @Test
-  void placeTileAlreadyPlayer() {
+  void placeFirstTileAlreadyPlayer() {
     assertThrows(IllegalArgumentException.class,
         () -> b1.placeFirstTile(loopy, BLACK_TOKEN, new BoardLocation(Location.SOUTHEAST, 5, 0)),
         "Given player is already on the board");
   }
 
   @Test
-  void placeTileFacingEdge() {
+  void placeFirstTileFacingEdge() {
     assertThrows(IllegalArgumentException.class,
         () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.WESTNORTH, 0, 5)),
         "Player token is facing edge of board");
   }
 
   @Test
-  void placeTileOnBehalfOfPlayer() {
+  void placeTileOnBehalfOfPlayer1() {
+    b1.placeTileOnBehalfOfPlayer(t1.rotate().rotate().rotate(), BLACK_TOKEN);
+
+    assertTrue(t1.rotate().rotate().rotate().strictEqual(b1.getTileAt(1, 0)));
+
+    assertEquals(new BoardLocation(Location.SOUTHWEST, 2, 0), b1.getLocationOf(BLACK_TOKEN));
+    assertEquals(new BoardLocation(Location.SOUTHEAST, 1, 0), b1.getLocationOf(WHITE_TOKEN));
+  }
+
+  @Test
+  void placeTileOnBehalfOfPlayer2() {
+    b1.placeTileOnBehalfOfPlayer(t2, WHITE_TOKEN);
+
+    assertTrue(t2.strictEqual(b1.getTileAt(1, 0)));
+    assertEquals(new BoardLocation(Location.SOUTHWEST, 1, 0), b1.getLocationOf(BLACK_TOKEN));
+    assertThrows(IllegalArgumentException.class, () -> b1.getLocationOf(WHITE_TOKEN),
+        "Token not on board");
+  }
+
+  @Test
+  void placeTileLoop() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN));
+
   }
 
   @Test
@@ -201,7 +225,7 @@ class TsuroBoardTest {
 
   @Test
   void getLocationOf() {
-    assertEquals(new BoardLocation(Location.SOUTHEAST, 0, 0),
+    assertEquals(new BoardLocation(Location.EASTNORTH, 0, 0),
         b1.getLocationOf(BLACK_TOKEN));
     assertThrows(IllegalArgumentException.class,
         () -> b1.getLocationOf(BLUE_TOKEN));

@@ -184,7 +184,7 @@ public class TsuroBoard implements Board {
       // Something failed when calculating new token locations
       // Revert tile placement
       board[point.x][point.y] = oldTile;
-      throw e;
+      throw new IllegalArgumentException(e);
     }
 
   }
