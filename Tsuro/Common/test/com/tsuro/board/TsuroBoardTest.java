@@ -153,6 +153,12 @@ class TsuroBoardTest {
   }
 
   @Test
+  void placeFirstTileOffBoard() {
+    assertThrows(IndexOutOfBoundsException.class,
+        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.WESTNORTH, -1, 0)));
+  }
+
+  @Test
   void placeFirstTileOccupied() {
     assertThrows(IllegalArgumentException.class,
         () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 0)),
@@ -200,11 +206,25 @@ class TsuroBoardTest {
         "Token not on board");
   }
 
+  void verifyB1NoChange() {
+    assertEquals(new EmptyTile(), b1.getTileAt(1, 0));
+    assertEquals(new BoardLocation(Location.EASTNORTH, 0, 0), b1.getLocationOf(BLACK_TOKEN));
+    assertEquals(new BoardLocation(Location.WESTNORTH, 2, 0), b1.getLocationOf(WHITE_TOKEN));
+  }
+
   @Test
   void placeTileLoop() {
     assertThrows(IllegalArgumentException.class,
-        () -> b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN));
+        () -> b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN), "Board has loops");
+    verifyB1NoChange();
+  }
 
+  @Test
+  void placeTileNonexist() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeTileOnBehalfOfPlayer(loopy, BLUE_TOKEN),
+        "Placing tile for nonexistent player");
+    verifyB1NoChange();
   }
 
   @Test
