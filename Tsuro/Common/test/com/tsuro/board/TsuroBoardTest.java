@@ -10,8 +10,11 @@ import com.tsuro.tile.Tile;
 import com.tsuro.tile.TsuroTile;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -136,6 +139,11 @@ class TsuroBoardTest {
 
   @Test
   void kickPlayer() {
+    b1.kickPlayer(new ColoredToken(ColorString.BLACK));
+    Set<Token> expected = new HashSet<>(Arrays
+        .asList(new ColoredToken(ColorString.WHITE), new ColoredToken(ColorString.RED)));
+
+    assertEquals(expected, b1.getAllTokens());
   }
 
   @Test
@@ -155,6 +163,10 @@ class TsuroBoardTest {
 
   @Test
   void getAllTokens() {
+    Set<Token> expected = new HashSet<>(Arrays
+        .asList(new ColoredToken(ColorString.BLACK), new ColoredToken(ColorString.WHITE),
+            new ColoredToken(ColorString.RED)));
+    assertEquals(expected, b1.getAllTokens());
   }
 
   @Test
