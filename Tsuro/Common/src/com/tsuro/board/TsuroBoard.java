@@ -11,17 +11,32 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+/**
+ * An implementation of a board for the game of Tsuro
+ */
 public class TsuroBoard implements Board {
 
+  /**
+   * The internal representation of the board
+   */
   private final Tile[][] board;
+
+  /**
+   * The locations of all the tokens
+   */
   private final Map<Token, BoardLocation> tokenLocations;
 
-  public TsuroBoard(int x, int y) {
-    board = new Tile[x][y];
+  /**
+   * Constructs a TsuroBoard with the given width and height, and no players
+   */
+  public TsuroBoard(int width, int height) {
+    board = new Tile[width][height];
 
     for (Tile[] t : board) {
       Arrays.fill(t, new EmptyTile());
@@ -30,10 +45,20 @@ public class TsuroBoard implements Board {
     tokenLocations = new HashMap<>();
   }
 
+  /**
+   * Constructs a TsuroBoard with default width and height (10x10)
+   */
   public TsuroBoard() {
     this(10, 10);
   }
 
+  /**
+   * Creates a board from a bunch of initial tile & player placements. Validates that placements are
+   * valid.
+   *
+   * @param tiles all initially placed tiles
+   * @param locs  all initial player positions
+   */
   public static Board fromInitialPlacements(Map<Point, Tile> tiles,
       Map<Token, BoardLocation> locs) {
 
@@ -60,7 +85,13 @@ public class TsuroBoard implements Board {
 
   }
 
-
+  /**
+   * Creates a board from a bunch of intermediate tile & player placements. Attempts to validate
+   * that the placements could reasonably have been caused by a series of valid moves.
+   *
+   * @param tiles all placed tiles
+   * @param locs  all player positions
+   */
   public static Board fromIntermediatePlacements(Map<Point, Tile> tiles,
       Map<Token, BoardLocation> locs) {
 
@@ -136,41 +167,84 @@ public class TsuroBoard implements Board {
       throw new IllegalArgumentException("Placing tile for nonexistent player");
     }
 
-    final Point point = nextPointFromToken(token);
+    final Point point = nextPointFromLoc(tokenLocations.get(token));
 
     // This should never happen because the tokens always face an empty spot on the board
     if (!isOnBoard(point) || !board[point.x][point.y].isEmpty()) {
       throw new IllegalStateException("Inconsistent state of game");
     }
 
+    Tile oldTile = board[point.x][point.y];
     board[point.x][point.y] = tile;
 
-    tokenLocations.entrySet().stream()
-        .filter(a -> nextPointFromLoc(a.getValue()).equals(point))
-        .map(Entry::getKey)
-        .forEach(this::moveTokenForward);
+    try {
+      updateTokenLocations(point);
+    } catch (Exception e) {
+      // Something failed when calculating new token locations
+      // Revert tile placement
+      board[point.x][point.y] = oldTile;
+      throw e;
+    }
+
   }
 
-  private void moveTokenForward(Token token) {
-    while (tokenLocations.containsKey(token)
-        && isOnBoard(nextPointFromToken(token))
-        && !isEmpty(nextPointFromToken(token))) {
+  /**
+   * For all tokens that face the newly placed tile, update their location
+   *
+   * @param pointForNewTile Where the new tile is
+   * @throws IllegalStateException If the board has loops. If this is thrown, the token locations
+   *                               are not modified.
+   */
+  private void updateTokenLocations(Point pointForNewTile) throws IllegalStateException {
+    Map<Token, BoardLocation> newLocations = tokenLocations.entrySet().stream()
+        .filter(a -> nextPointFromLoc(a.getValue()).equals(pointForNewTile))
+        .collect(Collectors.toMap(Entry::getKey, a -> moveTokenAsFarAsPossible(a.getValue())));
 
-      Point nextPoint = nextPointFromToken(token);
+    tokenLocations.putAll(newLocations);
+
+    List<Token> tokensOffBoard = newLocations.entrySet().stream()
+        .filter(a -> !isOnBoard(nextPointFromLoc(a.getValue())))
+        .map(Entry::getKey)
+        .collect(Collectors.toList());
+
+    tokensOffBoard.forEach(this::kickPlayer);
+  }
+
+  /**
+   * Gets the board location after moving anything on a given location forward as far as possible.
+   * Doesn't remove anything from the board- the returned location will either face an empty tile,
+   * or it will face the edge of the board.
+   *
+   * @param location Where to start from for moving forward
+   * @return The final resting place of anything that starts at location
+   */
+  private BoardLocation moveTokenAsFarAsPossible(BoardLocation location)
+      throws IllegalStateException {
+
+    Set<Point> loopCache = new HashSet<>();
+
+    while (isOnBoard(nextPointFromLoc(location))
+        && !isEmpty(nextPointFromLoc(location))) {
+
+      Point thisPoint = new Point(location.x, location.y);
+
+      if (loopCache.contains(thisPoint)) {
+        throw new IllegalStateException("Board has loops");
+      }
+
+      loopCache.add(thisPoint);
+
+      Point nextPoint = nextPointFromLoc(location);
+
       Tile tile = getTileAt(nextPoint.x, nextPoint.y);
-      Location entryPort = tokenLocations.get(token).location.getPaired();
+      Location locationOnPrevTile = location.location;
+      Location entryPort = locationOnPrevTile.getPaired();
       Location newExitPort = tile.internalConnection(entryPort);
 
-      tokenLocations.put(token, new BoardLocation(newExitPort, nextPoint.x, nextPoint.y));
+      location = new BoardLocation(newExitPort, nextPoint.x, nextPoint.y);
     }
 
-    if (!isOnBoard(nextPointFromToken(token))) {
-      kickPlayer(token); // The token is on the edge of the board
-    }
-  }
-
-  private Point nextPointFromToken(Token token) {
-    return nextPointFromLoc(tokenLocations.get(token));
+    return location;
   }
 
   @Override
@@ -205,10 +279,16 @@ public class TsuroBoard implements Board {
   }
 
 
+  /**
+   * Is the Tile at the given point empty?
+   */
   private boolean isEmpty(Point p) {
     return board[p.x][p.y].isEmpty();
   }
 
+  /**
+   * Gets all Points on the board that aren't empty
+   */
   private Set<Point> nonEmptyPoints() {
     Set<Point> points = new HashSet<>();
     for (int x = 0; x < board.length; x++) {
@@ -273,6 +353,9 @@ public class TsuroBoard implements Board {
     return false;
   }
 
+  /**
+   * Gets the Point offset for the given {@link Location}
+   */
   private static Point locToOffset(Location loc) {
     switch (loc) {
       case NORTHEAST:
@@ -292,6 +375,9 @@ public class TsuroBoard implements Board {
     throw new IllegalArgumentException("loc wasn't a Location???????????????????????????");
   }
 
+  /**
+   * Gets the connecting Point that the given BoardLocation feeds into
+   */
   private static Point nextPointFromLoc(BoardLocation loc) {
     Point offSet = locToOffset(loc.location);
 
