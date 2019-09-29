@@ -36,34 +36,34 @@ public enum Location {
     WESTNORTH.paired = EASTNORTH;
   }
 
-  public final double y;
-  public final double x;
+  public final double renderY;
+  public final double renderX;
 
   private Location rotated;
   private Location paired;
 
   /**
    * Constructs a location's ratios to be used when rendering where the location is
-   * @param x x-coord
-   * @param y y-coord
+   * @param renderX x-coord
+   * @param renderY y-coord
    */
-  Location(double x, double y) {
-    this.x = x;
-    this.y = y;
+  Location(double renderX, double renderY) {
+    this.renderX = renderX;
+    this.renderY = renderY;
   }
 
   /**
    * Rotates this Location
    * @return Location that's been rotated to
    */
-  Location rotate() {
+  public Location rotate() {
     return this.rotated;
   }
 
   /**
    * Gets the Location on a another tile the starting port would be linked to
    */
-  Location getPaired() {
+  public Location getPaired() {
     return this.paired;
   }
 

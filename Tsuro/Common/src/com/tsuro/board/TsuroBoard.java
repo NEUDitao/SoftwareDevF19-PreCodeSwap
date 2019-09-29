@@ -8,7 +8,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -32,7 +34,7 @@ public class TsuroBoard implements Board {
     this(10, 10);
   }
 
-  public static TsuroBoard fromInitialPlacements(Map<Point, Tile> tiles,
+  public static Board fromInitialPlacements(Map<Point, Tile> tiles,
       Map<Token, BoardLocation> locs) {
 
     if (tiles.size() != locs.size()) {
@@ -59,7 +61,7 @@ public class TsuroBoard implements Board {
   }
 
 
-  public static TsuroBoard fromIntermediatePlacements(Map<Point, Tile> tiles,
+  public static Board fromIntermediatePlacements(Map<Point, Tile> tiles,
       Map<Token, BoardLocation> locs) {
 
     if (!locs.values().stream().allMatch(a -> tiles.containsKey(new Point(a.x, a.y)))) {
@@ -93,6 +95,9 @@ public class TsuroBoard implements Board {
 
   }
 
+  /**
+   * Determines if the given point is in the bounds of the board.
+   */
   private boolean isOnBoard(Point point) {
     return point.x >= 0 && point.y >= 0 && point.x < board.length
         && point.y < board[point.x].length;
@@ -101,32 +106,120 @@ public class TsuroBoard implements Board {
 
   @Override
   public void placeFirstTile(Tile tile, Token token, BoardLocation loc) {
+    final Point point = new Point(loc.x, loc.y);
+    if (!isOnEdgeOfBoard(point)) {
+      throw new IllegalArgumentException("Given tile is not on edge of board");
+    }
 
+    if (!isEmpty(point)) {
+      throw new IllegalArgumentException("Given location is already occupied");
+    }
+
+    if (touchingAny(point, nonEmptyPoints())) {
+      throw new IllegalArgumentException("Given tile touches another tile already on the board");
+    }
+
+    if (tokenLocations.containsKey(token)) {
+      throw new IllegalArgumentException("Given player is already on the board");
+    }
+
+    if (!isOnBoard(nextPointFromLoc(loc))) {
+      throw new IllegalArgumentException("Player token is facing edge of board");
+    }
+
+    board[point.x][point.y] = tile;
   }
 
   @Override
   public void placeTileOnBehalfOfPlayer(Tile tile, Token token) {
+    if (!tokenLocations.containsKey(token)) {
+      throw new IllegalArgumentException("Placing tile for nonexistent player");
+    }
 
+    final Point point = nextPointFromToken(token);
+
+    // This should never happen because the tokens always face an empty spot on the board
+    if (!isOnBoard(point) || !board[point.x][point.y].isEmpty()) {
+      throw new IllegalStateException("Inconsistent state of game");
+    }
+
+    board[point.x][point.y] = tile;
+
+    tokenLocations.entrySet().stream()
+        .filter(a -> nextPointFromLoc(a.getValue()).equals(point))
+        .map(Entry::getKey)
+        .forEach(this::moveTokenForward);
+  }
+
+  private void moveTokenForward(Token token) {
+    while (tokenLocations.containsKey(token)
+        && isOnBoard(nextPointFromToken(token))
+        && !isEmpty(nextPointFromToken(token))) {
+
+      Point nextPoint = nextPointFromToken(token);
+      Tile tile = getTileAt(nextPoint.x, nextPoint.y);
+      Location entryPort = tokenLocations.get(token).location.getPaired();
+      Location newExitPort = tile.internalConnection(entryPort);
+
+      tokenLocations.put(token, new BoardLocation(newExitPort, nextPoint.x, nextPoint.y));
+    }
+
+    if (!isOnBoard(nextPointFromToken(token))) {
+      kickPlayer(token); // The token is on the edge of the board
+    }
+  }
+
+  private Point nextPointFromToken(Token token) {
+    return nextPointFromLoc(tokenLocations.get(token));
+  }
+
+  @Override
+  public void kickPlayer(Token token) {
+    tokenLocations.remove(token);
   }
 
   @Override
   public Tile getTileAt(int x, int y) {
-    return null;
+    if (isOnBoard(new Point(x, y))) {
+      return board[x][y];
+    }
+
+    throw new IndexOutOfBoundsException("The given index was not on the board");
   }
 
   @Override
   public BoardLocation getLocationOf(Token token) {
-    return null;
+    // ok since BoardLocations are immutable
+    return tokenLocations.get(token);
   }
 
   @Override
   public Set<Token> getAllTokens() {
-    return null;
+    // favour immutability
+    return Collections.unmodifiableSet(tokenLocations.keySet());
   }
 
   @Override
   public Dimension getSize() {
     return new Dimension(board.length, board[0].length);
+  }
+
+
+  private boolean isEmpty(Point p) {
+    return board[p.x][p.y].isEmpty();
+  }
+
+  private Set<Point> nonEmptyPoints() {
+    Set<Point> points = new HashSet<>();
+    for (int x = 0; x < board.length; x++) {
+      for (int y = 0; y < board[x].length; y++) {
+        if (!board[x][y].isEmpty()) {
+          points.add(new Point(x, y));
+        }
+      }
+    }
+
+    return points;
   }
 
   /**

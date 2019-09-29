@@ -46,7 +46,8 @@ public class TileComponent extends JComponent {
 
     for (Path p : tile.getPaths()) {
       curves.add(
-          new QuadCurve2D.Double(p.l1.x * W, p.l1.y * H, .5 * W, .5 * H, p.l2.x * W, p.l2.y * H));
+          new QuadCurve2D.Double(p.l1.renderX * W, p.l1.renderY
+              * H, .5 * W, .5 * H, p.l2.renderX * W, p.l2.renderY * H));
     }
 
     g2d.setStroke(new BasicStroke(thickness));
