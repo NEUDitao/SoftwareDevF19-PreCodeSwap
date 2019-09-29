@@ -175,7 +175,7 @@ class TsuroBoardTest {
   @Test
   void placeTileFacingEdge() {
     assertThrows(IllegalArgumentException.class,
-        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.NORTHEAST, 0, 5)),
+        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.WESTNORTH, 0, 5)),
         "Player token is facing edge of board");
   }
 
