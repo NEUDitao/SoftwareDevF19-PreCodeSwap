@@ -105,8 +105,8 @@ public class TsuroBoard implements Board {
       throw new IllegalArgumentException("One of the tokens is dead");
     }
 
-    if (!locs.values().stream().map(TsuroBoard::nextPointFromLoc)
-        .allMatch(tiles.keySet()::contains)) {
+    if (locs.values().stream().map(TsuroBoard::nextPointFromLoc)
+        .anyMatch(tiles.keySet()::contains)) {
       throw new IllegalArgumentException("One of the tokens is facing another Tile");
     }
 
@@ -263,6 +263,9 @@ public class TsuroBoard implements Board {
 
   @Override
   public BoardLocation getLocationOf(Token token) {
+    if (!tokenLocations.containsKey(token)) {
+      throw new IllegalArgumentException("Token not on board");
+    }
     // ok since BoardLocations are immutable
     return tokenLocations.get(token);
   }

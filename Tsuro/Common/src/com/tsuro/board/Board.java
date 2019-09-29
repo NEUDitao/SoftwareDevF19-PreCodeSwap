@@ -43,6 +43,7 @@ public interface Board {
 
   /**
    * Gets the coordinates and {@link Location} of a player represented by the given token.
+   * @throws IllegalArgumentException if the token isn't on the board
    */
   BoardLocation getLocationOf(Token token);
 
