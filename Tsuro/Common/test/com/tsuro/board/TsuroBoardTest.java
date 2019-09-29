@@ -20,28 +20,34 @@ import org.junit.jupiter.api.Test;
 
 class TsuroBoardTest {
 
-  Path p1 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
-  Path p2 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
-  Path p3 = new Path(Location.NORTHWEST, Location.WESTSOUTH);
-  Path p4 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
-  Tile t1 = new TsuroTile(p1, p2, p3, p4);
+  private static final ColoredToken BLACK_TOKEN = new ColoredToken(ColorString.BLACK);
+  private static final ColoredToken WHITE_TOKEN = new ColoredToken(ColorString.WHITE);
+  private static final ColoredToken RED_TOKEN = new ColoredToken(ColorString.RED);
+  private static final ColoredToken GREEN_TOKEN = new ColoredToken(ColorString.GREEN);
+  private static final ColoredToken BLUE_TOKEN = new ColoredToken(ColorString.BLUE);
 
-  Path p5 = new Path(Location.NORTHWEST, Location.EASTNORTH);
-  Path p6 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
-  Path p7 = new Path(Location.EASTSOUTH, Location.WESTSOUTH);
-  Path p8 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
-  Tile t2 = new TsuroTile(p5, p6, p7, p8);
+  private Path p1 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
+  private Path p2 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
+  private Path p3 = new Path(Location.NORTHWEST, Location.WESTSOUTH);
+  private Path p4 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
+  private Tile t1 = new TsuroTile(p1, p2, p3, p4);
 
-  Path p9 = new Path(Location.NORTHWEST, Location.NORTHEAST);
-  Path p10 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
-  Path p11 = new Path(Location.SOUTHEAST, Location.SOUTHWEST);
-  Path p12 = new Path(Location.WESTNORTH, Location.WESTSOUTH);
-  Tile loopy = new TsuroTile(p9, p10, p11, p12);
+  private Path p5 = new Path(Location.NORTHWEST, Location.EASTNORTH);
+  private Path p6 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
+  private Path p7 = new Path(Location.EASTSOUTH, Location.WESTSOUTH);
+  private Path p8 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
+  private Tile t2 = new TsuroTile(p5, p6, p7, p8);
 
-  Map<Point, Tile> m1;
-  Map<Token, BoardLocation> m2;
+  private Path p9 = new Path(Location.NORTHWEST, Location.NORTHEAST);
+  private Path p10 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
+  private Path p11 = new Path(Location.SOUTHEAST, Location.SOUTHWEST);
+  private Path p12 = new Path(Location.WESTNORTH, Location.WESTSOUTH);
+  private Tile loopy = new TsuroTile(p9, p10, p11, p12);
 
-  Board b1;
+  private Map<Point, Tile> m1;
+  private Map<Token, BoardLocation> m2;
+
+  private Board b1;
 
   @BeforeEach
   void setUpBoard() {
@@ -53,9 +59,9 @@ class TsuroBoardTest {
     m1.put(new Point(2, 0), t2);
     m1.put(new Point(9, 9), loopy);
 
-    m2.put(new ColoredToken(ColorString.BLACK), new BoardLocation(Location.SOUTHEAST, 0, 0));
-    m2.put(new ColoredToken(ColorString.WHITE), new BoardLocation(Location.EASTNORTH, 2, 0));
-    m2.put(new ColoredToken(ColorString.RED), new BoardLocation(Location.NORTHWEST, 9, 9));
+    m2.put(BLACK_TOKEN, new BoardLocation(Location.SOUTHEAST, 0, 0));
+    m2.put(WHITE_TOKEN, new BoardLocation(Location.EASTNORTH, 2, 0));
+    m2.put(RED_TOKEN, new BoardLocation(Location.NORTHWEST, 9, 9));
 
     // This calls fromIntermediatePlacements internally
     b1 = TsuroBoard.fromInitialPlacements(m1, m2);
@@ -80,39 +86,39 @@ class TsuroBoardTest {
 
   @Test
   void fromInitialPlacementsMismatchedTileTokens() {
-    m2.remove(new ColoredToken(ColorString.WHITE));
+    m2.remove(WHITE_TOKEN);
     assertConstructionFailsInitial("Every tile requires an initial Token/BoardLoc pairing");
   }
 
   @Test
   void fromInitialPlacementsTileNotOnEdge() {
     m1.put(new Point(1, 1), loopy);
-    m2.put(new ColoredToken(ColorString.GREEN), new BoardLocation(Location.WESTNORTH, 1, 1));
+    m2.put(GREEN_TOKEN, new BoardLocation(Location.WESTNORTH, 1, 1));
     assertConstructionFailsInitial("Initial tiles are not on edge");
   }
 
   @Test
   void fromInitalPlacementsTouching() {
     m1.put(new Point(1, 0), loopy);
-    m2.put(new ColoredToken(ColorString.GREEN), new BoardLocation(Location.WESTNORTH, 1, 0));
+    m2.put(GREEN_TOKEN, new BoardLocation(Location.WESTNORTH, 1, 0));
     assertConstructionFailsInitial("Initial tiles are touching");
   }
 
   @Test
   void fromInitialPlacementsShareLocation() {
-    m2.put(new ColoredToken(ColorString.RED), new BoardLocation(Location.SOUTHWEST, 0, 0));
+    m2.put(RED_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 0));
     assertConstructionFailsInitial("Tokens cannot start on same Locations");
   }
 
   @Test
   void fromIntermediatePlacementsTokenOffTile() {
-    m2.put(new ColoredToken(ColorString.RED), new BoardLocation(Location.SOUTHWEST, 8, 8));
+    m2.put(RED_TOKEN, new BoardLocation(Location.SOUTHWEST, 8, 8));
     assertConstructionFailsBoth("Not all tokens are on a tile");
   }
 
   @Test
   void fromIntermediatePlacementsTokenDead() {
-    m2.put(new ColoredToken(ColorString.WHITE), new BoardLocation(Location.NORTHWEST, 2, 0));
+    m2.put(WHITE_TOKEN, new BoardLocation(Location.NORTHWEST, 2, 0));
     assertConstructionFailsBoth("One of the tokens is dead");
   }
 
@@ -131,11 +137,46 @@ class TsuroBoardTest {
 
   @Test
   void placeFirstTile() {
-    b1.placeFirstTile(loopy, new ColoredToken(ColorString.BLUE),
+    b1.placeFirstTile(loopy, BLUE_TOKEN,
         new BoardLocation(Location.NORTHEAST, 0, 8));
     assertEquals(new BoardLocation(Location.NORTHEAST, 0, 8),
-        b1.getLocationOf(new ColoredToken(ColorString.BLUE)));
+        b1.getLocationOf(BLUE_TOKEN));
     assertEquals(loopy, b1.getTileAt(0, 8));
+  }
+
+  @Test
+  void placeFirstTileNotEdge() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.NORTHWEST, 5, 5)),
+        "Given tile is not on edge of board");
+  }
+
+  @Test
+  void placeTileOccupied() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 0)),
+        "Given location is already occupied");
+  }
+
+  @Test
+  void placeTileTouching() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 1)),
+        "Given tile touches another tile already on the board");
+  }
+
+  @Test
+  void placeTileAlreadyPlayer() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeFirstTile(loopy, BLACK_TOKEN, new BoardLocation(Location.SOUTHEAST, 5, 0)),
+        "Given player is already on the board");
+  }
+
+  @Test
+  void placeTileFacingEdge() {
+    assertThrows(IllegalArgumentException.class,
+        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.NORTHEAST, 0, 5)),
+        "Player token is facing edge of board");
   }
 
   @Test
@@ -144,9 +185,9 @@ class TsuroBoardTest {
 
   @Test
   void kickPlayer() {
-    b1.kickPlayer(new ColoredToken(ColorString.BLACK));
+    b1.kickPlayer(BLACK_TOKEN);
     Set<Token> expected = new HashSet<>(Arrays
-        .asList(new ColoredToken(ColorString.WHITE), new ColoredToken(ColorString.RED)));
+        .asList(WHITE_TOKEN, RED_TOKEN));
 
     assertEquals(expected, b1.getAllTokens());
   }
@@ -161,16 +202,16 @@ class TsuroBoardTest {
   @Test
   void getLocationOf() {
     assertEquals(new BoardLocation(Location.SOUTHEAST, 0, 0),
-        b1.getLocationOf(new ColoredToken(ColorString.BLACK)));
+        b1.getLocationOf(BLACK_TOKEN));
     assertThrows(IllegalArgumentException.class,
-        () -> b1.getLocationOf(new ColoredToken(ColorString.BLUE)));
+        () -> b1.getLocationOf(BLUE_TOKEN));
   }
 
   @Test
   void getAllTokens() {
     Set<Token> expected = new HashSet<>(Arrays
-        .asList(new ColoredToken(ColorString.BLACK), new ColoredToken(ColorString.WHITE),
-            new ColoredToken(ColorString.RED)));
+        .asList(BLACK_TOKEN, WHITE_TOKEN,
+            RED_TOKEN));
     assertEquals(expected, b1.getAllTokens());
   }
 
