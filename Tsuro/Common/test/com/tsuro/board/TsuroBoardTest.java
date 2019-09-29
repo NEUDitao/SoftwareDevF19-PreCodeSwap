@@ -57,6 +57,7 @@ class TsuroBoardTest {
     m2.put(new ColoredToken(ColorString.WHITE), new BoardLocation(Location.EASTNORTH, 2, 0));
     m2.put(new ColoredToken(ColorString.RED), new BoardLocation(Location.NORTHWEST, 9, 9));
 
+    // This calls fromIntermediatePlacements internally
     b1 = TsuroBoard.fromInitialPlacements(m1, m2);
   }
 
@@ -130,7 +131,11 @@ class TsuroBoardTest {
 
   @Test
   void placeFirstTile() {
-
+    b1.placeFirstTile(loopy, new ColoredToken(ColorString.BLUE),
+        new BoardLocation(Location.NORTHEAST, 0, 8));
+    assertEquals(new BoardLocation(Location.NORTHEAST, 0, 8),
+        b1.getLocationOf(new ColoredToken(ColorString.BLUE)));
+    assertEquals(loopy, b1.getTileAt(0, 8));
   }
 
   @Test

@@ -159,6 +159,7 @@ public class TsuroBoard implements Board {
     }
 
     board[point.x][point.y] = tile;
+    tokenLocations.put(token, loc);
   }
 
   @Override
