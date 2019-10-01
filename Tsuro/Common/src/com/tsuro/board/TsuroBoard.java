@@ -55,7 +55,7 @@ public class TsuroBoard implements Board {
   /**
    * Creates a TsuroBoard as a clone of the given {@link Board}.
    */
-  public TsuroBoard(Board board) {
+  public TsuroBoard(ReadOnlyBoard board) {
     this(board.getSize().width, board.getSize().height);
 
     for (int i = 0; i < board.getSize().width; i++) {
