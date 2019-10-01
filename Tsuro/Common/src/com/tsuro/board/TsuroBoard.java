@@ -53,6 +53,23 @@ public class TsuroBoard implements Board {
   }
 
   /**
+   * Creates a TsuroBoard as a clone of the given {@link Board}.
+   */
+  public TsuroBoard(Board board) {
+    this(board.getSize().width, board.getSize().height);
+
+    for (int i = 0; i < board.getSize().width; i++) {
+      for (int j = 0; j < board.getSize().height; j++) {
+        this.board[i][j] = board.getTileAt(i, j);
+      }
+    }
+
+    for (Token c : board.getAllTokens()) {
+      this.tokenLocations.put(c, board.getLocationOf(c));
+    }
+  }
+
+  /**
    * Creates a board from a bunch of initial tile & player placements. Validates that placements are
    * valid.
    *

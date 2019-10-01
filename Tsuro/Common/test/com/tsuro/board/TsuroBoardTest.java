@@ -264,4 +264,23 @@ class TsuroBoardTest {
     assertEquals(new Dimension(15, 10), new TsuroBoard(15, 10).getSize());
     assertEquals(new Dimension(10, 10), new TsuroBoard().getSize());
   }
+
+  @Test
+  void testCopyConstructor() {
+    Board clone = new TsuroBoard(b1);
+
+    assertEquals(b1.getAllTokens(), clone.getAllTokens());
+
+    assertEquals(b1.getSize(), clone.getSize());
+
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        assertEquals(b1.getTileAt(i, j), clone.getTileAt(i, j));
+      }
+    }
+
+    for (Token c : b1.getAllTokens()) {
+      assertEquals(b1.getLocationOf(c), clone.getLocationOf(c));
+    }
+  }
 }
