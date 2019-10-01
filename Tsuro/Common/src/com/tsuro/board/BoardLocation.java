@@ -4,7 +4,8 @@ import com.tsuro.tile.Location;
 import java.util.Objects;
 
 /**
- * A utility class that contains a coordinate and a {@link Location}
+ * A utility class that contains a coordinate and a {@link Location}. Represents a unique position
+ * on a {@link Board}
  */
 public class BoardLocation {
 

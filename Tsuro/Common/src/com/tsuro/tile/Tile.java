@@ -3,29 +3,29 @@ package com.tsuro.tile;
 import java.util.Set;
 
 /**
- * Represents a Tile for a game.
+ * Represents a Tile for a game. All implementations of this interface must be immutable.
  */
 public interface Tile {
 
   /**
-   * Rotates this tile. Does not mutate.
+   * Returns a new instance of the Tile rotated by 90 degrees clockwise.
    *
-   * @return new rotated tile
+   * @return new rotated tile by 90 degrees
    */
   public Tile rotate();
 
   /**
-   * Finds Location that's connected to the {@param start} location.
+   * Finds {@link Location} that's connected to the {@param start} {@link Location}.
    *
-   * @param start location you start at
-   * @return end location
+   * @param start {@link Location} you start query at
+   * @return end {@link Location} connected to {@param start}
    */
   public Location internalConnection(Location start);
 
   /**
-   * Gets all the {@link Path}s within a {@link Tile}
+   * Gets all the {@link Path}s within a {@link Tile}.
    *
-   * @return a set of the {@link Path}s
+   * @return a set of the {@link Path}s that this {@link Tile} contains
    */
   public Set<Path> getPaths();
 
