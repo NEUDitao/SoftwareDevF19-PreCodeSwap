@@ -15,6 +15,9 @@ public enum ColorString {
 
   public final Color color;
 
+  /**
+   * Creates a ColorString with the given {@link Color}
+   */
   ColorString(Color color) {
     this.color = color;
   }

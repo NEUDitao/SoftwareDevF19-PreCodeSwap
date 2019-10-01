@@ -235,6 +235,7 @@ public class TsuroBoard implements Board {
    *
    * @param location Where to start from for moving forward
    * @return The final resting place of anything that starts at location
+   * @throws IllegalStateException if the board has loops
    */
   private BoardLocation moveTokenAsFarAsPossible(BoardLocation location)
       throws IllegalStateException {

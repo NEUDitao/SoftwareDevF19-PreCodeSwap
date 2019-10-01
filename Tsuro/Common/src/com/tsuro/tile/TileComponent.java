@@ -20,7 +20,7 @@ public class TileComponent extends JComponent {
   private final int thickness;
 
   /**
-   * Creates Tile Component that will render given tile.
+   * Creates Tile Component that will render given tile with lines of a given thickness.
    */
   TileComponent(Tile tile, int thickness) {
     Objects.requireNonNull(tile);
@@ -28,6 +28,9 @@ public class TileComponent extends JComponent {
     this.thickness = thickness;
   }
 
+  /**
+   * Creates a TileComponent that will render the given tile.
+   */
   TileComponent(Tile tile) {
     this(tile, 3);
   }

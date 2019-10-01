@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Creates a list of all possible tiles, and converts tile-pats into {@class Tile}s
+ * Creates a list of all possible tiles, and converts tile-pats into {@link Tile}s
  */
 public class TileTypes {
 
 
   private final List<Tile> tiles;
 
+  /**
+   * Creates all of the tiles from the indices given and stores it in this.
+   */
   public TileTypes(List<TileIndex> indices) {
 
     tiles = indices.stream().sorted().map(TileIndex::turnToTile).collect(Collectors.toList());
@@ -43,6 +46,9 @@ public class TileTypes {
     return returnable;
   }
 
+  /**
+   * Turns the given Tile into a TilePat.
+   */
   public TilePat turnTileIntoTilePat(Tile tile) {
 
     Tile theTile;

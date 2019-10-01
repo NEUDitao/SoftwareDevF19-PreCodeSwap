@@ -1,9 +1,11 @@
 package com.tsuro.board;
 
-
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Tile;
 
+/**
+ * An interface for Boards for games.
+ */
 public interface Board extends ReadOnlyBoard {
 
   /**

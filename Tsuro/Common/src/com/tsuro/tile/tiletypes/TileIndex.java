@@ -19,6 +19,11 @@ public class TileIndex implements Comparable<TileIndex> {
   @SerializedName("tile#")
   public int tileIndex;
 
+  /**
+   * Creates A {@link Tile} based off of the JSON representation of Edges and the tileIndex given.
+   *
+   * @param edges the edges within the {@link Tile} to be created.
+   */
   public TileIndex(List<List<Location>> edges, int tileIndex) {
     this.edges = edges;
     this.tileIndex = tileIndex;

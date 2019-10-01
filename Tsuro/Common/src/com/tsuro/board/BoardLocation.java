@@ -12,12 +12,19 @@ public class BoardLocation {
   public final int x;
   public final int y;
 
+  /**
+   * Creates a BoardLocation at the given {@link Location} at the x and y coordinates
+   */
   public BoardLocation(Location location, int x, int y) {
     this.location = location;
     this.x = x;
     this.y = y;
   }
 
+  /**
+   * Determines if the other BoardLocation's coordinates are the same as this BoardLocation's
+   * coordinates
+   */
   public boolean sameXY(BoardLocation other) {
     return this.x == other.x && this.y == other.y;
   }

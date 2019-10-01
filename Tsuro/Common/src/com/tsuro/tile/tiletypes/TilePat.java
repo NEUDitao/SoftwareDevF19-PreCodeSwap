@@ -8,6 +8,9 @@ public class TilePat {
   public final int index;
   public final int degree;
 
+  /**
+   * Represents a Tile created from JSON.
+   */
   public TilePat(int index, int degree) {
     this.index = index;
     this.degree = degree;

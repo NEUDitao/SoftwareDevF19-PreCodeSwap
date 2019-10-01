@@ -2,6 +2,9 @@ package com.tsuro.tile;
 
 import java.util.Set;
 
+/**
+ * Represents a Tile for a game.
+ */
 public interface Tile {
 
   /**

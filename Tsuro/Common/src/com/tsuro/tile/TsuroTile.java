@@ -9,10 +9,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * A Tile for the game of Tsuro.
+ */
 public class TsuroTile implements Tile {
 
   private Set<Path> paths;
 
+  /**
+   * Creates a {@link Tile} from the {@link Path}s given. Should be given exactly 4 paths.
+   */
   public TsuroTile(Collection<Path> paths) {
 
     List<Location> valuesList = new ArrayList<>(Arrays.asList(Location.values()));
@@ -34,6 +40,9 @@ public class TsuroTile implements Tile {
 
   }
 
+  /**
+   * Convenience constructor.
+   */
   public TsuroTile(Path... paths) {
     this(Arrays.asList(paths));
   }
@@ -62,6 +71,9 @@ public class TsuroTile implements Tile {
     return new HashSet<>(this.paths);
   }
 
+  /**
+   * Gets all of the rotations of this tile.
+   */
   private List<TsuroTile> getAllRotations() {
     TsuroTile currTile = this;
 
@@ -73,6 +85,7 @@ public class TsuroTile implements Tile {
     return rotatedTiles;
   }
 
+  @Override
   public boolean equals(Object o) {
 
     if (this == o) {
@@ -94,6 +107,7 @@ public class TsuroTile implements Tile {
     return false;
   }
 
+  @Override
   public int hashCode() {
     return this.getAllRotations().stream().mapToInt(t -> t.paths.hashCode()).sum();
   }

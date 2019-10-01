@@ -2,6 +2,9 @@ package com.tsuro.tile;
 
 import java.util.Set;
 
+/**
+ * Represents an Empty Tile. Has nothing. Nada. Zilch.
+ */
 public class EmptyTile implements Tile {
 
   @Override

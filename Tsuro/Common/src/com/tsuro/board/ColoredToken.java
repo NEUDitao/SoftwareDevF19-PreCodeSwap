@@ -2,11 +2,17 @@ package com.tsuro.board;
 
 import java.util.Objects;
 
+/**
+ * Represents a {@link Token} with a Color.
+ */
 public class ColoredToken implements Token {
 
 
   private final ColorString color;
 
+  /**
+   * Creates a ColoredToken from the given {@link ColorString}
+   */
   public ColoredToken(ColorString color) {
 
     this.color = color;

@@ -5,6 +5,9 @@ import com.tsuro.tile.Tile;
 import java.awt.Dimension;
 import java.util.Set;
 
+/**
+ * A Board for a game that doesn't have any mutators.
+ */
 public interface ReadOnlyBoard {
 
   /**
