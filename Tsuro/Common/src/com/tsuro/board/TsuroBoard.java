@@ -72,11 +72,22 @@ public class TsuroBoard implements Board {
   /**
    * Creates a board from a bunch of initial tile & player placements. Validates that placements are
    * valid.
-   *
    * @param tiles all initially placed tiles
    * @param locs  all initial player positions
    */
   public static Board fromInitialPlacements(Map<Point, Tile> tiles,
+      Map<Token, BoardLocation> locs) {
+    return fromInitialPlacements(new Dimension(10, 10), tiles, locs);
+  }
+
+  /**
+   * Creates a board from a bunch of initial tile & player placements. Validates that placements are
+   * valid.
+   * @param size  The size of the board
+   * @param tiles all initially placed tiles
+   * @param locs  all initial player positions
+   */
+  public static Board fromInitialPlacements(Dimension size, Map<Point, Tile> tiles,
       Map<Token, BoardLocation> locs) {
 
     if (tiles.size() != locs.size()) {
@@ -84,7 +95,7 @@ public class TsuroBoard implements Board {
     }
 
     // board only used for edge matching.
-    TsuroBoard newBoard = new TsuroBoard();
+    TsuroBoard newBoard = new TsuroBoard(size.width, size.height);
 
     if (!tiles.keySet().stream().allMatch(newBoard::isOnEdgeOfBoard)) {
       throw new IllegalArgumentException("Initial tiles are not on edge");
@@ -98,25 +109,36 @@ public class TsuroBoard implements Board {
       throw new IllegalArgumentException("Tokens cannot start on same Locations");
     }
 
-    return fromIntermediatePlacements(tiles, locs);
+    return fromIntermediatePlacements(size, tiles, locs);
 
   }
 
   /**
    * Creates a board from a bunch of intermediate tile & player placements. Attempts to validate
    * that the placements could reasonably have been caused by a series of valid moves.
-   *
    * @param tiles all placed tiles
    * @param locs  all player positions
    */
   public static Board fromIntermediatePlacements(Map<Point, Tile> tiles,
+      Map<Token, BoardLocation> locs) {
+    return fromIntermediatePlacements(new Dimension(10, 10), tiles, locs);
+  }
+
+  /**
+   * Creates a board from a bunch of intermediate tile & player placements. Attempts to validate
+   * that the placements could reasonably have been caused by a series of valid moves.
+   * @param size  size of the board
+   * @param tiles all placed tiles
+   * @param locs  all player positions
+   */
+  public static Board fromIntermediatePlacements(Dimension size, Map<Point, Tile> tiles,
       Map<Token, BoardLocation> locs) {
 
     if (!locs.values().stream().allMatch(a -> tiles.containsKey(new Point(a.x, a.y)))) {
       throw new IllegalArgumentException("Not all tokens are on a tile");
     }
 
-    TsuroBoard newBoard = new TsuroBoard();
+    TsuroBoard newBoard = new TsuroBoard(size.width, size.height);
 
     if (!locs.values().stream().map(TsuroBoard::nextPointFromLoc).allMatch(newBoard::isOnBoard)) {
       throw new IllegalArgumentException("One of the tokens is dead");
@@ -208,10 +230,9 @@ public class TsuroBoard implements Board {
 
   /**
    * For all tokens that face the newly placed tile, update their location
-   *
    * @param pointForNewTile Where the new tile is
    * @throws IllegalStateException If the board has loops. If this is thrown, the token locations
-   *                               are not modified.
+   * are not modified.
    */
   private void updateTokenLocations(Point pointForNewTile) throws IllegalStateException {
     Map<Token, BoardLocation> newLocations = tokenLocations.entrySet().stream()
@@ -232,7 +253,6 @@ public class TsuroBoard implements Board {
    * Gets the board location after moving anything on a given location forward as far as possible.
    * Doesn't remove anything from the board- the returned location will either face an empty tile,
    * or it will face the edge of the board.
-   *
    * @param location Where to start from for moving forward
    * @return The final resting place of anything that starts at location
    * @throws IllegalStateException if the board has loops
@@ -326,7 +346,6 @@ public class TsuroBoard implements Board {
 
   /**
    * Determines if the given point is on the edge of the board
-   *
    * @param point the point to be queried
    * @return is the poitn is on the dge
    */
