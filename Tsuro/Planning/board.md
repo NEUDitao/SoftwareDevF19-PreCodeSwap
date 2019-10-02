@@ -50,7 +50,7 @@ A Token is an interface, implemented by:
 A BoardLocation is a class:
   - `new BoardLocation(int, int, Location)`
   
-**Interpretation**: Holds x, y for the two ints given, and a Location. This corresponds to the Location on the Tile at the x and y coordinates. Has getters for all fields of Constructor.
+**Interpretation**: Holds x, y for the two ints given, and a Location. This corresponds to the Location on the Tile at the x and y coordinates. Has getters for all fields of Constructor. (0, 0) is the top left of a board. 
 
 ---
 
