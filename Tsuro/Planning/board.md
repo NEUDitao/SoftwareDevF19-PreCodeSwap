@@ -36,6 +36,8 @@ A Tile is an interface, implemented by one of:
     - Finds the `Location` that's connected to the given `Location`
   - `java.util.Set<Path> getPaths()`
     - Gets all of the `Path`s within a `Tile`
+  - `boolean strictEqual(Tile)`
+	- Determines if `this` Tile is equal to the other Tile only if they're in the same orientation. This is different from normal equals, which determines two Tiles are equal even if they're rotated at different angles.
 
 ---
 
@@ -56,13 +58,14 @@ A BoardLocation is a class:
 A Board is an interface, implemented by:
   - `new TsuroBoard(int, int)`
   - `new TsuroBoard(Board)`
+  - `new TsuroBoard()`
   - `new ReadOnlyBoard(Board)`
 
-**Interpretation:** A TsuroBoard is a rectangular board based on either the dimensions given, or the board given. It contains x by y Tiles within, where x and y are the dimensions of the Board's width and height. A TsuroBoard can be acted on. A ReadOnlyBoard can only be queried. A Referee should hold a TsuroBoard, while Players should only be given ReadOnlyBoards.
+**Interpretation:** A TsuroBoard is a rectangular board based on either the dimensions given, or the board given. It contains x by y Tiles within, where x and y are the dimensions of the Board's width and height. A TsuroBoard can be acted on. A ReadOnlyBoard can only be queried. 
 
 ### Methods on Board
 
-A Board has the following methods for players:
+A Board has the following methods:
   - `Tile getTileAt(int, int)`
     - Gets the `Tile` at the given x and y coordinate
   - `BoardLocation getLocationOf(Token)`
@@ -71,11 +74,18 @@ A Board has the following methods for players:
     - Gets all of the `Tokens` still on the `Board`
   - `java.util.Dimension getSize()`
     - Gets the size of the `Board`
-
-A Board has the following methods for referees, in addition to the methods for players. All methods will throw an exception if the move is invalid (as that means the referee has forgotten the rules):
-  - `void placeTile(Tile,int,int)`
-    - Places the given tile at the location given in the ints
-  - `void placeToken(Token, int, int, Location)`
-    - Places the given `Token` at the `Location` on the `Tile` at the given ints
+  - `void placeFirstTile(Tile, Token, BoardLocation)`
+	- Places a Tile from an initial Tile placement on the board
+  - `void placeTileOnBehalfOfPlayer(Tile, Token)`
+	- Places a Tile at the coordinates the Token's BoardLocation is facing
   - `void kickPlayer(Token)`
-    - Kicks a token from the game. The referee is in charge of kicking the player.
+	- Kicks the given Token
+	
+  
+Additionally, there are two static functions that produce Boards:
+  - `Board fromInitialPlacements(Map<Point, Tile>, Map<Token, BoardLocation>, Dimension)`
+	- Creates a board from a bunch of initial Tile and Token placements. Validates the placements are valid.
+  - `Board fromIntermediatePlacements(Map<Point, Tile<, Map <Token, BoardLocation>`
+	- Creates a board from a a bunch of intermediate placements of Tiles and Tokens. 
+	
+Both will throw exceptions if the boards given aren't valid. 
