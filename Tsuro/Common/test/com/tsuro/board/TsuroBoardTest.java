@@ -137,6 +137,30 @@ class TsuroBoardTest {
   }
 
   @Test
+  void fromIntermediatePlacementsAltSize() {
+    m1.put(new Point(9, 14), loopy);
+    m2.put(GREEN_TOKEN, new BoardLocation(Location.NORTHWEST, 9, 14));
+
+    b1 = TsuroBoard.fromIntermediatePlacements(new Dimension(10, 15), m1, m2);
+
+    assertEquals(loopy, b1.getTileAt(9, 14));
+    assertEquals(new BoardLocation(Location.NORTHWEST, 9, 14), b1.getLocationOf(GREEN_TOKEN));
+    verifyB1NoChange();
+  }
+
+  @Test
+  void fromInitialPlacementsAltSize() {
+    m1.put(new Point(9, 14), loopy);
+    m2.put(GREEN_TOKEN, new BoardLocation(Location.NORTHWEST, 9, 14));
+
+    b1 = TsuroBoard.fromInitialPlacements(new Dimension(10, 15), m1, m2);
+
+    assertEquals(loopy, b1.getTileAt(9, 14));
+    assertEquals(new BoardLocation(Location.NORTHWEST, 9, 14), b1.getLocationOf(GREEN_TOKEN));
+    verifyB1NoChange();
+  }
+
+  @Test
   void placeFirstTile() {
     b1.placeFirstTile(loopy, BLUE_TOKEN,
         new BoardLocation(Location.NORTHEAST, 0, 8));
