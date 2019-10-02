@@ -98,7 +98,7 @@ public class TsuroTile implements Tile {
 
     TsuroTile tile = (TsuroTile) o;
     List<TsuroTile> tiles = tile.getAllRotations();
-    return tiles.stream().anyMatch(l -> l.paths.equals(this.paths));
+    return tiles.stream().anyMatch(l -> l.strictEqual(this));
 
   }
 
