@@ -12,6 +12,9 @@ import com.tsuro.tile.tiletypes.TileTypes;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
+/**
+ * Reads and processes XTiles queries, according to homework 3 spec.
+ */
 public class XTiles {
 
   /**
@@ -55,6 +58,9 @@ public class XTiles {
     }
   }
 
+  /**
+   * Launches the XTiles program with the default tile indices
+   */
   public static void main(String[] args) {
 
     TileTypes allTypes = TileTypes.createTileTypes();
