@@ -5,7 +5,7 @@
       <element id="module-output" name="Tsuro" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Common/lib/ShellShare.jar" path-in-jar="/" />
       <element id="module-test-output" name="Tsuro" />
-      <element id="library" level="project" name="com.google.code.gson:gson:2.8.5" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.5/gson-2.8.5.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
