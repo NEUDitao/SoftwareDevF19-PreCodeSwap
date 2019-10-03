@@ -29,4 +29,11 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 
 ## Tests
 
-  - To run all tests, do ./Test in the Tsuro Directory. This will run all JUnit tests.
+  - To run all tests, do ./Test in the Tsuro Directory. This will run all JUnit
+    tests
+    
+    
+ADD TO FOLDERS
+- /tile/tiletypes contains files for processing JSON representation of Tiles, and querying them.
+- tsuro-tiles-index.json contains all of the indices that we will be referring to the tile by, as
+  well as their connections

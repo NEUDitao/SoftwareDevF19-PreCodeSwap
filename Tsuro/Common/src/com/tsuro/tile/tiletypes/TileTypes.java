@@ -1,13 +1,47 @@
 package com.tsuro.tile.tiletypes;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonStreamParser;
 import com.tsuro.tile.Tile;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Creates a list of all possible tiles, and converts tile-pats into {@link Tile}s
  */
-public class TileTypes {
+public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
+
+  public static final String INDEX_JSON_NAME = "tsuro-tiles-index.json";
+
+  /**
+   * Creates a TileTypes containing the List of TileIndexes from the default tile index mapping
+   */
+  public static TileTypes createTileTypes() {
+    InputStream resource = TileTypes.class.getResourceAsStream(INDEX_JSON_NAME);
+    JsonStreamParser p = new JsonStreamParser(new InputStreamReader(resource));
+    return createTileTypes(p);
+  }
+
+  /**
+   * Creates a TileTypes containing the List of TileIndexes from the given JsonStreamParser
+   */
+  public static TileTypes createTileTypes(JsonStreamParser tileTypesStream) {
+    Gson g = new Gson();
+    List<TileIndex> ti = new LinkedList<>();
+    tileTypesStream.forEachRemaining(jel -> ti.add(g.fromJson(jel, TileIndex.class)));
+    return new TileTypes(ti);
+  }
 
 
   private final List<Tile> tiles;
@@ -23,7 +57,6 @@ public class TileTypes {
 
   /**
    * Gets the tile at the given index rotated by the given degrees.
-   *
    * @param index    the index of the tile from the tile-index list found
    *                 <a href="https://ccs.neu.edu/home/matthias/4500-f19/tsuro-tiles-index.json">here</a>
    * @param rotation The degrees to rotate by *INVARIANT*: MUST BE NON-NEGATIVE AND DIVISBLE BY 90
@@ -67,9 +100,29 @@ public class TileTypes {
     }
 
     throw new IllegalArgumentException("Given tile doesn't exist?");
-
-
   }
 
 
+  @Override
+  public Tile deserialize(JsonElement jsonElement, Type type,
+      JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    if (jsonElement.isJsonArray()) {
+      JsonArray ja = jsonElement.getAsJsonArray();
+      int tileIndex = ja.get(0).getAsInt();
+      int degree = ja.get(1).getAsInt();
+      return this.getTileAtIndexWithRotation(tileIndex, degree);
+    } else {
+      throw new JsonParseException("Not given an array");
+    }
+  }
+
+  @Override
+  public JsonElement serialize(Tile tsuroTile, Type type,
+      JsonSerializationContext jsonSerializationContext) {
+    TilePat tilePat = this.turnTileIntoTilePat(tsuroTile);
+    JsonArray ja = new JsonArray();
+    ja.add(tilePat.index);
+    ja.add(tilePat.degree);
+    return ja;
+  }
 }
