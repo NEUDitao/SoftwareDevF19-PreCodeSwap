@@ -1,7 +1,7 @@
 package com.tsuro.board;
 
 /**
- * Represents one of the statuses a board can have on it resulting from its last move.
+ * Represents a property of the last move that was taken on a {@link Board}.
  */
 public enum TsuroStatus {
   INIT_TILE_NOT_ON_EDGE_BOARD,

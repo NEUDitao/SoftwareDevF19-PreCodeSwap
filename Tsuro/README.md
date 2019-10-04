@@ -43,5 +43,3 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
   - To run all tests, do ./Test in the Tsuro Directory. This will run all JUnit
     tests
     
-    
-ADD TO FOLDERS

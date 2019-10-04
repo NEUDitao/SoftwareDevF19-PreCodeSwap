@@ -54,6 +54,17 @@ A BoardLocation is a class:
 
 ---
 
+A TsuroStatus is an enum, which is one of:
+  - INIT_TILE_NOT_ON_EDGE_BOARD,
+  - INIT_TILE_TOUCHING_ANY,
+  - INIT_TOKEN_SUICIDE,
+  - CONTAINS_LOOP,
+  - INTERMEDIATE_TOKEN_SUICIDE
+  
+**Interpretation**: Represents a property of the last move that was taken on a board.
+
+--- 
+
 
 A Board is an interface, implemented by:
   - `new TsuroBoard(int, int)`
@@ -63,6 +74,7 @@ A Board is an interface, implemented by:
 
 **Interpretation:** A TsuroBoard is a rectangular board based on either the dimensions given, or the board given. It contains x by y Tiles within, where x and y are the dimensions of the Board's width and height. A TsuroBoard can be acted on. A ReadOnlyBoard can only be queried. 
 
+**INVARIANT:** All Boards are immutable.
 ### Methods on Board
 
 A Board has the following methods:
@@ -74,12 +86,16 @@ A Board has the following methods:
     - Gets all of the `Tokens` still on the `Board`
   - `java.util.Dimension getSize()`
     - Gets the size of the `Board`
-  - `void placeFirstTile(Tile, Token, BoardLocation)`
+  - `Board placeFirstTile(Tile, Token, BoardLocation)`
 	- Places a Tile from an initial Tile placement on the board
-  - `void placeTileOnBehalfOfPlayer(Tile, Token)`
+  - `Board placeTileOnBehalfOfPlayer(Tile, Token)`
 	- Places a Tile at the coordinates the Token's BoardLocation is facing
-  - `void kickPlayer(Token)`
+  - `Board kickPlayer(Token)`
 	- Kicks the given Token
+  - `List<TsuroStatus> getStatuses()`
+    - Gets all of the statuses on a Board
+  - `List<Token> getLoopingTokens()`
+    - Gets all of the Tokens that are in a loop.
 	
   
 Additionally, there are two static functions that produce Boards:
