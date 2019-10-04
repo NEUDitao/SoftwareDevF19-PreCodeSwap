@@ -13,6 +13,8 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 
     - Within Common are the src/, test/, out/, and lib/ directories.
 
+      - metainfs/ contains metadata for building JARs. It can be ignored
+
       - junit-platform-console-standalone-1.5.2/jar is a Java executable from JUnit that runs JUnit tests in the command line. See the test section for more details.
 
       - test/ contains all of the Unit Tests for the TsuroBoard implementation. Package structure mimics src/'s
@@ -27,7 +29,6 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
           - tile/ contains the implementation of tiles and classes for interacting with them
             - /tile/tiletypes contains files for processing JSON  representation of Tiles, and querying them.
             - /tile/tiletypes/tsuro-tiles-index.json contains all of the indices that we will be referring to Tiles by, as well as their connections
-        - META-INF is some metadata information, and can be ignored
 
   - The directory .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free
   to ignore it.
