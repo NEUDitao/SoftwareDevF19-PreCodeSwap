@@ -1,3 +1,4 @@
 #!/bin/bash
 
-java -jar ../Tsuro/Common/out/artifacts/xtiles_jar/XTiles.jar
+java -jar ../Tsuro/Common/out/artifacts/XTiles_jar/Tsuro.jar 
+
