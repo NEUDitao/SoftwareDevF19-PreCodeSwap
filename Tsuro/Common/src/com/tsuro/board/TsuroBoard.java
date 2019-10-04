@@ -32,6 +32,8 @@ public class TsuroBoard implements Board {
    */
   private final Map<Token, BoardLocation> tokenLocations;
 
+  private final Set<Token> loopingTokens;
+
   /**
    * Constructs a TsuroBoard with the given width and height, and no players
    */
@@ -43,6 +45,7 @@ public class TsuroBoard implements Board {
     }
 
     tokenLocations = new HashMap<>();
+    loopingTokens = new HashSet<>();
   }
 
   /**
@@ -55,7 +58,7 @@ public class TsuroBoard implements Board {
   /**
    * Creates a TsuroBoard as a clone of the given {@link Board}.
    */
-  public TsuroBoard(ReadOnlyBoard board) {
+  public TsuroBoard(Board board) {
     this(board.getSize().width, board.getSize().height);
 
     for (int i = 0; i < board.getSize().width; i++) {
@@ -67,6 +70,8 @@ public class TsuroBoard implements Board {
     for (Token c : board.getAllTokens()) {
       this.tokenLocations.put(c, board.getLocationOf(c));
     }
+
+    loopingTokens.addAll(board.getLoopingTokens());
   }
 
   /**
@@ -175,34 +180,38 @@ public class TsuroBoard implements Board {
 
 
   @Override
-  public void placeFirstTile(Tile tile, Token token, BoardLocation loc) {
+  public Board placeFirstTile(Tile tile, Token token, BoardLocation loc) {
     final Point point = new Point(loc.x, loc.y);
-    if (!isOnEdgeOfBoard(point)) {
+    if (!isOnEdgeOfBoard(point)) { // Rule checker
       throw new IllegalArgumentException("Given tile is not on edge of board");
     }
 
-    if (!isEmpty(point)) {
+    if (!isEmpty(point)) { // Exception
       throw new IllegalArgumentException("Given location is already occupied");
     }
 
-    if (touchingAny(point, nonEmptyPoints())) {
+    if (touchingAny(point, nonEmptyPoints())) { // Rule checker
       throw new IllegalArgumentException("Given tile touches another tile already on the board");
     }
 
-    if (tokenLocations.containsKey(token)) {
+    if (tokenLocations.containsKey(token)) { // Exception
       throw new IllegalArgumentException("Given player is already on the board");
     }
 
-    if (!isOnBoard(nextPointFromLoc(loc))) {
+    if (!isOnBoard(nextPointFromLoc(loc))) { // Rule checker
+      // TODO: something
       throw new IllegalArgumentException("Player token is facing edge of board");
     }
 
-    board[point.x][point.y] = tile;
-    tokenLocations.put(token, loc);
+    TsuroBoard newBoard = new TsuroBoard(this);
+    newBoard.board[point.x][point.y] = tile;
+    newBoard.tokenLocations.put(token, loc);
+
+    return newBoard;
   }
 
   @Override
-  public void placeTileOnBehalfOfPlayer(Tile tile, Token token) {
+  public Board placeTileOnBehalfOfPlayer(Tile tile, Token token) {
     if (!tokenLocations.containsKey(token)) {
       throw new IllegalArgumentException("Placing tile for nonexistent player");
     }
@@ -214,18 +223,17 @@ public class TsuroBoard implements Board {
       throw new IllegalStateException("Inconsistent state of game");
     }
 
-    Tile oldTile = board[point.x][point.y];
-    board[point.x][point.y] = tile;
+    TsuroBoard newBoard = new TsuroBoard(this);
 
-    try {
-      updateTokenLocations(point);
-    } catch (Exception e) {
-      // Something failed when calculating new token locations
-      // Revert tile placement
-      board[point.x][point.y] = oldTile;
-      throw new IllegalArgumentException(e);
+    newBoard.board[point.x][point.y] = tile;
+
+    newBoard.updateTokenLocations(point);
+
+    if (!newBoard.getAllTokens().contains(token)) {
+      //TODO do something about suicide if needed
     }
 
+    return newBoard;
   }
 
   /**
@@ -234,10 +242,18 @@ public class TsuroBoard implements Board {
    * @throws IllegalStateException If the board has loops. If this is thrown, the token locations
    * are not modified.
    */
-  private void updateTokenLocations(Point pointForNewTile) throws IllegalStateException {
+  private void updateTokenLocations(Point pointForNewTile) {
+
     Map<Token, BoardLocation> newLocations = tokenLocations.entrySet().stream()
         .filter(a -> nextPointFromLoc(a.getValue()).equals(pointForNewTile))
-        .collect(Collectors.toMap(Entry::getKey, a -> moveTokenAsFarAsPossible(a.getValue())));
+        .collect(Collectors.toMap(Entry::getKey, a -> {
+          try {
+            return moveTokenAsFarAsPossible(a.getValue());
+          } catch (IllegalStateException e) {
+            loopingTokens.add(a.getKey());
+            return a.getValue();
+          }
+        }));
 
     tokenLocations.putAll(newLocations);
 
@@ -246,7 +262,7 @@ public class TsuroBoard implements Board {
         .map(Entry::getKey)
         .collect(Collectors.toList());
 
-    tokensOffBoard.forEach(this::kickPlayer);
+    tokensOffBoard.forEach(this::removePlayer);
   }
 
   /**
@@ -257,21 +273,14 @@ public class TsuroBoard implements Board {
    * @return The final resting place of anything that starts at location
    * @throws IllegalStateException if the board has loops
    */
-  private BoardLocation moveTokenAsFarAsPossible(BoardLocation location)
-      throws IllegalStateException {
+  private BoardLocation moveTokenAsFarAsPossible(BoardLocation location) {
 
-    Set<Point> loopCache = new HashSet<>();
+    BoardLocation initialLoc = location;
 
     while (isOnBoard(nextPointFromLoc(location))
         && !isEmpty(nextPointFromLoc(location))) {
 
       Point thisPoint = new Point(location.x, location.y);
-
-      if (loopCache.contains(thisPoint)) {
-        throw new IllegalStateException("Board has loops");
-      }
-
-      loopCache.add(thisPoint);
 
       Point nextPoint = nextPointFromLoc(location);
 
@@ -281,14 +290,29 @@ public class TsuroBoard implements Board {
       Location newExitPort = tile.internalConnection(entryPort);
 
       location = new BoardLocation(newExitPort, nextPoint.x, nextPoint.y);
+
+      if (location.equals(initialLoc)) {
+        throw new IllegalStateException("Board has loops");
+      }
+
     }
 
     return location;
   }
 
   @Override
-  public void kickPlayer(Token token) {
-    tokenLocations.remove(token);
+  public Board kickPlayer(Token token) {
+    TsuroBoard newBoard = new TsuroBoard(this);
+    newBoard.removePlayer(token);
+    return newBoard;
+  }
+
+  /**
+   * Removes the player represented by the given token from this board
+   */
+  private void removePlayer(Token token) {
+    this.tokenLocations.remove(token);
+    this.loopingTokens.remove(token);
   }
 
   @Override
@@ -318,6 +342,11 @@ public class TsuroBoard implements Board {
   @Override
   public Dimension getSize() {
     return new Dimension(board.length, board[0].length);
+  }
+
+  @Override
+  public Set<Token> getLoopingTokens() {
+    return new HashSet<>(this.loopingTokens);
   }
 
 

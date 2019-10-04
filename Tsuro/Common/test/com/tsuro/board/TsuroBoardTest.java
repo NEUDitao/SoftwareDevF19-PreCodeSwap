@@ -12,6 +12,7 @@ import com.tsuro.tile.TsuroTile;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -162,7 +163,7 @@ class TsuroBoardTest {
 
   @Test
   void placeFirstTile() {
-    b1.placeFirstTile(loopy, BLUE_TOKEN,
+    b1 = b1.placeFirstTile(loopy, BLUE_TOKEN,
         new BoardLocation(Location.NORTHEAST, 0, 8));
     assertEquals(new BoardLocation(Location.NORTHEAST, 0, 8),
         b1.getLocationOf(BLUE_TOKEN));
@@ -212,7 +213,7 @@ class TsuroBoardTest {
 
   @Test
   void placeTileOnBehalfOfPlayer1() {
-    b1.placeTileOnBehalfOfPlayer(t1.rotate().rotate().rotate(), BLACK_TOKEN);
+    b1 = b1.placeTileOnBehalfOfPlayer(t1.rotate().rotate().rotate(), BLACK_TOKEN);
 
     assertTrue(t1.rotate().rotate().rotate().strictEqual(b1.getTileAt(1, 0)));
 
@@ -222,7 +223,7 @@ class TsuroBoardTest {
 
   @Test
   void placeTileOnBehalfOfPlayer2() {
-    b1.placeTileOnBehalfOfPlayer(t2, WHITE_TOKEN);
+    b1 = b1.placeTileOnBehalfOfPlayer(t2, WHITE_TOKEN);
 
     assertTrue(t2.strictEqual(b1.getTileAt(1, 0)));
     assertEquals(new BoardLocation(Location.SOUTHWEST, 1, 0), b1.getLocationOf(BLACK_TOKEN));
@@ -238,10 +239,13 @@ class TsuroBoardTest {
 
   @Test
   void placeTileLoop() {
-    assertThrows(IllegalArgumentException.class,
-        () -> b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN), "Board has loops");
-    verifyB1NoChange();
+    b1 = b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN);
+    assertEquals(loopy, b1.getTileAt(1, 0));
+    assertEquals(b1.getLoopingTokens(), new HashSet<>(Collections.singletonList(BLACK_TOKEN)));
+    assertEquals(b1.getLocationOf(BLACK_TOKEN), new BoardLocation(Location.EASTNORTH, 0, 0));
+    assertEquals(b1.getLocationOf(WHITE_TOKEN), new BoardLocation(Location.EASTSOUTH, 2, 0));
   }
+
 
   @Test
   void placeTileNonexist() {
@@ -253,7 +257,7 @@ class TsuroBoardTest {
 
   @Test
   void kickPlayer() {
-    b1.kickPlayer(BLACK_TOKEN);
+    b1 = b1.kickPlayer(BLACK_TOKEN);
     Set<Token> expected = new HashSet<>(Arrays
         .asList(WHITE_TOKEN, RED_TOKEN));
 
