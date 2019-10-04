@@ -8,16 +8,27 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 
   - The directory Planning contains all of the documents describing how we
   designed our implementation of Tsuro. Each .md file describes a different initial specification of components
+
   - The directory Common contains all of the code for our implementation
+
     - Within Common are the src/, test/, out/, and lib/ directories.
+
       - junit-platform-console-standalone-1.5.2/jar is a Java executable from JUnit that runs JUnit tests in the command line. See the test section for more details.
+
       - test/ contains all of the Unit Tests for the TsuroBoard implementation. Package structure mimics src/'s
+
       - lib/ contains external libraries used in our implementation. It can be ignored when browsing source code
+
       - out/ contains the artifacts created from building our game into Java executables. There should be an easier way to always run programs from the top-level directory, so out/ can be ignored.
+
       - src/ contains the source code for Tsuro
         - Within src/com/tsuro are the separate packages for a game of Tsuro
           - board/ contains the implementation of the board
           - tile/ contains the implementation of tiles and classes for interacting with them
+            - /tile/tiletypes contains files for processing JSON  representation of Tiles, and querying them.
+            - /tile/tiletypes/tsuro-tiles-index.json contains all of the indices that we will be referring to Tiles by, as well as their connections
+        - META-INF is some metadata information, and can be ignored
+
   - The directory .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free
   to ignore it.
   
@@ -34,6 +45,3 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
     
     
 ADD TO FOLDERS
-- /tile/tiletypes contains files for processing JSON representation of Tiles, and querying them.
-- tsuro-tiles-index.json contains all of the indices that we will be referring to the tile by, as
-  well as their connections
