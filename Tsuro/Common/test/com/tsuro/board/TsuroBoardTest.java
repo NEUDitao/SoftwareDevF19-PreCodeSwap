@@ -1,6 +1,7 @@
 package com.tsuro.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -172,10 +173,12 @@ class TsuroBoardTest {
 
   @Test
   void placeFirstTileNotEdge() {
-    assertThrows(IllegalArgumentException.class,
-        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.NORTHWEST, 5, 5)),
-        "Given tile is not on edge of board");
+
+    b1 = b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.NORTHWEST, 5, 5));
+    assertTrue(b1.getStatuses().contains(TsuroStatus.INIT_TILE_NOT_ON_EDGE_BOARD));
+    assertEquals(b1.getTileAt(5, 5), loopy);
   }
+
 
   @Test
   void placeFirstTileOffBoard() {
@@ -192,9 +195,10 @@ class TsuroBoardTest {
 
   @Test
   void placeFirstTileTouching() {
-    assertThrows(IllegalArgumentException.class,
-        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.SOUTHWEST, 0, 1)),
-        "Given tile touches another tile already on the board");
+    b1 = b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.EASTNORTH, 8, 9));
+    assertTrue(b1.getStatuses().contains(TsuroStatus.INIT_TILE_TOUCHING_ANY));
+    assertTrue(b1.getStatuses().contains(TsuroStatus.CONTAINS_LOOP));
+    assertTrue(b1.getLoopingTokens().contains(BLUE_TOKEN));
   }
 
   @Test
@@ -206,9 +210,9 @@ class TsuroBoardTest {
 
   @Test
   void placeFirstTileFacingEdge() {
-    assertThrows(IllegalArgumentException.class,
-        () -> b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.WESTNORTH, 0, 5)),
-        "Player token is facing edge of board");
+    b1 = b1.placeFirstTile(loopy, BLUE_TOKEN, new BoardLocation(Location.WESTNORTH, 0, 5));
+    assertTrue(b1.getStatuses().contains(TsuroStatus.INIT_TOKEN_SUICIDE));
+    assertFalse(b1.getAllTokens().contains(BLUE_TOKEN));
   }
 
   @Test
@@ -244,6 +248,7 @@ class TsuroBoardTest {
     assertEquals(b1.getLoopingTokens(), new HashSet<>(Collections.singletonList(BLACK_TOKEN)));
     assertEquals(b1.getLocationOf(BLACK_TOKEN), new BoardLocation(Location.EASTNORTH, 0, 0));
     assertEquals(b1.getLocationOf(WHITE_TOKEN), new BoardLocation(Location.EASTSOUTH, 2, 0));
+    assertTrue(b1.getStatuses().contains(TsuroStatus.CONTAINS_LOOP));
   }
 
 
@@ -310,5 +315,11 @@ class TsuroBoardTest {
     for (Token c : b1.getAllTokens()) {
       assertEquals(b1.getLocationOf(c), clone.getLocationOf(c));
     }
+  }
+
+  @Test
+  void testBoardImmutable() {
+    b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN);
+    assertEquals(new EmptyTile(), b1.getTileAt(1, 0));
   }
 }

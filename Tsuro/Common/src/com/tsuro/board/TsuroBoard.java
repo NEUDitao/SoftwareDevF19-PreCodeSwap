@@ -34,6 +34,8 @@ public class TsuroBoard implements Board {
 
   private final Set<Token> loopingTokens;
 
+  private final List<TsuroStatus> statuses;
+
   /**
    * Constructs a TsuroBoard with the given width and height, and no players
    */
@@ -46,6 +48,7 @@ public class TsuroBoard implements Board {
 
     tokenLocations = new HashMap<>();
     loopingTokens = new HashSet<>();
+    statuses = new ArrayList<>();
   }
 
   /**
@@ -56,9 +59,9 @@ public class TsuroBoard implements Board {
   }
 
   /**
-   * Creates a TsuroBoard as a clone of the given {@link Board}.
+   * Creates a TsuroBoard as a clone of the given {@link Board} with the given statuses.
    */
-  public TsuroBoard(Board board) {
+  public TsuroBoard(Board board, List<TsuroStatus> statuses) {
     this(board.getSize().width, board.getSize().height);
 
     for (int i = 0; i < board.getSize().width; i++) {
@@ -72,6 +75,15 @@ public class TsuroBoard implements Board {
     }
 
     loopingTokens.addAll(board.getLoopingTokens());
+
+    this.statuses.addAll(statuses);
+  }
+
+  /**
+   * Creates a TsuroBoard as a clone of the given {@link Board} without statuses.
+   */
+  public TsuroBoard(Board board) {
+    this(board, new ArrayList<>());
   }
 
   /**
@@ -182,8 +194,9 @@ public class TsuroBoard implements Board {
   @Override
   public Board placeFirstTile(Tile tile, Token token, BoardLocation loc) {
     final Point point = new Point(loc.x, loc.y);
+    List<TsuroStatus> statii = new ArrayList<>();
     if (!isOnEdgeOfBoard(point)) { // Rule checker
-      throw new IllegalArgumentException("Given tile is not on edge of board");
+      statii.add(TsuroStatus.INIT_TILE_NOT_ON_EDGE_BOARD);
     }
 
     if (!isEmpty(point)) { // Exception
@@ -191,7 +204,7 @@ public class TsuroBoard implements Board {
     }
 
     if (touchingAny(point, nonEmptyPoints())) { // Rule checker
-      throw new IllegalArgumentException("Given tile touches another tile already on the board");
+      statii.add(TsuroStatus.INIT_TILE_TOUCHING_ANY);
     }
 
     if (tokenLocations.containsKey(token)) { // Exception
@@ -199,19 +212,27 @@ public class TsuroBoard implements Board {
     }
 
     if (!isOnBoard(nextPointFromLoc(loc))) { // Rule checker
-      // TODO: something
-      throw new IllegalArgumentException("Player token is facing edge of board");
+      statii.add(TsuroStatus.INIT_TOKEN_SUICIDE);
     }
 
-    TsuroBoard newBoard = new TsuroBoard(this);
+    TsuroBoard newBoard = new TsuroBoard(this, statii);
     newBoard.board[point.x][point.y] = tile;
     newBoard.tokenLocations.put(token, loc);
+    // in case there were pieces moved next to each other, return that board, but we have a status
+    newBoard.updateTokenLocations();
+
+    if (newBoard.loopingTokens.size() > this.loopingTokens.size()) {
+      newBoard.statuses.add(TsuroStatus.CONTAINS_LOOP);
+    }
 
     return newBoard;
   }
 
+
   @Override
   public Board placeTileOnBehalfOfPlayer(Tile tile, Token token) {
+    List<TsuroStatus> statii = new ArrayList<>();
+
     if (!tokenLocations.containsKey(token)) {
       throw new IllegalArgumentException("Placing tile for nonexistent player");
     }
@@ -227,25 +248,28 @@ public class TsuroBoard implements Board {
 
     newBoard.board[point.x][point.y] = tile;
 
-    newBoard.updateTokenLocations(point);
+    newBoard.updateTokenLocations();
+    if (newBoard.loopingTokens.size() > this.loopingTokens.size()) {
+      statii.add(TsuroStatus.CONTAINS_LOOP);
+    }
 
     if (!newBoard.getAllTokens().contains(token)) {
-      //TODO do something about suicide if needed
+      statii.add(TsuroStatus.INTERMEDIATE_TOKEN_SUICIDE);
     }
+
+    newBoard.statuses.addAll(statii);
 
     return newBoard;
   }
 
   /**
    * For all tokens that face the newly placed tile, update their location
-   * @param pointForNewTile Where the new tile is
    * @throws IllegalStateException If the board has loops. If this is thrown, the token locations
    * are not modified.
    */
-  private void updateTokenLocations(Point pointForNewTile) {
+  private void updateTokenLocations() {
 
     Map<Token, BoardLocation> newLocations = tokenLocations.entrySet().stream()
-        .filter(a -> nextPointFromLoc(a.getValue()).equals(pointForNewTile))
         .collect(Collectors.toMap(Entry::getKey, a -> {
           try {
             return moveTokenAsFarAsPossible(a.getValue());
@@ -347,6 +371,11 @@ public class TsuroBoard implements Board {
   @Override
   public Set<Token> getLoopingTokens() {
     return new HashSet<>(this.loopingTokens);
+  }
+
+  @Override
+  public List<TsuroStatus> getStatuses() {
+    return new ArrayList<>(this.statuses);
   }
 
 
