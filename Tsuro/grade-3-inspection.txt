@@ -1,0 +1,6 @@
+49
+Dustin Jamner
+-6 Rules checker does not know what tiles the player was given
+-1 No interpretation of which axis is x and which is y
+-2 no test of first placement on an empty board
+-2 no unit test for colliding tokens on intermediate place
