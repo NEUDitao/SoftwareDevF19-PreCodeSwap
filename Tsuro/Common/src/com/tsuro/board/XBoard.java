@@ -7,6 +7,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.JsonStreamParser;
 import com.google.gson.reflect.TypeToken;
 import com.tsuro.tile.Location;
@@ -15,6 +17,7 @@ import com.tsuro.tile.tiletypes.TileTypes;
 import java.awt.Point;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,21 +31,39 @@ public class XBoard {
 
   private static class InitialPlace implements StatePat {
 
-    private final Tile tile;
-    private final Token token;
-    private final BoardLocation location;
+    public final Tile tile;
+    public final ColoredToken token;
+    public final BoardLocation boardLocation;
 
-    public InitialPlace(Tile t, Token cs, BoardLocation location) {
+    public InitialPlace(Tile t, ColoredToken cs, BoardLocation boardLocation) {
       tile = t;
       token = cs;
-      this.location = location;
+      this.boardLocation = boardLocation;
     }
 
     @Override
     public void addToIntermediatePlacementMaps(Map<Point, Tile> tiles,
         Map<Token, BoardLocation> playerLocs) {
-      tiles.put(new Point(location.x, location.y), this.tile);
-      playerLocs.put(token, this.location);
+      tiles.put(new Point(boardLocation.x, boardLocation.y), this.tile);
+      playerLocs.put(token, this.boardLocation);
+    }
+  }
+
+  private static class InitialPlaceSerializer implements JsonSerializer<InitialPlace> {
+
+    @Override
+    public JsonElement serialize(InitialPlace initialPlace, Type type,
+        JsonSerializationContext jsonSerializationContext) {
+      JsonArray ja = new JsonArray();
+      ja.add(jsonSerializationContext.serialize(initialPlace.tile, Tile.class));
+      ja.add(jsonSerializationContext.serialize(initialPlace.token.color, ColorString.class));
+
+      BoardLocation boardLocation = initialPlace.boardLocation;
+      ja.add(jsonSerializationContext.serialize(boardLocation.location, Location.class));
+      ja.add(boardLocation.x);
+      ja.add(boardLocation.y);
+
+      return ja;
     }
   }
 
@@ -119,17 +140,39 @@ public class XBoard {
   }
 
   public static void main(String[] args) {
+    JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(System.in));
+    doStuff(jsp);
+  }
+
+  private static void doStuff(JsonStreamParser jsp) {
     GsonBuilder gb = new GsonBuilder();
     TileTypes allTypes = TileTypes.createTileTypes();
     gb.registerTypeAdapter(Tile.class, allTypes);
     gb.registerTypeAdapter(ActionPat.class, new ActionPatDeserializer());
     gb.registerTypeAdapter(StatePat.class, new StatePatDeserializer());
+    gb.registerTypeAdapter(InitialPlace.class, new InitialPlaceSerializer());
     Gson g = gb.create();
 
-    JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(System.in))
+    JsonElement first = jsp.next();
+    List<StatePat> statePats = getStatePats(g, first);
+    Board b = statePatsToBoard(statePats);
+
+    while (jsp.hasNext()) {
+      ActionPat ap = g.fromJson(jsp.next(), ActionPat.class);
+
+      b = b.placeTileOnBehalfOfPlayer(ap.tile, ap.token);
+    }
+
   }
 
   private static List<StatePat> getStatePats(Gson g, JsonElement el) {
     return g.fromJson(el, TypeToken.getParameterized(List.class, StatePat.class).getType());
+  }
+
+  private static Board statePatsToBoard(List<StatePat> statePats) {
+    Map<Point, Tile> tiles = new HashMap<>();
+    Map<Token, BoardLocation> playerLocs = new HashMap<>();
+    statePats.forEach(statePat -> statePat.addToIntermediatePlacementMaps(tiles, playerLocs));
+    return TsuroBoard.fromIntermediatePlacements(tiles, playerLocs);
   }
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
 public class ColoredToken implements Token {
 
 
-  private final ColorString color;
+  public final ColorString color;
 
   /**
    * Creates a ColoredToken from the given {@link ColorString}
