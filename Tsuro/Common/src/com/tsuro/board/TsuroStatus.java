@@ -8,5 +8,6 @@ public enum TsuroStatus {
   INIT_TILE_TOUCHING_ANY,
   INIT_TOKEN_SUICIDE,
   CONTAINS_LOOP,
-  INTERMEDIATE_TOKEN_SUICIDE // :'(. Don't commit suicide. If you need help, reach out. SWD ain't that bad
+  INTERMEDIATE_TOKEN_SUICIDE, // :'(. Don't commit suicide. If you need help, reach out. SWD ain't that bad
+  COLLISION // if two Tokens end up on the same spot, use this
 }

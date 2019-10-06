@@ -1,10 +1,22 @@
 package com.tsuro.board;
 
+import static com.tsuro.TsuroTestHelper.BLACK_TOKEN;
+import static com.tsuro.TsuroTestHelper.BLUE_TOKEN;
+import static com.tsuro.TsuroTestHelper.GREEN_TOKEN;
+import static com.tsuro.TsuroTestHelper.RED_TOKEN;
+import static com.tsuro.TsuroTestHelper.WHITE_TOKEN;
+import static com.tsuro.TsuroTestHelper.b1;
+import static com.tsuro.TsuroTestHelper.loopy;
+import static com.tsuro.TsuroTestHelper.m1;
+import static com.tsuro.TsuroTestHelper.m2;
+import static com.tsuro.TsuroTestHelper.t1;
+import static com.tsuro.TsuroTestHelper.t2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.tsuro.TsuroTestHelper;
 import com.tsuro.tile.EmptyTile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
@@ -14,60 +26,16 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TsuroBoardTest {
 
-  private static final ColoredToken BLACK_TOKEN = new ColoredToken(ColorString.BLACK);
-  private static final ColoredToken WHITE_TOKEN = new ColoredToken(ColorString.WHITE);
-  private static final ColoredToken RED_TOKEN = new ColoredToken(ColorString.RED);
-  private static final ColoredToken GREEN_TOKEN = new ColoredToken(ColorString.GREEN);
-  private static final ColoredToken BLUE_TOKEN = new ColoredToken(ColorString.BLUE);
-
-  private Path p1 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
-  private Path p2 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
-  private Path p3 = new Path(Location.NORTHWEST, Location.WESTSOUTH);
-  private Path p4 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
-  private Tile t1 = new TsuroTile(p1, p2, p3, p4);
-
-  private Path p5 = new Path(Location.NORTHWEST, Location.EASTNORTH);
-  private Path p6 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
-  private Path p7 = new Path(Location.EASTSOUTH, Location.WESTSOUTH);
-  private Path p8 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
-  private Tile t2 = new TsuroTile(p5, p6, p7, p8);
-
-  private Path p9 = new Path(Location.NORTHWEST, Location.NORTHEAST);
-  private Path p10 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
-  private Path p11 = new Path(Location.SOUTHEAST, Location.SOUTHWEST);
-  private Path p12 = new Path(Location.WESTNORTH, Location.WESTSOUTH);
-  private Tile loopy = new TsuroTile(p9, p10, p11, p12);
-
-  private Map<Point, Tile> m1;
-  private Map<Token, BoardLocation> m2;
-
-  private Board b1;
-
   @BeforeEach
   void setUpBoard() {
-
-    m1 = new HashMap<>();
-    m2 = new HashMap<>();
-
-    m1.put(new Point(0, 0), t1);
-    m1.put(new Point(2, 0), t2);
-    m1.put(new Point(9, 9), loopy);
-
-    m2.put(BLACK_TOKEN, new BoardLocation(Location.EASTNORTH, 0, 0));
-    m2.put(WHITE_TOKEN, new BoardLocation(Location.WESTNORTH, 2, 0));
-    m2.put(RED_TOKEN, new BoardLocation(Location.NORTHWEST, 9, 9));
-
-    // This calls fromIntermediatePlacements internally
-    b1 = TsuroBoard.fromInitialPlacements(m1, m2);
+    TsuroTestHelper.setUpBoard();
   }
 
   void assertConstructionFailsInitial(String message) {
@@ -321,5 +289,25 @@ class TsuroBoardTest {
   void testBoardImmutable() {
     b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN);
     assertEquals(new EmptyTile(), b1.getTileAt(1, 0));
+  }
+
+  @Test
+  void testInitBoard() {
+    Board tBoard = new TsuroBoard();
+    tBoard = tBoard.placeFirstTile(loopy, WHITE_TOKEN, new BoardLocation(Location.SOUTHEAST, 0, 0));
+    assertEquals(loopy, tBoard.getTileAt(0, 0));
+  }
+
+  @Test
+  void testBoardCollision() {
+    Tile tNew = new TsuroTile(new Path(Location.WESTNORTH, Location.EASTSOUTH),
+        new Path(Location.WESTSOUTH, Location.EASTNORTH),
+        new Path(Location.NORTHEAST, Location.NORTHWEST),
+        new Path(Location.SOUTHEAST, Location.SOUTHWEST));
+
+    b1 = b1.placeTileOnBehalfOfPlayer(tNew, WHITE_TOKEN);
+    assertEquals(b1.getLocationOf(WHITE_TOKEN), b1.getLocationOf(BLACK_TOKEN));
+    assertEquals(b1.getLocationOf(WHITE_TOKEN), new BoardLocation(Location.EASTSOUTH, 2, 0));
+    assertEquals(b1.getStatuses(), Collections.singletonList(TsuroStatus.COLLISION));
   }
 }

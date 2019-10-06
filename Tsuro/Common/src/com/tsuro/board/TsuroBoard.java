@@ -89,6 +89,7 @@ public class TsuroBoard implements Board {
   /**
    * Creates a board from a bunch of initial tile & player placements. Validates that placements are
    * valid.
+   *
    * @param tiles all initially placed tiles
    * @param locs  all initial player positions
    */
@@ -100,6 +101,7 @@ public class TsuroBoard implements Board {
   /**
    * Creates a board from a bunch of initial tile & player placements. Validates that placements are
    * valid.
+   *
    * @param size  The size of the board
    * @param tiles all initially placed tiles
    * @param locs  all initial player positions
@@ -133,6 +135,7 @@ public class TsuroBoard implements Board {
   /**
    * Creates a board from a bunch of intermediate tile & player placements. Attempts to validate
    * that the placements could reasonably have been caused by a series of valid moves.
+   *
    * @param tiles all placed tiles
    * @param locs  all player positions
    */
@@ -144,6 +147,7 @@ public class TsuroBoard implements Board {
   /**
    * Creates a board from a bunch of intermediate tile & player placements. Attempts to validate
    * that the placements could reasonably have been caused by a series of valid moves.
+   *
    * @param size  size of the board
    * @param tiles all placed tiles
    * @param locs  all player positions
@@ -257,6 +261,11 @@ public class TsuroBoard implements Board {
       statii.add(TsuroStatus.INTERMEDIATE_TOKEN_SUICIDE);
     }
 
+    if (new HashSet<>(newBoard.tokenLocations.values()).size() < newBoard.tokenLocations.values()
+        .size()) {
+      statii.add(TsuroStatus.COLLISION);
+    }
+
     newBoard.statuses.addAll(statii);
 
     return newBoard;
@@ -264,8 +273,9 @@ public class TsuroBoard implements Board {
 
   /**
    * For all tokens that face the newly placed tile, update their location
+   *
    * @throws IllegalStateException If the board has loops. If this is thrown, the token locations
-   * are not modified.
+   *                               are not modified.
    */
   private void updateTokenLocations() {
 
@@ -293,6 +303,7 @@ public class TsuroBoard implements Board {
    * Gets the board location after moving anything on a given location forward as far as possible.
    * Doesn't remove anything from the board- the returned location will either face an empty tile,
    * or it will face the edge of the board.
+   *
    * @param location Where to start from for moving forward
    * @return The final resting place of anything that starts at location
    * @throws IllegalStateException if the board has loops
@@ -404,6 +415,7 @@ public class TsuroBoard implements Board {
 
   /**
    * Determines if the given point is on the edge of the board
+   *
    * @param point the point to be queried
    * @return is the poitn is on the dge
    */
