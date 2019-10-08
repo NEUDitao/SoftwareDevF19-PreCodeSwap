@@ -21,10 +21,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Tests board by serializing StatePats and turning them into actions performed on a {@link Board}
+ */
 public class XBoard {
 
+  /**
+   * An interface to represent state-pats as defined https://ccs.neu.edu/home/matthias/4500-f19/4.html#%28tech._state._pat%29
+   */
   private interface StatePat {
 
+    /**
+     * Adds {@code this} StatePat to the maps used in placeIntermediateTiles.
+     */
     void addToIntermediatePlacementMaps(Map<Point, Tile> tiles,
         Map<Token, BoardLocation> playerLocs);
   }
@@ -35,6 +44,10 @@ public class XBoard {
     public final ColoredToken token;
     public final BoardLocation boardLocation;
 
+    /**
+     * Creates an InitialPlace which has a Tile, the token that placed it, and the BoardLocation the
+     * Tile will be placed at.
+     */
     public InitialPlace(Tile t, ColoredToken cs, BoardLocation boardLocation) {
       tile = t;
       token = cs;
@@ -49,6 +62,10 @@ public class XBoard {
     }
   }
 
+  /**
+   * Serializes an initial-place as defined https://ccs.neu.edu/home/matthias/4500-f19/4.html#%28tech._initial._place%29
+   * into an {@code InitialPlace}.
+   */
   private static class InitialPlaceSerializer implements JsonSerializer<InitialPlace> {
 
     @Override
@@ -67,11 +84,17 @@ public class XBoard {
     }
   }
 
+  /**
+   * Creates an IntermediatePlace which has a Tile, and the location it'll be placed.
+   */
   private static class IntermediatePlace implements StatePat {
 
     private final Tile tile;
     private final Point location;
 
+    /**
+     * Constructs an IntermediatePlace with the tile and point taken.
+     */
     public IntermediatePlace(Tile tile, Point location) {
       this.tile = tile;
       this.location = location;
@@ -84,6 +107,10 @@ public class XBoard {
     }
   }
 
+  /**
+   * Serializes an intermediate-place as defined https://ccs.neu.edu/home/matthias/4500-f19/4.html#%28tech._intermediate._place%29
+   * into an {@code IntermediatePlace}.
+   */
   private static class StatePatDeserializer implements JsonDeserializer<StatePat> {
 
     @Override
@@ -110,17 +137,27 @@ public class XBoard {
     }
   }
 
+  /**
+   * Represents an ActionPAt which has a Token and the Tile that it places.
+   */
   private static class ActionPat {
 
     private final Token token;
     private final Tile tile;
 
+    /**
+     * Constructor for an ActionPat with the token and the tile it will place.
+     */
     public ActionPat(Token token, Tile tile) {
       this.token = token;
       this.tile = tile;
     }
   }
 
+  /**
+   * Deserializes an action-pat as defined https://ccs.neu.edu/home/matthias/4500-f19/4.html#%28tech._action._pat%29
+   * into an {@link ActionPat}
+   */
   private static class ActionPatDeserializer implements JsonDeserializer<ActionPat> {
 
     @Override
@@ -139,12 +176,18 @@ public class XBoard {
     }
   }
 
+  /**
+   * Runs the program by reading System.in and processing it.
+   */
   public static void main(String[] args) {
     JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(System.in));
-    doStuff(jsp);
+    System.out.println(doStuff(jsp));
   }
 
-  private static void doStuff(JsonStreamParser jsp) {
+  /**
+   * Processes the Json in JsonStreamParser into state-pats and returns result.
+   */
+  private static String doStuff(JsonStreamParser jsp) {
     GsonBuilder gb = new GsonBuilder();
     TileTypes allTypes = TileTypes.createTileTypes();
     gb.registerTypeAdapter(Tile.class, allTypes);
@@ -157,18 +200,43 @@ public class XBoard {
     List<StatePat> statePats = getStatePats(g, first);
     Board b = statePatsToBoard(statePats);
 
+    final ColoredToken red = new ColoredToken(ColorString.RED);
+
+    if (!b.getAllTokens().contains(red)) {
+      return "\"red never played\"";
+    }
+
     while (jsp.hasNext()) {
       ActionPat ap = g.fromJson(jsp.next(), ActionPat.class);
 
       b = b.placeTileOnBehalfOfPlayer(ap.tile, ap.token);
+
+      if (b.getStatuses().contains(TsuroStatus.CONTAINS_LOOP)) {
+        return "\"infinite\"";
+      } else if (b.getStatuses().contains(TsuroStatus.COLLISION)) {
+        return "\"collision\"";
+      } else if (!b.getAllTokens().contains(red)) {
+        return "\"red died\"";
+      }
     }
+
+    final BoardLocation loc = b.getLocationOf(red);
+    final InitialPlace ip = new InitialPlace(b.getTileAt(loc.x, loc.y), red, loc);
+
+    return g.toJson(ip, InitialPlace.class);
 
   }
 
+  /**
+   * Turns Json state-pats into a list of {@link StatePat}s
+   */
   private static List<StatePat> getStatePats(Gson g, JsonElement el) {
     return g.fromJson(el, TypeToken.getParameterized(List.class, StatePat.class).getType());
   }
 
+  /**
+   * Turns a List of {@link StatePat}s into a {@link Board}
+   */
   private static Board statePatsToBoard(List<StatePat> statePats) {
     Map<Point, Tile> tiles = new HashMap<>();
     Map<Token, BoardLocation> playerLocs = new HashMap<>();
