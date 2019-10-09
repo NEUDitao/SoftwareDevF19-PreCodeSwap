@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+java -jar ../Tsuro/Common/out/artifacts/XBoard_jar/Tsuro.jar
