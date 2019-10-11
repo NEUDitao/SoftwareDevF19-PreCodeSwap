@@ -38,6 +38,9 @@ public class XBoard {
         Map<Token, BoardLocation> playerLocs);
   }
 
+  /**
+   * Represents an initial-place as defined in http://ccs.neu.edu/home/matthias/4500-f19/4.html#%28tech._initial._place%29
+   */
   private static class InitialPlace implements StatePat {
 
     public final Tile tile;
