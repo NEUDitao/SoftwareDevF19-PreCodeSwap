@@ -29,6 +29,8 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
           - tile/ contains the implementation of tiles and classes for interacting with them
             - /tile/tiletypes contains files for processing JSON  representation of Tiles, and querying them.
             - /tile/tiletypes/tsuro-tiles-index.json contains all of the indices that we will be referring to Tiles by, as well as their connections
+          - rulechecker/ contains the implementations for a rules component
+          - action/ contains the implementations for an action component
 
   - The directory .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free
   to ignore it.

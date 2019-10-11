@@ -105,3 +105,22 @@ Additionally, there are two static functions that produce Boards:
 	- Creates a board from a a bunch of intermediate placements of Tiles and Tokens. 
 	
 Both will throw exceptions if the boards given aren't valid. 
+
+# Action
+
+An Action represents an action to be taken on a Board, and is implemented by:
+  - `new InitialAction(Tile, Token, BoardLocation)`
+    - and represents an Action during the initial phase of the game where players are
+      placing a on a Board and their Tokens.
+  - `new IntermediateAction(Tile, Token)`
+    - and represents an Action during the course of the game, after the initial placements are done
+  
+  and implements the following methods:
+  
+  - `Board doMove(Board)`
+    - Determines if a move on the given board using the given deck of Tiles is valid according to the
+      given RuleChecker.
+  - `boolean isValid(Board, Collection<Tile>)`
+    - Performs the action on the given Board.
+  - `boolean isInitialMove()`
+    - Returns whether this is an initial move
