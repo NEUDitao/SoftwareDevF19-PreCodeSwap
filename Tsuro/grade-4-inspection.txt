@@ -1,0 +1,6 @@
+65
+Aditi Kacheria
+-5 No method description for finding out the opponents
+-5 Missing test for collision
+-5 Missing test for plain legal exit (placing a tile sends an opponent off the board)
+-5 Missing test for combination of events i.e. collision, infinite loop, exit
