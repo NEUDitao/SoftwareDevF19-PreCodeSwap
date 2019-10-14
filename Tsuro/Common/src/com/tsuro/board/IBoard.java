@@ -1,15 +1,17 @@
 package com.tsuro.board;
 
 import com.tsuro.tile.Location;
-import com.tsuro.tile.Tile;
+import com.tsuro.tile.ITile;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.Set;
 
 /**
- * An interface for Boards for games. All implementations must be immutable.
+ * An IBoard is one of:
+ *   - {@link TsuroBoard}
+ * and represents an interface for Boards for games. All implementations must be immutable.
  */
-public interface Board {
+public interface IBoard {
 
   /**
    * Places the initial tiles of the game down for players. Since it's the initial tile, the player
@@ -20,9 +22,9 @@ public interface Board {
    * @param token the player's token
    * @param loc   the coordinates of the tile, and the player's {@link Location} on it
    * @throws IllegalArgumentException for placements that violate basic physical constraints, such
-   * as placing a {@link Tile} on top of an existing {@link Tile}
+   * as placing a {@link ITile} on top of an existing {@link ITile}
    */
-  Board placeFirstTile(Tile tile, Token token, BoardLocation loc);
+  IBoard placeFirstTile(ITile tile, IToken token, BoardLocation loc);
 
   /**
    * Places non-initial tiles of the game down for players. After the initial round, tiles can only
@@ -32,30 +34,30 @@ public interface Board {
    * @throws IllegalArgumentException if the placement of a Tile cannot happen (such as the given
    * token not existing)
    */
-  Board placeTileOnBehalfOfPlayer(Tile tile, Token token);
+  IBoard placeTileOnBehalfOfPlayer(ITile tile, IToken token);
 
   /**
    * Kicks the player from the game
    * @param token The player to kick
    */
-  Board kickPlayer(Token token);
+  IBoard kickPlayer(IToken token);
 
   /**
    * Gets the tile at the given x-y coordinate starting from the top-left of the board.
    * @throws IndexOutOfBoundsException if x and y are off the board.
    */
-  Tile getTileAt(int x, int y);
+  ITile getTileAt(int x, int y);
 
   /**
    * Gets the coordinates and {@link Location} of a player represented by the given token.
    * @throws IllegalArgumentException if the token isn't on the board
    */
-  BoardLocation getLocationOf(Token token);
+  BoardLocation getLocationOf(IToken token);
 
   /**
    * Gets a set of all of the tokens alive on the board.
    */
-  Set<Token> getAllTokens();
+  Set<IToken> getAllTokens();
 
   /**
    * Gets the dimensions of the game board.
@@ -67,7 +69,7 @@ public interface Board {
    *
    * @return A set of tokens that are stuck in a loop, or an empty set if no tokens are in a loop.
    */
-  Set<Token> getLoopingTokens();
+  Set<IToken> getLoopingTokens();
 
   /**
    * Gets the list of statuses that the last move caused

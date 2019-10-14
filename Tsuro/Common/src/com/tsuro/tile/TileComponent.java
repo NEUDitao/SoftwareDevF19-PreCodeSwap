@@ -15,14 +15,14 @@ import javax.swing.JComponent;
  */
 public class TileComponent extends JComponent {
 
-  private Tile tile;
+  private ITile tile;
   private final Color colors[] = {Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
   private final int thickness;
 
   /**
    * Creates Tile Component that will render given tile with lines of a given thickness.
    */
-  TileComponent(Tile tile, int thickness) {
+  TileComponent(ITile tile, int thickness) {
     Objects.requireNonNull(tile);
     this.tile = tile;
     this.thickness = thickness;
@@ -31,7 +31,7 @@ public class TileComponent extends JComponent {
   /**
    * Creates a TileComponent that will render the given tile.
    */
-  TileComponent(Tile tile) {
+  TileComponent(ITile tile) {
     this(tile, 3);
   }
 

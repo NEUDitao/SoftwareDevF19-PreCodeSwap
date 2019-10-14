@@ -9,11 +9,11 @@ import java.util.function.Supplier;
 public class Rules {
 
   /**
-   * Makes a new {@link RuleChecker} given a function that makes {@link RuleChecker}s
+   * Makes a new {@link IRuleChecker} given a function that makes {@link IRuleChecker}s
    *
    * Example usage: {@code makeRules(TsuroRuleChecker::new);}
    */
-  public static RuleChecker makeRules(Supplier<RuleChecker> ruleCheckerSupplier) {
+  public static IRuleChecker makeRules(Supplier<IRuleChecker> ruleCheckerSupplier) {
     return ruleCheckerSupplier.get();
   }
 

@@ -12,7 +12,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonStreamParser;
 import com.google.gson.reflect.TypeToken;
 import com.tsuro.tile.Location;
-import com.tsuro.tile.Tile;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.tiletypes.TileTypes;
 import java.awt.Point;
 import java.io.InputStreamReader;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Tests board by serializing StatePats and turning them into actions performed on a {@link Board}
+ * Tests board by serializing StatePats and turning them into actions performed on a {@link IBoard}
  */
 public class XBoard {
 
@@ -34,8 +34,8 @@ public class XBoard {
     /**
      * Adds {@code this} StatePat to the maps used in placeIntermediateTiles.
      */
-    void addToIntermediatePlacementMaps(Map<Point, Tile> tiles,
-        Map<Token, BoardLocation> playerLocs);
+    void addToIntermediatePlacementMaps(Map<Point, ITile> tiles,
+        Map<IToken, BoardLocation> playerLocs);
   }
 
   /**
@@ -43,23 +43,23 @@ public class XBoard {
    */
   private static class InitialPlace implements StatePat {
 
-    public final Tile tile;
-    public final ColoredToken token;
+    public final ITile tile;
+    public final ColoredIToken token;
     public final BoardLocation boardLocation;
 
     /**
      * Creates an InitialPlace which has a Tile, the token that placed it, and the BoardLocation the
      * Tile will be placed at.
      */
-    public InitialPlace(Tile t, ColoredToken cs, BoardLocation boardLocation) {
+    public InitialPlace(ITile t, ColoredIToken cs, BoardLocation boardLocation) {
       tile = t;
       token = cs;
       this.boardLocation = boardLocation;
     }
 
     @Override
-    public void addToIntermediatePlacementMaps(Map<Point, Tile> tiles,
-        Map<Token, BoardLocation> playerLocs) {
+    public void addToIntermediatePlacementMaps(Map<Point, ITile> tiles,
+        Map<IToken, BoardLocation> playerLocs) {
       tiles.put(new Point(boardLocation.x, boardLocation.y), this.tile);
       playerLocs.put(token, this.boardLocation);
     }
@@ -75,7 +75,7 @@ public class XBoard {
     public JsonElement serialize(InitialPlace initialPlace, Type type,
         JsonSerializationContext jsonSerializationContext) {
       JsonArray ja = new JsonArray();
-      ja.add(jsonSerializationContext.serialize(initialPlace.tile, Tile.class));
+      ja.add(jsonSerializationContext.serialize(initialPlace.tile, ITile.class));
       ja.add(jsonSerializationContext.serialize(initialPlace.token.color, ColorString.class));
 
       BoardLocation boardLocation = initialPlace.boardLocation;
@@ -92,20 +92,20 @@ public class XBoard {
    */
   private static class IntermediatePlace implements StatePat {
 
-    private final Tile tile;
+    private final ITile tile;
     private final Point location;
 
     /**
      * Constructs an IntermediatePlace with the tile and point taken.
      */
-    public IntermediatePlace(Tile tile, Point location) {
+    public IntermediatePlace(ITile tile, Point location) {
       this.tile = tile;
       this.location = location;
     }
 
     @Override
-    public void addToIntermediatePlacementMaps(Map<Point, Tile> tiles,
-        Map<Token, BoardLocation> playerLocs) {
+    public void addToIntermediatePlacementMaps(Map<Point, ITile> tiles,
+        Map<IToken, BoardLocation> playerLocs) {
       tiles.put(new Point(location), tile);
     }
   }
@@ -122,13 +122,13 @@ public class XBoard {
       if (jsonElement.isJsonArray()) {
         JsonArray ja = jsonElement.getAsJsonArray();
         if (ja.size() == 5) {
-          Tile t = jsonDeserializationContext.deserialize(ja.get(0), Tile.class);
+          ITile t = jsonDeserializationContext.deserialize(ja.get(0), ITile.class);
           ColorString cs = jsonDeserializationContext.deserialize(ja.get(1), ColorString.class);
           Location loc = jsonDeserializationContext.deserialize(ja.get(2), Location.class);
           BoardLocation bl = new BoardLocation(loc, ja.get(3).getAsInt(), ja.get(4).getAsInt());
-          return new InitialPlace(t, new ColoredToken(cs), bl);
+          return new InitialPlace(t, new ColoredIToken(cs), bl);
         } else if (ja.size() == 3) {
-          Tile t = jsonDeserializationContext.deserialize(ja.get(0), Tile.class);
+          ITile t = jsonDeserializationContext.deserialize(ja.get(0), ITile.class);
           Point p = new Point(ja.get(1).getAsInt(), ja.get(2).getAsInt());
           return new IntermediatePlace(t, p);
         } else {
@@ -145,13 +145,13 @@ public class XBoard {
    */
   private static class ActionPat {
 
-    private final Token token;
-    private final Tile tile;
+    private final IToken token;
+    private final ITile tile;
 
     /**
      * Constructor for an ActionPat with the token and the tile it will place.
      */
-    public ActionPat(Token token, Tile tile) {
+    public ActionPat(IToken token, ITile tile) {
       this.token = token;
       this.tile = tile;
     }
@@ -169,9 +169,9 @@ public class XBoard {
       if (jsonElement.isJsonArray()) {
         JsonArray ja = jsonElement.getAsJsonArray();
         if (ja.size() == 2) {
-          Token token = new ColoredToken(
+          IToken token = new ColoredIToken(
               jsonDeserializationContext.deserialize(ja.get(0), ColorString.class));
-          Tile tile = jsonDeserializationContext.deserialize(ja.get(1), Tile.class);
+          ITile tile = jsonDeserializationContext.deserialize(ja.get(1), ITile.class);
           return new ActionPat(token, tile);
         }
       }
@@ -193,7 +193,7 @@ public class XBoard {
   private static String doStuff(JsonStreamParser jsp) {
     GsonBuilder gb = new GsonBuilder();
     TileTypes allTypes = TileTypes.createTileTypes();
-    gb.registerTypeAdapter(Tile.class, allTypes);
+    gb.registerTypeAdapter(ITile.class, allTypes);
     gb.registerTypeAdapter(ActionPat.class, new ActionPatDeserializer());
     gb.registerTypeAdapter(StatePat.class, new StatePatDeserializer());
     gb.registerTypeAdapter(InitialPlace.class, new InitialPlaceSerializer());
@@ -201,9 +201,9 @@ public class XBoard {
 
     JsonElement first = jsp.next();
     List<StatePat> statePats = getStatePats(g, first);
-    Board b = statePatsToBoard(statePats);
+    IBoard b = statePatsToBoard(statePats);
 
-    final ColoredToken red = new ColoredToken(ColorString.RED);
+    final ColoredIToken red = new ColoredIToken(ColorString.RED);
 
     if (!b.getAllTokens().contains(red)) {
       return "\"red never played\"";
@@ -238,11 +238,11 @@ public class XBoard {
   }
 
   /**
-   * Turns a List of {@link StatePat}s into a {@link Board}
+   * Turns a List of {@link StatePat}s into a {@link IBoard}
    */
-  private static Board statePatsToBoard(List<StatePat> statePats) {
-    Map<Point, Tile> tiles = new HashMap<>();
-    Map<Token, BoardLocation> playerLocs = new HashMap<>();
+  private static IBoard statePatsToBoard(List<StatePat> statePats) {
+    Map<Point, ITile> tiles = new HashMap<>();
+    Map<IToken, BoardLocation> playerLocs = new HashMap<>();
     statePats.forEach(statePat -> statePat.addToIntermediatePlacementMaps(tiles, playerLocs));
     return TsuroBoard.fromIntermediatePlacements(tiles, playerLocs);
   }

@@ -5,10 +5,10 @@ import java.util.Set;
 /**
  * Represents an Empty Tile. Has nothing. Nada. Zilch.
  */
-public class EmptyTile implements Tile {
+public class EmptyTile implements ITile {
 
   @Override
-  public Tile rotate() {
+  public ITile rotate() {
     return this;
   }
 
@@ -28,7 +28,7 @@ public class EmptyTile implements Tile {
   }
 
   @Override
-  public boolean strictEqual(Tile o) {
+  public boolean strictEqual(ITile o) {
     return o.isEmpty();
   }
 
@@ -44,6 +44,6 @@ public class EmptyTile implements Tile {
       return true;
     }
 
-    return (obj instanceof Tile) && ((Tile) obj).isEmpty();
+    return (obj instanceof ITile) && ((ITile) obj).isEmpty();
   }
 }

@@ -20,7 +20,7 @@ import com.tsuro.TsuroTestHelper;
 import com.tsuro.tile.EmptyTile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
-import com.tsuro.tile.Tile;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.TsuroTile;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -231,7 +231,7 @@ class TsuroBoardTest {
   @Test
   void kickPlayer() {
     b1 = b1.kickPlayer(BLACK_TOKEN);
-    Set<Token> expected = new HashSet<>(Arrays
+    Set<IToken> expected = new HashSet<>(Arrays
         .asList(WHITE_TOKEN, RED_TOKEN));
 
     assertEquals(expected, b1.getAllTokens());
@@ -254,7 +254,7 @@ class TsuroBoardTest {
 
   @Test
   void getAllTokens() {
-    Set<Token> expected = new HashSet<>(Arrays
+    Set<IToken> expected = new HashSet<>(Arrays
         .asList(BLACK_TOKEN, WHITE_TOKEN,
             RED_TOKEN));
     assertEquals(expected, b1.getAllTokens());
@@ -268,7 +268,7 @@ class TsuroBoardTest {
 
   @Test
   void testCopyConstructor() {
-    Board clone = new TsuroBoard(b1);
+    IBoard clone = new TsuroBoard(b1);
 
     assertEquals(b1.getAllTokens(), clone.getAllTokens());
 
@@ -280,7 +280,7 @@ class TsuroBoardTest {
       }
     }
 
-    for (Token c : b1.getAllTokens()) {
+    for (IToken c : b1.getAllTokens()) {
       assertEquals(b1.getLocationOf(c), clone.getLocationOf(c));
     }
   }
@@ -293,14 +293,14 @@ class TsuroBoardTest {
 
   @Test
   void testInitBoard() {
-    Board tBoard = new TsuroBoard();
+    IBoard tBoard = new TsuroBoard();
     tBoard = tBoard.placeFirstTile(loopy, WHITE_TOKEN, new BoardLocation(Location.SOUTHEAST, 0, 0));
     assertEquals(loopy, tBoard.getTileAt(0, 0));
   }
 
   @Test
   void testBoardCollision() {
-    Tile tNew = new TsuroTile(new Path(Location.WESTNORTH, Location.EASTSOUTH),
+    ITile tNew = new TsuroTile(new Path(Location.WESTNORTH, Location.EASTSOUTH),
         new Path(Location.WESTSOUTH, Location.EASTNORTH),
         new Path(Location.NORTHEAST, Location.NORTHWEST),
         new Path(Location.SOUTHEAST, Location.SOUTHWEST));

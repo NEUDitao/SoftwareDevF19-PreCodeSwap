@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 /**
  * A Tile for the game of Tsuro.
  */
-public class TsuroTile implements Tile {
+public class TsuroTile implements ITile {
 
   private Set<Path> paths;
 
   /**
-   * Creates a {@link Tile} from the {@link Path}s given. Should be given exactly 4 paths.
+   * Creates a {@link ITile} from the {@link Path}s given. Should be given exactly 4 paths.
    */
   public TsuroTile(Collection<Path> paths) {
 
@@ -48,7 +48,7 @@ public class TsuroTile implements Tile {
   }
 
   @Override
-  public Tile rotate() {
+  public ITile rotate() {
     return new TsuroTile(paths.stream().map(Path::rotate).collect(Collectors.toList()));
   }
 

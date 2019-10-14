@@ -1,11 +1,11 @@
 package com.tsuro.rulechecker;
 
-import com.tsuro.board.Board;
+import com.tsuro.board.IBoard;
 import com.tsuro.board.BoardLocation;
-import com.tsuro.board.Token;
+import com.tsuro.board.IToken;
 import com.tsuro.board.TsuroStatus;
 import com.tsuro.tile.EmptyTile;
-import com.tsuro.tile.Tile;
+import com.tsuro.tile.ITile;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
@@ -15,17 +15,17 @@ import java.util.stream.Stream;
  * their only option, players cannot enter infinite loops, and initial placements must be bordered
  * by {@link EmptyTile}s.
  */
-public class TsuroRuleChecker implements RuleChecker {
+public class TsuroRuleChecker implements IRuleChecker {
 
   @Override
-  public boolean isValidInitialMove(Board board, Tile tile, Token player, BoardLocation loc,
-      Collection<Tile> playerTiles) {
+  public boolean isValidInitialMove(IBoard board, ITile tile, IToken player, BoardLocation loc,
+                                    Collection<ITile> playerTiles) {
 
     if (!playerTiles.contains(tile)) {
       return false;
     }
 
-    Board newBoard;
+    IBoard newBoard;
 
     try {
       newBoard = board.placeFirstTile(tile, player, loc);
@@ -42,14 +42,14 @@ public class TsuroRuleChecker implements RuleChecker {
   }
 
   @Override
-  public boolean isValidIntermediateMove(Board board, Tile tile, Token player,
-      Collection<Tile> playerTiles) {
+  public boolean isValidIntermediateMove(IBoard board, ITile tile, IToken player,
+                                         Collection<ITile> playerTiles) {
 
     if (!playerTiles.contains(tile)) {
       return false;
     }
 
-    Board newBoard;
+    IBoard newBoard;
     try {
       newBoard = board.placeTileOnBehalfOfPlayer(tile, player);
     } catch (Exception e) {
@@ -70,9 +70,9 @@ public class TsuroRuleChecker implements RuleChecker {
   }
 
   /**
-   * Determines if all of the player's moves result in suicide on a given {@link Board}.
+   * Determines if all of the player's moves result in suicide on a given {@link IBoard}.
    */
-  private boolean allRoadsLeadToSuicide(Board board, Token player, Collection<Tile> playerTiles) {
+  private boolean allRoadsLeadToSuicide(IBoard board, IToken player, Collection<ITile> playerTiles) {
 
     return possibleBoardFromTile(board, player, playerTiles)
         .allMatch(a -> a.getStatuses().contains(TsuroStatus.INTERMEDIATE_TOKEN_SUICIDE)
@@ -82,14 +82,14 @@ public class TsuroRuleChecker implements RuleChecker {
 
   /**
    * Creates a {@link Stream} of Boards that gives all boards with placements from all rotations of
-   * the given {@link Tile}s
+   * the given {@link ITile}s
    */
-  private static Stream<Board> possibleBoardFromTile(Board board, Token token,
-      Collection<Tile> tiles) {
+  private static Stream<IBoard> possibleBoardFromTile(IBoard board, IToken token,
+                                                      Collection<ITile> tiles) {
 
-    Stream.Builder<Board> builder = Stream.builder();
-    for (Tile t : tiles) {
-      Tile rotatedTile = t;
+    Stream.Builder<IBoard> builder = Stream.builder();
+    for (ITile t : tiles) {
+      ITile rotatedTile = t;
       for (int i = 0; i < 4; i++) {
         rotatedTile = rotatedTile.rotate();
         try {

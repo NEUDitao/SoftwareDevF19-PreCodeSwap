@@ -82,7 +82,7 @@ public class XTiles {
     Gson g = gb.create();
 
     XTilesQuery xtq = g.fromJson(element, XTilesQuery.class);
-    Tile tile = allTypes.getTileAtIndexWithRotation(xtq.index, xtq.degrees);
+    ITile tile = allTypes.getTileAtIndexWithRotation(xtq.index, xtq.degrees);
     Location loc = tile.internalConnection(xtq.port);
 
     JsonArray returnable = new JsonArray();

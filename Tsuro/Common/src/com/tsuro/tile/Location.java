@@ -3,7 +3,7 @@ package com.tsuro.tile;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Represents one of 8 port locations on a {@link Tile}
+ * Represents one of 8 port locations on a {@link ITile}
  */
 public enum Location {
 

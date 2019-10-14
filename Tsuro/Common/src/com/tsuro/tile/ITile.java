@@ -3,16 +3,19 @@ package com.tsuro.tile;
 import java.util.Set;
 
 /**
- * Represents a Tile for a game. All implementations of this interface must be immutable.
+ * An ITile is one of:
+ *   - {@link EmptyTile}
+ *   - {@link TsuroTile}
+ * and represents a Tile for a game. All implementations of this interface must be immutable.
  */
-public interface Tile {
+public interface ITile {
 
   /**
    * Returns a new instance of the Tile rotated by 90 degrees clockwise.
    *
    * @return new rotated tile by 90 degrees
    */
-  public Tile rotate();
+  public ITile rotate();
 
   /**
    * Finds {@link Location} that's connected to the {@param start} {@link Location}.
@@ -23,9 +26,9 @@ public interface Tile {
   public Location internalConnection(Location start);
 
   /**
-   * Gets all the {@link Path}s within a {@link Tile}.
+   * Gets all the {@link Path}s within a {@link ITile}.
    *
-   * @return a set of the {@link Path}s that this {@link Tile} contains
+   * @return a set of the {@link Path}s that this {@link ITile} contains
    */
   public Set<Path> getPaths();
 
@@ -36,7 +39,7 @@ public interface Tile {
    * @param o The other tile to compare to
    * @return Whether the tiles are strictly equal
    */
-  public default boolean strictEqual(Tile o) {
+  public default boolean strictEqual(ITile o) {
     return this.getPaths().equals(o.getPaths());
   }
 

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * A utility class that contains a coordinate and a {@link Location}. Represents a unique position
- * on a {@link Board}
+ * on a {@link IBoard}
  */
 public class BoardLocation {
 

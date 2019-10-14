@@ -4,7 +4,7 @@ package com.tsuro.tile.tiletypes;
 import com.google.gson.annotations.SerializedName;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
-import com.tsuro.tile.Tile;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.TsuroTile;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,9 +20,9 @@ public class TileIndex implements Comparable<TileIndex> {
   public int tileIndex;
 
   /**
-   * Creates A {@link Tile} based off of the JSON representation of Edges and the tileIndex given.
+   * Creates A {@link ITile} based off of the JSON representation of Edges and the tileIndex given.
    *
-   * @param edges the edges within the {@link Tile} to be created.
+   * @param edges the edges within the {@link ITile} to be created.
    */
   public TileIndex(List<List<Location>> edges, int tileIndex) {
     this.edges = edges;
@@ -36,11 +36,11 @@ public class TileIndex implements Comparable<TileIndex> {
   }
 
   /**
-   * Turns an instance of a {@link TileIndex} into a {@link Tile}
+   * Turns an instance of a {@link TileIndex} into a {@link ITile}
    *
    * @return a Tile with the edges in edges
    */
-  Tile turnToTile() {
+  ITile turnToTile() {
 
     return new TsuroTile(edges.stream().map(a -> new Path(a.get(0), a.get(1))).collect(
         Collectors.toList()));

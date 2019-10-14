@@ -9,7 +9,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonStreamParser;
-import com.tsuro.tile.Tile;
+import com.tsuro.tile.ITile;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Creates a list of all possible tiles, and converts tile-pats into {@link Tile}s
+ * Creates a list of all possible tiles, and converts tile-pats into {@link ITile}s
  */
-public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
+public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile> {
 
   public static final String INDEX_JSON_NAME = "tsuro-tiles-index.json";
 
@@ -44,7 +44,7 @@ public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
   }
 
 
-  private final List<Tile> tiles;
+  private final List<ITile> tiles;
 
   /**
    * Creates all of the tiles from the indices given and stores it in this.
@@ -62,13 +62,13 @@ public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
    * @param rotation The degrees to rotate by *INVARIANT*: MUST BE NON-NEGATIVE AND DIVISBLE BY 90
    * @return The tile at the index rotate by the given degrees.
    */
-  public Tile getTileAtIndexWithRotation(int index, int rotation) {
+  public ITile getTileAtIndexWithRotation(int index, int rotation) {
 
     if (rotation < 0 || rotation % 90 != 0) {
       throw new IllegalArgumentException("Rotation cannot be done other than in right angles");
     }
 
-    Tile returnable = tiles.get(index);
+    ITile returnable = tiles.get(index);
 
     int idx = rotation;
     while (idx > 0) {
@@ -82,9 +82,9 @@ public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
   /**
    * Turns the given Tile into a TilePat.
    */
-  public TilePat turnTileIntoTilePat(Tile tile) {
+  public TilePat turnTileIntoTilePat(ITile tile) {
 
-    Tile theTile;
+    ITile theTile;
     for (int i = 0; i < tiles.size(); i++) {
       if (tile.equals(tiles.get(i))) {
 
@@ -104,8 +104,8 @@ public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
 
 
   @Override
-  public Tile deserialize(JsonElement jsonElement, Type type,
-      JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+  public ITile deserialize(JsonElement jsonElement, Type type,
+                           JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
     if (jsonElement.isJsonArray()) {
       JsonArray ja = jsonElement.getAsJsonArray();
       int tileIndex = ja.get(0).getAsInt();
@@ -117,8 +117,8 @@ public class TileTypes implements JsonSerializer<Tile>, JsonDeserializer<Tile> {
   }
 
   @Override
-  public JsonElement serialize(Tile tsuroTile, Type type,
-      JsonSerializationContext jsonSerializationContext) {
+  public JsonElement serialize(ITile tsuroTile, Type type,
+                               JsonSerializationContext jsonSerializationContext) {
     TilePat tilePat = this.turnTileIntoTilePat(tsuroTile);
     JsonArray ja = new JsonArray();
     ja.add(tilePat.index);

@@ -3,9 +3,9 @@ package com.tsuro.board;
 import java.util.Objects;
 
 /**
- * Represents a {@link Token} with a Color.
+ * Represents a {@link IToken} with a Color.
  */
-public class ColoredToken implements Token {
+public class ColoredIToken implements IToken {
 
 
   public final ColorString color;
@@ -13,7 +13,7 @@ public class ColoredToken implements Token {
   /**
    * Creates a ColoredToken from the given {@link ColorString}
    */
-  public ColoredToken(ColorString color) {
+  public ColoredIToken(ColorString color) {
 
     this.color = color;
   }
@@ -26,7 +26,7 @@ public class ColoredToken implements Token {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ColoredToken that = (ColoredToken) o;
+    ColoredIToken that = (ColoredIToken) o;
     return color == that.color;
   }
 

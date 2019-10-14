@@ -34,7 +34,7 @@ public class Tiles {
    */
   public static void main(String[] args) {
 
-    Set<Tile> tiles = getAllTiles();
+    Set<ITile> tiles = getAllTiles();
 
     if (!GraphicsEnvironment.isHeadless()) {
       renderAllTiles(tiles);
@@ -51,12 +51,12 @@ public class Tiles {
    *
    * @param tiles tiles to be rendered
    */
-  private static void renderAllTiles(Collection<Tile> tiles) {
+  private static void renderAllTiles(Collection<ITile> tiles) {
     JFrame frame = new JFrame();
     JPanel panel = new JPanel(new GridBagLayout());
     frame.add(panel);
 
-    List<Tile> listTiles = new ArrayList<>(tiles);
+    List<ITile> listTiles = new ArrayList<>(tiles);
 
     for (int i = 0; i < 6; i++) {
       for (int j = 0; j < 6; j++) {
@@ -89,8 +89,8 @@ public class Tiles {
    *
    * @param tiles the tiles given
    */
-  private static void headlessRenderAllTiles(Collection<Tile> tiles) {
-    List<Tile> listTiles = new ArrayList<>(tiles);
+  private static void headlessRenderAllTiles(Collection<ITile> tiles) {
+    List<ITile> listTiles = new ArrayList<>(tiles);
 
     for (int i = 0; i < 6; i++) {
       for (int j = 0; j < 6; j++) {
@@ -116,12 +116,12 @@ public class Tiles {
   }
 
   /**
-   * Gets all the possible {@link Tile} formations in a game of Tsuro
+   * Gets all the possible {@link ITile} formations in a game of Tsuro
    *
-   * @return Set of {@link Tile}s
+   * @return Set of {@link ITile}s
    */
-  private static Set<Tile> getAllTiles() {
-    Set<Tile> returnable = new HashSet<>();
+  private static Set<ITile> getAllTiles() {
+    Set<ITile> returnable = new HashSet<>();
 
     List<Location> locations = Arrays.asList(Location.values());
 

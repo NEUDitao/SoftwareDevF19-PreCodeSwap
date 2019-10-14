@@ -19,19 +19,19 @@ public class TsuroTileTest {
   Path p2 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
   Path p3 = new Path(Location.NORTHWEST, Location.WESTSOUTH);
   Path p4 = new Path(Location.WESTNORTH, Location.SOUTHWEST);
-  Tile t1 = new TsuroTile(p1, p2, p3, p4);
+  ITile t1 = new TsuroTile(p1, p2, p3, p4);
 
   Path p5 = new Path(Location.WESTSOUTH, Location.EASTSOUTH);
   Path p6 = new Path(Location.WESTNORTH, Location.NORTHEAST);
   Path p7 = new Path(Location.NORTHWEST, Location.EASTNORTH);
   Path p8 = new Path(Location.SOUTHWEST, Location.SOUTHEAST);
-  Tile t2 = new TsuroTile(p5, p6, p7, p8);
+  ITile t2 = new TsuroTile(p5, p6, p7, p8);
 
   Path p9 = new Path(Location.NORTHWEST, Location.NORTHEAST);
   Path p10 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
   Path p11 = new Path(Location.SOUTHEAST, Location.SOUTHWEST);
   Path p12 = new Path(Location.WESTNORTH, Location.WESTSOUTH);
-  Tile t3 = new TsuroTile(p9, p10, p11, p12);
+  ITile t3 = new TsuroTile(p9, p10, p11, p12);
 
 
   @org.junit.jupiter.api.Test
@@ -73,7 +73,7 @@ public class TsuroTileTest {
 
   @org.junit.jupiter.api.Test
   public void testConstructors() {
-    Tile t4 = new TsuroTile(new HashSet<>(Arrays.asList(p1, p2, p3, p4)));
+    ITile t4 = new TsuroTile(new HashSet<>(Arrays.asList(p1, p2, p3, p4)));
     assertEquals(t1, t4);
     assertThrows(IllegalArgumentException.class, () -> new TsuroTile(p1, p2, p3, p4, p5));
     assertThrows(IllegalArgumentException.class, () -> new TsuroTile(p1));
