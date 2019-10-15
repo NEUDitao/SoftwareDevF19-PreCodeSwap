@@ -2,6 +2,7 @@ package com.tsuro.rulechecker;
 
 
 import java.util.function.Supplier;
+import lombok.NonNull;
 
 /**
  * Rules.PP file required for assignment 3
@@ -13,7 +14,7 @@ public class Rules {
    *
    * Example usage: {@code makeRules(TsuroRuleChecker::new);}
    */
-  public static IRuleChecker makeRules(Supplier<IRuleChecker> ruleCheckerSupplier) {
+  public static IRuleChecker makeRules(@NonNull Supplier<IRuleChecker> ruleCheckerSupplier) {
     return ruleCheckerSupplier.get();
   }
 

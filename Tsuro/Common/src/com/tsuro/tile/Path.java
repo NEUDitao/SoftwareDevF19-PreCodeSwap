@@ -1,20 +1,19 @@
 package com.tsuro.tile;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+
 /**
  * Represents the connection between two locations inside of a Tile.
  */
+@AllArgsConstructor
 public class Path {
 
+  @NonNull
   final Location l1;
+  @NonNull
   final Location l2;
 
-  /**
-   * Creates a path between l1 and l2.
-   */
-  public Path(Location l1, Location l2) {
-    this.l1 = l1;
-    this.l2 = l2;
-  }
 
   /**
    * Rotates this path. Returns new Path. No mutation.

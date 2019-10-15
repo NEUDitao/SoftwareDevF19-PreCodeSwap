@@ -1,7 +1,7 @@
 package com.tsuro.rulechecker;
 
-import com.tsuro.board.IBoard;
 import com.tsuro.board.BoardLocation;
+import com.tsuro.board.IBoard;
 import com.tsuro.board.IToken;
 import com.tsuro.board.TsuroStatus;
 import com.tsuro.tile.EmptyTile;
@@ -19,7 +19,7 @@ public class TsuroRuleChecker implements IRuleChecker {
 
   @Override
   public boolean isValidInitialMove(IBoard board, ITile tile, IToken player, BoardLocation loc,
-                                    Collection<ITile> playerTiles) {
+      Collection<ITile> playerTiles) {
 
     if (!playerTiles.contains(tile)) {
       return false;
@@ -43,7 +43,7 @@ public class TsuroRuleChecker implements IRuleChecker {
 
   @Override
   public boolean isValidIntermediateMove(IBoard board, ITile tile, IToken player,
-                                         Collection<ITile> playerTiles) {
+      Collection<ITile> playerTiles) {
 
     if (!playerTiles.contains(tile)) {
       return false;
@@ -72,7 +72,8 @@ public class TsuroRuleChecker implements IRuleChecker {
   /**
    * Determines if all of the player's moves result in suicide on a given {@link IBoard}.
    */
-  private boolean allRoadsLeadToSuicide(IBoard board, IToken player, Collection<ITile> playerTiles) {
+  private boolean allRoadsLeadToSuicide(IBoard board, IToken player,
+      Collection<ITile> playerTiles) {
 
     return possibleBoardFromTile(board, player, playerTiles)
         .allMatch(a -> a.getStatuses().contains(TsuroStatus.INTERMEDIATE_TOKEN_SUICIDE)
@@ -85,7 +86,7 @@ public class TsuroRuleChecker implements IRuleChecker {
    * the given {@link ITile}s
    */
   private static Stream<IBoard> possibleBoardFromTile(IBoard board, IToken token,
-                                                      Collection<ITile> tiles) {
+      Collection<ITile> tiles) {
 
     Stream.Builder<IBoard> builder = Stream.builder();
     for (ITile t : tiles) {

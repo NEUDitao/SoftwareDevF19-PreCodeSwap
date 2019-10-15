@@ -2,31 +2,27 @@ package com.tsuro.board;
 
 import com.tsuro.tile.Location;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 /**
  * A utility class that contains a coordinate and a {@link Location}. Represents a unique position
  * on a {@link IBoard}
  */
+@AllArgsConstructor
 public class BoardLocation {
 
+  @NonNull
   public final Location location;
+  @NonNull
   public final int x;
+  @NonNull
   public final int y;
 
   /**
-   * Creates a BoardLocation at the given {@link Location} at the x and y coordinates
+   * Determines if this {@link BoardLocation} and the given one have the same XY.
    */
-  public BoardLocation(Location location, int x, int y) {
-    this.location = location;
-    this.x = x;
-    this.y = y;
-  }
-
-  /**
-   * Determines if the other BoardLocation's coordinates are the same as this BoardLocation's
-   * coordinates
-   */
-  public boolean sameXY(BoardLocation other) {
+  public boolean sameXY(@NonNull BoardLocation other) {
     return this.x == other.x && this.y == other.y;
   }
 

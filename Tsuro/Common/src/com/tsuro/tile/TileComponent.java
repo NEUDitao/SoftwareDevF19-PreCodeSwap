@@ -9,14 +9,15 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.swing.JComponent;
+import lombok.NonNull;
 
 /**
  * A component for rendering tiles.
  */
 public class TileComponent extends JComponent {
 
-  private ITile tile;
-  private final Color colors[] = {Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
+  private final ITile tile;
+  private final Color[] colors = {Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
   private final int thickness;
 
   /**
@@ -38,7 +39,7 @@ public class TileComponent extends JComponent {
   /**
    * Paints the tile.
    */
-  public void paint(Graphics g) {
+  public void paint(@NonNull Graphics g) {
     Objects.requireNonNull(g);
 
     Graphics2D g2d = (Graphics2D) g;

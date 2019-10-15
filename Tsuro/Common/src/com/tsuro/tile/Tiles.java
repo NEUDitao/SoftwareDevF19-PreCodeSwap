@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import lombok.NonNull;
 import net.danielmelcer.shellshare.ANSIGoTo;
 import net.danielmelcer.shellshare.ImageToShellKt;
 
@@ -27,12 +28,12 @@ import net.danielmelcer.shellshare.ImageToShellKt;
  */
 public class Tiles {
 
-  final static int HEADLESS_TILE_SIZE = 6;
+  private final static int HEADLESS_TILE_SIZE = 6;
 
   /**
    * Runs the program.
    */
-  public static void main(String[] args) {
+  public static void main(@NonNull String[] args) {
 
     Set<ITile> tiles = getAllTiles();
 

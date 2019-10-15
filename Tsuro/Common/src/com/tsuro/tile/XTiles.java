@@ -11,6 +11,8 @@ import com.google.gson.JsonStreamParser;
 import com.tsuro.tile.tiletypes.TileTypes;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Reads and processes XTiles queries, according to homework 3 spec.
@@ -20,21 +22,16 @@ public class XTiles {
   /**
    * Contains elements used when querying TileTypes for a Tile's connection on a port.
    */
+  @AllArgsConstructor
   private static class XTilesQuery {
 
-    public final int index;
-    public final int degrees;
-    public final Location port;
+    @NonNull
+    final int index;
+    @NonNull
+    final int degrees;
+    @NonNull
+    final Location port;
 
-    /**
-     * Creates a XTileQuery to get Tile with given index from TileTypes, rotating it by degrees, and
-     * getting the connection off of the port given.
-     */
-    public XTilesQuery(int index, int degrees, Location port) {
-      this.index = index;
-      this.degrees = degrees;
-      this.port = port;
-    }
   }
 
   /**
@@ -43,8 +40,9 @@ public class XTiles {
   private static class XTilesQueryAdapter implements JsonDeserializer<XTilesQuery> {
 
     @Override
-    public XTilesQuery deserialize(JsonElement jsonElement, Type type,
-        JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public XTilesQuery deserialize(@NonNull JsonElement jsonElement, @NonNull Type type,
+        @NonNull JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+
       if (jsonElement.isJsonArray()) {
         JsonArray ja = jsonElement.getAsJsonArray();
         int index = ja.get(0).getAsInt();
@@ -55,13 +53,15 @@ public class XTiles {
       } else {
         throw new JsonParseException("Not an array");
       }
+
     }
+
   }
 
   /**
-   * Launches the XTiles program with the default tile indices
+   * Launches the XTiles program with the default tile indices.
    */
-  public static void main(String[] args) {
+  public static void main(@NonNull String[] args) {
 
     TileTypes allTypes = TileTypes.createTileTypes();
 

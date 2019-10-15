@@ -1,6 +1,7 @@
 package com.tsuro.tile;
 
 import java.util.Set;
+import lombok.NonNull;
 
 /**
  * An ITile is one of:
@@ -15,7 +16,7 @@ public interface ITile {
    *
    * @return new rotated tile by 90 degrees
    */
-  public ITile rotate();
+  ITile rotate();
 
   /**
    * Finds {@link Location} that's connected to the {@param start} {@link Location}.
@@ -23,14 +24,14 @@ public interface ITile {
    * @param start {@link Location} you start query at
    * @return end {@link Location} connected to {@param start}
    */
-  public Location internalConnection(Location start);
+  Location internalConnection(@NonNull Location start);
 
   /**
    * Gets all the {@link Path}s within a {@link ITile}.
    *
    * @return a set of the {@link Path}s that this {@link ITile} contains
    */
-  public Set<Path> getPaths();
+  Set<Path> getPaths();
 
   /**
    * Determines if the given tile has all the same paths as this tile. The tiles are only strictly
@@ -39,7 +40,7 @@ public interface ITile {
    * @param o The other tile to compare to
    * @return Whether the tiles are strictly equal
    */
-  public default boolean strictEqual(ITile o) {
+  default boolean strictEqual(@NonNull ITile o) {
     return this.getPaths().equals(o.getPaths());
   }
 
@@ -47,11 +48,11 @@ public interface ITile {
    * Two tiles are equal if they can be transformed into each other through rotation.
    */
   @Override
-  public boolean equals(Object o);
+  boolean equals(Object o);
 
   /**
    * Determines if this tile is empty.
    */
-  public boolean isEmpty();
+  boolean isEmpty();
 
 }

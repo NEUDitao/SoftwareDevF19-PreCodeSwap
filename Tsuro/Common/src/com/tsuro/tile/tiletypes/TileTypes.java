@@ -16,13 +16,14 @@ import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 
 /**
  * Creates a list of all possible tiles, and converts tile-pats into {@link ITile}s
  */
 public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile> {
 
-  public static final String INDEX_JSON_NAME = "tsuro-tiles-index.json";
+  private static final String INDEX_JSON_NAME = "tsuro-tiles-index.json";
 
   /**
    * Creates a TileTypes containing the List of TileIndexes from the default tile index mapping
@@ -36,7 +37,7 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
   /**
    * Creates a TileTypes containing the List of TileIndexes from the given JsonStreamParser
    */
-  public static TileTypes createTileTypes(JsonStreamParser tileTypesStream) {
+  private static TileTypes createTileTypes(JsonStreamParser tileTypesStream) {
     Gson g = new Gson();
     List<TileIndex> ti = new LinkedList<>();
     tileTypesStream.forEachRemaining(jel -> ti.add(g.fromJson(jel, TileIndex.class)));
@@ -49,7 +50,7 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
   /**
    * Creates all of the tiles from the indices given and stores it in this.
    */
-  public TileTypes(List<TileIndex> indices) {
+  private TileTypes(List<TileIndex> indices) {
 
     tiles = indices.stream().sorted().map(TileIndex::turnToTile).collect(Collectors.toList());
 
@@ -57,6 +58,7 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
 
   /**
    * Gets the tile at the given index rotated by the given degrees.
+   *
    * @param index    the index of the tile from the tile-index list found
    *                 <a href="https://ccs.neu.edu/home/matthias/4500-f19/tsuro-tiles-index.json">here</a>
    * @param rotation The degrees to rotate by *INVARIANT*: MUST BE NON-NEGATIVE AND DIVISBLE BY 90
@@ -82,7 +84,7 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
   /**
    * Turns the given Tile into a TilePat.
    */
-  public TilePat turnTileIntoTilePat(ITile tile) {
+  private TilePat turnTileIntoTilePat(ITile tile) {
 
     ITile theTile;
     for (int i = 0; i < tiles.size(); i++) {
@@ -104,8 +106,9 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
 
 
   @Override
-  public ITile deserialize(JsonElement jsonElement, Type type,
-                           JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+  public ITile deserialize(@NonNull JsonElement jsonElement, @NonNull Type type,
+      @NonNull JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+
     if (jsonElement.isJsonArray()) {
       JsonArray ja = jsonElement.getAsJsonArray();
       int tileIndex = ja.get(0).getAsInt();
@@ -114,15 +117,18 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
     } else {
       throw new JsonParseException("Not given an array");
     }
+
   }
 
   @Override
-  public JsonElement serialize(ITile tsuroTile, Type type,
-                               JsonSerializationContext jsonSerializationContext) {
+  public JsonElement serialize(@NonNull ITile tsuroTile, @NonNull Type type,
+      @NonNull JsonSerializationContext jsonSerializationContext) {
+
     TilePat tilePat = this.turnTileIntoTilePat(tsuroTile);
     JsonArray ja = new JsonArray();
     ja.add(tilePat.index);
     ja.add(tilePat.degree);
     return ja;
+
   }
 }

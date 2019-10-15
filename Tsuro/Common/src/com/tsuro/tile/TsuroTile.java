@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 
 /**
  * A Tile for the game of Tsuro.
  */
 public class TsuroTile implements ITile {
 
-  private Set<Path> paths;
+  private final Set<Path> paths;
 
   /**
    * Creates a {@link ITile} from the {@link Path}s given. Should be given exactly 4 paths.
    */
-  public TsuroTile(Collection<Path> paths) {
+  public TsuroTile(@NonNull Collection<Path> paths) {
 
     List<Location> valuesList = new ArrayList<>(Arrays.asList(Location.values()));
     this.paths = new HashSet<>();
@@ -43,7 +44,7 @@ public class TsuroTile implements ITile {
   /**
    * Convenience constructor.
    */
-  public TsuroTile(Path... paths) {
+  public TsuroTile(@NonNull Path... paths) {
     this(Arrays.asList(paths));
   }
 
@@ -53,7 +54,7 @@ public class TsuroTile implements ITile {
   }
 
   @Override
-  public Location internalConnection(Location start) {
+  public Location internalConnection(@NonNull Location start) {
     Objects.requireNonNull(start);
     for (Path p : paths) {
       if (p.l1 == start) {

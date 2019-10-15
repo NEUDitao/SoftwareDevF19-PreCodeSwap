@@ -2,33 +2,26 @@ package com.tsuro.tile.tiletypes;
 
 
 import com.google.gson.annotations.SerializedName;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
-import com.tsuro.tile.ITile;
 import com.tsuro.tile.TsuroTile;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a Tile Index as a Java Object.
  */
+@AllArgsConstructor
 public class TileIndex implements Comparable<TileIndex> {
 
+  @NonNull
   public List<List<Location>> edges;
   @SerializedName("tile#")
   public int tileIndex;
-
-  /**
-   * Creates A {@link ITile} based off of the JSON representation of Edges and the tileIndex given.
-   *
-   * @param edges the edges within the {@link ITile} to be created.
-   */
-  public TileIndex(List<List<Location>> edges, int tileIndex) {
-    this.edges = edges;
-    this.tileIndex = tileIndex;
-  }
-
 
   @Override
   public int compareTo(@NotNull TileIndex tileIndex) {

@@ -1,10 +1,11 @@
 package com.tsuro.board;
 
-import com.tsuro.tile.Location;
 import com.tsuro.tile.ITile;
+import com.tsuro.tile.Location;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.Set;
+import lombok.NonNull;
 
 /**
  * An IBoard is one of:
@@ -24,7 +25,7 @@ public interface IBoard {
    * @throws IllegalArgumentException for placements that violate basic physical constraints, such
    * as placing a {@link ITile} on top of an existing {@link ITile}
    */
-  IBoard placeFirstTile(ITile tile, IToken token, BoardLocation loc);
+  IBoard placeFirstTile(@NonNull ITile tile, @NonNull IToken token, @NonNull BoardLocation loc);
 
   /**
    * Places non-initial tiles of the game down for players. After the initial round, tiles can only
@@ -34,13 +35,13 @@ public interface IBoard {
    * @throws IllegalArgumentException if the placement of a Tile cannot happen (such as the given
    * token not existing)
    */
-  IBoard placeTileOnBehalfOfPlayer(ITile tile, IToken token);
+  IBoard placeTileOnBehalfOfPlayer(@NonNull ITile tile, @NonNull IToken token);
 
   /**
    * Kicks the player from the game
    * @param token The player to kick
    */
-  IBoard kickPlayer(IToken token);
+  IBoard kickPlayer(@NonNull IToken token);
 
   /**
    * Gets the tile at the given x-y coordinate starting from the top-left of the board.
@@ -52,7 +53,7 @@ public interface IBoard {
    * Gets the coordinates and {@link Location} of a player represented by the given token.
    * @throws IllegalArgumentException if the token isn't on the board
    */
-  BoardLocation getLocationOf(IToken token);
+  BoardLocation getLocationOf(@NonNull IToken token);
 
   /**
    * Gets a set of all of the tokens alive on the board.

@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Common/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Common/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/Common/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/Player" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -27,5 +28,6 @@
     </orderEntry>
     <orderEntry type="library" name="ShellShare" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="org.projectlombok:lombok:1.18.10" level="project" />
   </component>
 </module>

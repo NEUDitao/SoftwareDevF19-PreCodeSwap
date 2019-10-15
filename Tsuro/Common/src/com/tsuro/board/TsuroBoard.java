@@ -1,8 +1,8 @@
 package com.tsuro.board;
 
 import com.tsuro.tile.EmptyTile;
-import com.tsuro.tile.Location;
 import com.tsuro.tile.ITile;
+import com.tsuro.tile.Location;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 
 /**
  * An implementation of a board for the game of Tsuro
@@ -61,7 +62,7 @@ public class TsuroBoard implements IBoard {
   /**
    * Creates a TsuroBoard as a clone of the given {@link IBoard} with the given statuses.
    */
-  public TsuroBoard(IBoard board, List<TsuroStatus> statuses) {
+  public TsuroBoard(@NonNull IBoard board, @NonNull List<TsuroStatus> statuses) {
     this(board.getSize().width, board.getSize().height);
 
     for (int i = 0; i < board.getSize().width; i++) {
@@ -82,7 +83,7 @@ public class TsuroBoard implements IBoard {
   /**
    * Creates a TsuroBoard as a clone of the given {@link IBoard} without statuses.
    */
-  public TsuroBoard(IBoard board) {
+  public TsuroBoard(@NonNull IBoard board) {
     this(board, new ArrayList<>());
   }
 
@@ -93,8 +94,8 @@ public class TsuroBoard implements IBoard {
    * @param tiles all initially placed tiles
    * @param locs  all initial player positions
    */
-  public static IBoard fromInitialPlacements(Map<Point, ITile> tiles,
-                                             Map<IToken, BoardLocation> locs) {
+  public static IBoard fromInitialPlacements(@NonNull Map<Point, ITile> tiles,
+      @NonNull Map<IToken, BoardLocation> locs) {
     return fromInitialPlacements(new Dimension(10, 10), tiles, locs);
   }
 
@@ -106,8 +107,9 @@ public class TsuroBoard implements IBoard {
    * @param tiles all initially placed tiles
    * @param locs  all initial player positions
    */
-  public static IBoard fromInitialPlacements(Dimension size, Map<Point, ITile> tiles,
-                                             Map<IToken, BoardLocation> locs) {
+  public static IBoard fromInitialPlacements(@NonNull Dimension size,
+      @NonNull Map<Point, ITile> tiles,
+      @NonNull Map<IToken, BoardLocation> locs) {
 
     if (tiles.size() != locs.size()) {
       throw new IllegalArgumentException("Every tile requires an initial Token/BoardLoc pairing");
@@ -139,8 +141,8 @@ public class TsuroBoard implements IBoard {
    * @param tiles all placed tiles
    * @param locs  all player positions
    */
-  public static IBoard fromIntermediatePlacements(Map<Point, ITile> tiles,
-                                                  Map<IToken, BoardLocation> locs) {
+  public static IBoard fromIntermediatePlacements(@NonNull Map<Point, ITile> tiles,
+      @NonNull Map<IToken, BoardLocation> locs) {
     return fromIntermediatePlacements(new Dimension(10, 10), tiles, locs);
   }
 
@@ -153,7 +155,7 @@ public class TsuroBoard implements IBoard {
    * @param locs  all player positions
    */
   public static IBoard fromIntermediatePlacements(Dimension size, Map<Point, ITile> tiles,
-                                                  Map<IToken, BoardLocation> locs) {
+      Map<IToken, BoardLocation> locs) {
 
     if (!locs.values().stream().allMatch(a -> tiles.containsKey(new Point(a.x, a.y)))) {
       throw new IllegalArgumentException("Not all tokens are on a tile");
