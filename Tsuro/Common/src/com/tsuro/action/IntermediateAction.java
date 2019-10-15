@@ -1,7 +1,7 @@
 package com.tsuro.action;
 
 import com.tsuro.board.IBoard;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class IntermediateAction implements IAction {
   private final ITile tile;
 
   @Override
-  public Optional<IBoard> doActionIfValid(IRuleChecker rules, IBoard board, IToken player,
+  public Optional<IBoard> doActionIfValid(IRuleChecker rules, IBoard board, Token player,
       Collection<ITile> tiles) {
     if (rules.isValidIntermediateMove(board, tile, player, tiles)) {
       return Optional.of(board.placeTileOnBehalfOfPlayer(tile, player));

@@ -1,6 +1,6 @@
 package com.tsuro.board;
 
-import com.tsuro.tile.EmptyTile;
+import com.tsuro.tile.EmptySquare;
 import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import java.awt.Dimension;
@@ -31,9 +31,9 @@ public class TsuroBoard implements IBoard {
   /**
    * The locations of all the tokens
    */
-  private final Map<IToken, BoardLocation> tokenLocations;
+  private final Map<Token, BoardLocation> tokenLocations;
 
-  private final Set<IToken> loopingTokens;
+  private final Set<Token> loopingTokens;
 
   private final List<TsuroStatus> statuses;
 
@@ -44,7 +44,7 @@ public class TsuroBoard implements IBoard {
     board = new ITile[width][height];
 
     for (ITile[] t : board) {
-      Arrays.fill(t, new EmptyTile());
+      Arrays.fill(t, new EmptySquare());
     }
 
     tokenLocations = new HashMap<>();
@@ -71,7 +71,7 @@ public class TsuroBoard implements IBoard {
       }
     }
 
-    for (IToken c : board.getAllTokens()) {
+    for (Token c : board.getAllTokens()) {
       this.tokenLocations.put(c, board.getLocationOf(c));
     }
 
@@ -95,7 +95,7 @@ public class TsuroBoard implements IBoard {
    * @param locs  all initial player positions
    */
   public static IBoard fromInitialPlacements(@NonNull Map<Point, ITile> tiles,
-      @NonNull Map<IToken, BoardLocation> locs) {
+      @NonNull Map<Token, BoardLocation> locs) {
     return fromInitialPlacements(new Dimension(10, 10), tiles, locs);
   }
 
@@ -109,7 +109,7 @@ public class TsuroBoard implements IBoard {
    */
   public static IBoard fromInitialPlacements(@NonNull Dimension size,
       @NonNull Map<Point, ITile> tiles,
-      @NonNull Map<IToken, BoardLocation> locs) {
+      @NonNull Map<Token, BoardLocation> locs) {
 
     if (tiles.size() != locs.size()) {
       throw new IllegalArgumentException("Every tile requires an initial Token/BoardLoc pairing");
@@ -142,7 +142,7 @@ public class TsuroBoard implements IBoard {
    * @param locs  all player positions
    */
   public static IBoard fromIntermediatePlacements(@NonNull Map<Point, ITile> tiles,
-      @NonNull Map<IToken, BoardLocation> locs) {
+      @NonNull Map<Token, BoardLocation> locs) {
     return fromIntermediatePlacements(new Dimension(10, 10), tiles, locs);
   }
 
@@ -155,7 +155,7 @@ public class TsuroBoard implements IBoard {
    * @param locs  all player positions
    */
   public static IBoard fromIntermediatePlacements(Dimension size, Map<Point, ITile> tiles,
-      Map<IToken, BoardLocation> locs) {
+      Map<Token, BoardLocation> locs) {
 
     if (!locs.values().stream().allMatch(a -> tiles.containsKey(new Point(a.x, a.y)))) {
       throw new IllegalArgumentException("Not all tokens are on a tile");
@@ -198,7 +198,7 @@ public class TsuroBoard implements IBoard {
 
 
   @Override
-  public IBoard placeFirstTile(ITile tile, IToken token, BoardLocation loc) {
+  public IBoard placeFirstTile(ITile tile, Token token, BoardLocation loc) {
     final Point point = new Point(loc.x, loc.y);
     List<TsuroStatus> statii = new ArrayList<>();
     if (!isOnEdgeOfBoard(point)) { // Rule checker
@@ -236,7 +236,7 @@ public class TsuroBoard implements IBoard {
 
 
   @Override
-  public IBoard placeTileOnBehalfOfPlayer(ITile tile, IToken token) {
+  public IBoard placeTileOnBehalfOfPlayer(ITile tile, Token token) {
     List<TsuroStatus> statii = new ArrayList<>();
 
     if (!tokenLocations.containsKey(token)) {
@@ -281,7 +281,7 @@ public class TsuroBoard implements IBoard {
    */
   private void updateTokenLocations() {
 
-    Map<IToken, BoardLocation> newLocations = tokenLocations.entrySet().stream()
+    Map<Token, BoardLocation> newLocations = tokenLocations.entrySet().stream()
         .collect(Collectors.toMap(Entry::getKey, a -> {
           try {
             return moveTokenAsFarAsPossible(a.getValue());
@@ -293,7 +293,7 @@ public class TsuroBoard implements IBoard {
 
     tokenLocations.putAll(newLocations);
 
-    List<IToken> tokensOffBoard = newLocations.entrySet().stream()
+    List<Token> tokensOffBoard = newLocations.entrySet().stream()
         .filter(a -> !isOnBoard(nextPointFromLoc(a.getValue())))
         .map(Entry::getKey)
         .collect(Collectors.toList());
@@ -338,7 +338,7 @@ public class TsuroBoard implements IBoard {
   }
 
   @Override
-  public IBoard kickPlayer(IToken token) {
+  public IBoard kickPlayer(Token token) {
     TsuroBoard newBoard = new TsuroBoard(this);
     newBoard.removePlayer(token);
     return newBoard;
@@ -347,7 +347,7 @@ public class TsuroBoard implements IBoard {
   /**
    * Removes the player represented by the given token from this board
    */
-  private void removePlayer(IToken token) {
+  private void removePlayer(Token token) {
     this.tokenLocations.remove(token);
     this.loopingTokens.remove(token);
   }
@@ -362,7 +362,7 @@ public class TsuroBoard implements IBoard {
   }
 
   @Override
-  public BoardLocation getLocationOf(IToken token) {
+  public BoardLocation getLocationOf(Token token) {
     if (!tokenLocations.containsKey(token)) {
       throw new IllegalArgumentException("Token not on board");
     }
@@ -371,7 +371,7 @@ public class TsuroBoard implements IBoard {
   }
 
   @Override
-  public Set<IToken> getAllTokens() {
+  public Set<Token> getAllTokens() {
     // favour immutability
     return Collections.unmodifiableSet(tokenLocations.keySet());
   }
@@ -382,7 +382,7 @@ public class TsuroBoard implements IBoard {
   }
 
   @Override
-  public Set<IToken> getLoopingTokens() {
+  public Set<Token> getLoopingTokens() {
     return new HashSet<>(this.loopingTokens);
   }
 

@@ -1,6 +1,6 @@
 package com.tsuro.action.actionpat;
 
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -12,7 +12,7 @@ import lombok.NonNull;
 public class ActionPat {
 
   @NonNull
-  public final IToken token;
+  public final Token token;
   @NonNull
   public final ITile tile;
 

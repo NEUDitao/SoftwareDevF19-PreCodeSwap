@@ -7,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.ColorString;
-import com.tsuro.board.ColoredIToken;
+import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import java.awt.Point;
@@ -33,7 +33,7 @@ public class StatePatDeserializer implements JsonDeserializer<IStatePat> {
         Location loc = jsonDeserializationContext.deserialize(ja.get(2), Location.class);
         BoardLocation bl = new BoardLocation(loc, ja.get(3).getAsInt(), ja.get(4).getAsInt());
 
-        return new InitialPlace(t, new ColoredIToken(cs), bl);
+        return new InitialPlace(t, new Token(cs), bl);
       } else if (ja.size() == 3) {
         ITile t = jsonDeserializationContext.deserialize(ja.get(0), ITile.class);
         Point p = new Point(ja.get(1).getAsInt(), ja.get(2).getAsInt());

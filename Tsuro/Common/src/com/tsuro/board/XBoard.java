@@ -1,18 +1,14 @@
 package com.tsuro.board;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonStreamParser;
 import com.google.gson.reflect.TypeToken;
 import com.tsuro.action.actionpat.ActionPat;
-import com.tsuro.action.actionpat.ActionPatDeserializer;
 import com.tsuro.board.statepat.IStatePat;
 import com.tsuro.board.statepat.InitialPlace;
-import com.tsuro.board.statepat.InitialPlaceSerializer;
-import com.tsuro.board.statepat.StatePatDeserializer;
 import com.tsuro.tile.ITile;
-import com.tsuro.tile.tiletypes.TileTypes;
+import com.tsuro.utils.GsonUtils;
 import java.awt.Point;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -37,19 +33,14 @@ public class XBoard {
    * Processes the Json in JsonStreamParser into state-pats and returns result.
    */
   private static String doStuff(JsonStreamParser jsp) {
-    GsonBuilder gb = new GsonBuilder();
-    TileTypes allTypes = TileTypes.createTileTypes();
-    gb.registerTypeAdapter(ITile.class, allTypes);
-    gb.registerTypeAdapter(ActionPat.class, new ActionPatDeserializer());
-    gb.registerTypeAdapter(IStatePat.class, new StatePatDeserializer());
-    gb.registerTypeAdapter(InitialPlace.class, new InitialPlaceSerializer());
-    Gson g = gb.create();
+
+    Gson g = GsonUtils.getTsuroGson();
 
     JsonElement first = jsp.next();
     List<IStatePat> statePats = getStatePats(g, first);
     IBoard b = statePatsToBoard(statePats);
 
-    final ColoredIToken red = new ColoredIToken(ColorString.RED);
+    final Token red = new Token(ColorString.RED);
 
     if (!b.getAllTokens().contains(red)) {
       return "\"red never played\"";
@@ -79,16 +70,16 @@ public class XBoard {
   /**
    * Turns Json state-pats into a list of {@link IStatePat}s
    */
-  private static List<IStatePat> getStatePats(Gson g, JsonElement el) {
+  public static List<IStatePat> getStatePats(Gson g, JsonElement el) {
     return g.fromJson(el, TypeToken.getParameterized(List.class, IStatePat.class).getType());
   }
 
   /**
    * Turns a List of {@link IStatePat}s into a {@link IBoard}
    */
-  private static IBoard statePatsToBoard(List<IStatePat> statePats) {
+  public static IBoard statePatsToBoard(List<IStatePat> statePats) {
     Map<Point, ITile> tiles = new HashMap<>();
-    Map<IToken, BoardLocation> playerLocs = new HashMap<>();
+    Map<Token, BoardLocation> playerLocs = new HashMap<>();
     statePats.forEach(statePat -> statePat.addToIntermediatePlacementMaps(tiles, playerLocs));
     return TsuroBoard.fromIntermediatePlacements(tiles, playerLocs);
   }

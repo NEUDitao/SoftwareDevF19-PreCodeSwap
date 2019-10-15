@@ -1,7 +1,7 @@
 package com.tsuro.action;
 
 import com.tsuro.board.IBoard;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
 import java.util.Collection;
@@ -18,7 +18,7 @@ public interface IAction {
    * given RuleChecker. If the move is valid, do the action and return the new {@link IBoard}.
    */
   Optional<IBoard> doActionIfValid(@NonNull IRuleChecker rules, @NonNull IBoard board,
-      @NonNull IToken player, @NonNull Collection<ITile> tiles);
+      @NonNull Token player, @NonNull Collection<ITile> tiles);
 
   /**
    * Returns true if this Action represents an initial move.

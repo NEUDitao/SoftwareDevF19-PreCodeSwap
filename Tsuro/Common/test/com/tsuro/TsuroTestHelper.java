@@ -1,16 +1,15 @@
 package com.tsuro;
 
-import com.tsuro.board.IBoard;
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.ColorString;
-import com.tsuro.board.ColoredIToken;
-import com.tsuro.board.IToken;
+import com.tsuro.board.IBoard;
+import com.tsuro.board.Token;
 import com.tsuro.board.TsuroBoard;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.rulechecker.TsuroRuleChecker;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
-import com.tsuro.tile.ITile;
 import com.tsuro.tile.TsuroTile;
 import java.awt.Point;
 import java.util.HashMap;
@@ -18,11 +17,11 @@ import java.util.Map;
 
 public class TsuroTestHelper {
 
-  public static final ColoredIToken BLACK_TOKEN = new ColoredIToken(ColorString.BLACK);
-  public static final ColoredIToken WHITE_TOKEN = new ColoredIToken(ColorString.WHITE);
-  public static final ColoredIToken RED_TOKEN = new ColoredIToken(ColorString.RED);
-  public static final ColoredIToken GREEN_TOKEN = new ColoredIToken(ColorString.GREEN);
-  public static final ColoredIToken BLUE_TOKEN = new ColoredIToken(ColorString.BLUE);
+  public static final Token BLACK_TOKEN = new Token(ColorString.BLACK);
+  public static final Token WHITE_TOKEN = new Token(ColorString.WHITE);
+  public static final Token RED_TOKEN = new Token(ColorString.RED);
+  public static final Token GREEN_TOKEN = new Token(ColorString.GREEN);
+  public static final Token BLUE_TOKEN = new Token(ColorString.BLUE);
 
   public static final Path p1 = new Path(Location.NORTHEAST, Location.SOUTHEAST);
   public static final Path p2 = new Path(Location.EASTNORTH, Location.EASTSOUTH);
@@ -52,7 +51,7 @@ public class TsuroTestHelper {
   public static final IRuleChecker tsuroRuleChecker = new TsuroRuleChecker();
 
   public static Map<Point, ITile> m1;
-  public static Map<IToken, BoardLocation> m2;
+  public static Map<Token, BoardLocation> m2;
 
   public static IBoard b1;
 

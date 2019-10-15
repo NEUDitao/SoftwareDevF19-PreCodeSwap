@@ -25,7 +25,7 @@ public interface IBoard {
    * @throws IllegalArgumentException for placements that violate basic physical constraints, such
    * as placing a {@link ITile} on top of an existing {@link ITile}
    */
-  IBoard placeFirstTile(@NonNull ITile tile, @NonNull IToken token, @NonNull BoardLocation loc);
+  IBoard placeFirstTile(@NonNull ITile tile, @NonNull Token token, @NonNull BoardLocation loc);
 
   /**
    * Places non-initial tiles of the game down for players. After the initial round, tiles can only
@@ -35,13 +35,13 @@ public interface IBoard {
    * @throws IllegalArgumentException if the placement of a Tile cannot happen (such as the given
    * token not existing)
    */
-  IBoard placeTileOnBehalfOfPlayer(@NonNull ITile tile, @NonNull IToken token);
+  IBoard placeTileOnBehalfOfPlayer(@NonNull ITile tile, @NonNull Token token);
 
   /**
    * Kicks the player from the game
    * @param token The player to kick
    */
-  IBoard kickPlayer(@NonNull IToken token);
+  IBoard kickPlayer(@NonNull Token token);
 
   /**
    * Gets the tile at the given x-y coordinate starting from the top-left of the board.
@@ -53,12 +53,12 @@ public interface IBoard {
    * Gets the coordinates and {@link Location} of a player represented by the given token.
    * @throws IllegalArgumentException if the token isn't on the board
    */
-  BoardLocation getLocationOf(@NonNull IToken token);
+  BoardLocation getLocationOf(@NonNull Token token);
 
   /**
    * Gets a set of all of the tokens alive on the board.
    */
-  Set<IToken> getAllTokens();
+  Set<Token> getAllTokens();
 
   /**
    * Gets the dimensions of the game board.
@@ -70,7 +70,7 @@ public interface IBoard {
    *
    * @return A set of tokens that are stuck in a loop, or an empty set if no tokens are in a loop.
    */
-  Set<IToken> getLoopingTokens();
+  Set<Token> getLoopingTokens();
 
   /**
    * Gets the list of statuses that the last move caused

@@ -6,8 +6,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.tsuro.board.ColorString;
-import com.tsuro.board.ColoredIToken;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import java.lang.reflect.Type;
 import lombok.NonNull;
@@ -24,7 +23,7 @@ public class ActionPatDeserializer implements JsonDeserializer<ActionPat> {
     if (jsonElement.isJsonArray()) {
       JsonArray ja = jsonElement.getAsJsonArray();
       if (ja.size() == 2) {
-        IToken token = new ColoredIToken(
+        Token token = new Token(
             jsonDeserializationContext.deserialize(ja.get(0), ColorString.class));
         ITile tile = jsonDeserializationContext.deserialize(ja.get(1), ITile.class);
         return new ActionPat(token, tile);

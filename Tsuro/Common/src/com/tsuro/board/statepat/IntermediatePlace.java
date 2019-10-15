@@ -1,7 +1,7 @@
 package com.tsuro.board.statepat;
 
 import com.tsuro.board.BoardLocation;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import java.awt.Point;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class IntermediatePlace implements IStatePat {
 
   @Override
   public void addToIntermediatePlacementMaps(Map<Point, ITile> tiles,
-      Map<IToken, BoardLocation> playerLocs) {
+      Map<Token, BoardLocation> playerLocs) {
     tiles.put(new Point(location), tile);
   }
 }

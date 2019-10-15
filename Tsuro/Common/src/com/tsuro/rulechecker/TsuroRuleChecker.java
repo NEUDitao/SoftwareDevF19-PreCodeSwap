@@ -2,9 +2,9 @@ package com.tsuro.rulechecker;
 
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.IBoard;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.board.TsuroStatus;
-import com.tsuro.tile.EmptyTile;
+import com.tsuro.tile.EmptySquare;
 import com.tsuro.tile.ITile;
 import java.util.Collection;
 import java.util.List;
@@ -13,12 +13,12 @@ import java.util.stream.Stream;
 /**
  * Represents a set of rules for a game of Tsuro where players cannot commit suicide unless it's
  * their only option, players cannot enter infinite loops, and initial placements must be bordered
- * by {@link EmptyTile}s.
+ * by {@link EmptySquare}s.
  */
 public class TsuroRuleChecker implements IRuleChecker {
 
   @Override
-  public boolean isValidInitialMove(IBoard board, ITile tile, IToken player, BoardLocation loc,
+  public boolean isValidInitialMove(IBoard board, ITile tile, Token player, BoardLocation loc,
       Collection<ITile> playerTiles) {
 
     if (!playerTiles.contains(tile)) {
@@ -42,7 +42,7 @@ public class TsuroRuleChecker implements IRuleChecker {
   }
 
   @Override
-  public boolean isValidIntermediateMove(IBoard board, ITile tile, IToken player,
+  public boolean isValidIntermediateMove(IBoard board, ITile tile, Token player,
       Collection<ITile> playerTiles) {
 
     if (!playerTiles.contains(tile)) {
@@ -72,7 +72,7 @@ public class TsuroRuleChecker implements IRuleChecker {
   /**
    * Determines if all of the player's moves result in suicide on a given {@link IBoard}.
    */
-  private boolean allRoadsLeadToSuicide(IBoard board, IToken player,
+  private boolean allRoadsLeadToSuicide(IBoard board, Token player,
       Collection<ITile> playerTiles) {
 
     return possibleBoardFromTile(board, player, playerTiles)
@@ -85,7 +85,7 @@ public class TsuroRuleChecker implements IRuleChecker {
    * Creates a {@link Stream} of Boards that gives all boards with placements from all rotations of
    * the given {@link ITile}s
    */
-  private static Stream<IBoard> possibleBoardFromTile(IBoard board, IToken token,
+  private static Stream<IBoard> possibleBoardFromTile(IBoard board, Token token,
       Collection<ITile> tiles) {
 
     Stream.Builder<IBoard> builder = Stream.builder();

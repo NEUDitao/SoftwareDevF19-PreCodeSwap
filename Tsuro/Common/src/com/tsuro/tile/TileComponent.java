@@ -32,7 +32,7 @@ public class TileComponent extends JComponent {
   /**
    * Creates a TileComponent that will render the given tile.
    */
-  TileComponent(ITile tile) {
+  public TileComponent(ITile tile) {
     this(tile, 3);
   }
 
@@ -40,9 +40,13 @@ public class TileComponent extends JComponent {
    * Paints the tile.
    */
   public void paint(@NonNull Graphics g) {
-    Objects.requireNonNull(g);
 
     Graphics2D g2d = (Graphics2D) g;
+    super.paint(g);
+
+    if (this.tile.isEmpty()) {
+      return;
+    }
 
     Set<QuadCurve2D> curves = new HashSet<>();
     final int W = this.getWidth();
@@ -62,8 +66,6 @@ public class TileComponent extends JComponent {
       g2d.draw(c);
       i += 1;
     }
-
-    super.paint(g);
 
   }
 }

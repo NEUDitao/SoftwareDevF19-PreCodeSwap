@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * Represents an Empty Tile. Has nothing. Nada. Zilch.
  */
-public class EmptyTile implements ITile {
+public class EmptySquare implements ITile {
 
   @Override
   public ITile rotate() {

@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.tsuro.TsuroTestHelper;
-import com.tsuro.tile.EmptyTile;
+import com.tsuro.tile.EmptySquare;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
-import com.tsuro.tile.ITile;
 import com.tsuro.tile.TsuroTile;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -204,7 +204,7 @@ class TsuroBoardTest {
   }
 
   void verifyB1NoChange() {
-    assertEquals(new EmptyTile(), b1.getTileAt(1, 0));
+    assertEquals(new EmptySquare(), b1.getTileAt(1, 0));
     assertEquals(new BoardLocation(Location.EASTNORTH, 0, 0), b1.getLocationOf(BLACK_TOKEN));
     assertEquals(new BoardLocation(Location.WESTNORTH, 2, 0), b1.getLocationOf(WHITE_TOKEN));
   }
@@ -231,7 +231,7 @@ class TsuroBoardTest {
   @Test
   void kickPlayer() {
     b1 = b1.kickPlayer(BLACK_TOKEN);
-    Set<IToken> expected = new HashSet<>(Arrays
+    Set<Token> expected = new HashSet<>(Arrays
         .asList(WHITE_TOKEN, RED_TOKEN));
 
     assertEquals(expected, b1.getAllTokens());
@@ -241,7 +241,7 @@ class TsuroBoardTest {
   void getTileAt() {
     assertEquals(loopy, b1.getTileAt(9, 9));
     assertThrows(IndexOutOfBoundsException.class, () -> b1.getTileAt(10, 9));
-    assertEquals(new EmptyTile(), b1.getTileAt(4, 4));
+    assertEquals(new EmptySquare(), b1.getTileAt(4, 4));
   }
 
   @Test
@@ -254,7 +254,7 @@ class TsuroBoardTest {
 
   @Test
   void getAllTokens() {
-    Set<IToken> expected = new HashSet<>(Arrays
+    Set<Token> expected = new HashSet<>(Arrays
         .asList(BLACK_TOKEN, WHITE_TOKEN,
             RED_TOKEN));
     assertEquals(expected, b1.getAllTokens());
@@ -280,7 +280,7 @@ class TsuroBoardTest {
       }
     }
 
-    for (IToken c : b1.getAllTokens()) {
+    for (Token c : b1.getAllTokens()) {
       assertEquals(b1.getLocationOf(c), clone.getLocationOf(c));
     }
   }
@@ -288,7 +288,7 @@ class TsuroBoardTest {
   @Test
   void testBoardImmutable() {
     b1.placeTileOnBehalfOfPlayer(loopy, WHITE_TOKEN);
-    assertEquals(new EmptyTile(), b1.getTileAt(1, 0));
+    assertEquals(new EmptySquare(), b1.getTileAt(1, 0));
   }
 
   @Test

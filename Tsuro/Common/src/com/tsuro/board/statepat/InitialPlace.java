@@ -1,8 +1,7 @@
 package com.tsuro.board.statepat;
 
 import com.tsuro.board.BoardLocation;
-import com.tsuro.board.ColoredIToken;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import java.awt.Point;
 import java.util.Map;
@@ -18,14 +17,14 @@ public class InitialPlace implements IStatePat {
   @NonNull
   public final ITile tile;
   @NonNull
-  public final ColoredIToken token;
+  public final Token token;
   @NonNull
   public final BoardLocation boardLocation;
 
 
   @Override
   public void addToIntermediatePlacementMaps(Map<Point, ITile> tiles,
-      Map<IToken, BoardLocation> playerLocs) {
+      Map<Token, BoardLocation> playerLocs) {
     tiles.put(new Point(boardLocation.x, boardLocation.y), this.tile);
     playerLocs.put(token, this.boardLocation);
   }

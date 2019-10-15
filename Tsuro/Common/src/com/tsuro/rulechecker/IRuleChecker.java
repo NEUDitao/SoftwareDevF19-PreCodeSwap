@@ -2,7 +2,7 @@ package com.tsuro.rulechecker;
 
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.IBoard;
-import com.tsuro.board.IToken;
+import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import java.util.Collection;
 import lombok.NonNull;
@@ -18,7 +18,7 @@ public interface IRuleChecker {
    * Determines if an initial move by the player with the given tile at the loc on the {@link
    * IBoard} is valid with the given player's hand being playerTiles.
    */
-  boolean isValidInitialMove(@NonNull IBoard board, @NonNull ITile tile, @NonNull IToken player,
+  boolean isValidInitialMove(@NonNull IBoard board, @NonNull ITile tile, @NonNull Token player,
       @NonNull BoardLocation loc,
       @NonNull Collection<ITile> playerTiles);
 
@@ -27,7 +27,7 @@ public interface IRuleChecker {
    * player's hand being playerTiles.
    */
   boolean isValidIntermediateMove(@NonNull IBoard board, @NonNull ITile tile,
-      @NonNull IToken player,
+      @NonNull Token player,
       @NonNull Collection<ITile> playerTiles);
 
 }
