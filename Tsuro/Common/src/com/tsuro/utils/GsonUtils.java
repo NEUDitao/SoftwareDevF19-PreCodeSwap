@@ -13,8 +13,14 @@ import com.tsuro.observer.TurnPatDeserializer;
 import com.tsuro.tile.ITile;
 import com.tsuro.tile.tiletypes.TileTypes;
 
+/**
+ * Contains utility methods for {@link Gson} serializers for the Tsuro project.
+ */
 public class GsonUtils {
 
+  /**
+   * Registers all type adapters for Json input used in Tsuro.
+   */
   public static Gson getTsuroGson() {
     GsonBuilder gb = new GsonBuilder();
     TileTypes allTypes = TileTypes.createTileTypes();

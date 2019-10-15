@@ -23,8 +23,10 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import lombok.NonNull;
 
-
-class PlayerObserver implements ObserverInterface<PlayerState> {
+/**
+ * A Graphical {@link IObserver} that watches a Player and renders the move they perform.
+ */
+class PlayerObserver implements IObserver<PlayerState> {
 
 
   @NonNull
@@ -32,6 +34,10 @@ class PlayerObserver implements ObserverInterface<PlayerState> {
   @NonNull
   private final BoardPanel panel;
 
+  /**
+   * Instantiates defaults for a {@link JFrame} and {@link BoardPanel} for rendering the state of
+   * the game that this Player is acting on
+   */
   public PlayerObserver() {
     this.frame = new JFrame();
     this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -57,8 +63,17 @@ class PlayerObserver implements ObserverInterface<PlayerState> {
 
 }
 
+/**
+ * A class for running a graphical {@link PlayerObserver}.
+ */
 class RObserver {
 
+  /**
+   * Takes an ip address and port to read Json input specified by the experimentation task at
+   * https://ccs.neu.edu/home/matthias/4500-f19/5.html#%28tech._turn._pat%29
+   *
+   * @throws IOException If the Socket fails to connect to the IP and port.
+   */
   public static void main(String[] args) throws IOException {
 
     doStuff(System.in);
@@ -74,6 +89,9 @@ class RObserver {
     doStuff(s.getInputStream());*/
   }
 
+  /**
+   * Reads the given input stream and creates a player observer based off the move.
+   */
   static void doStuff(InputStream inputStream) {
     JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(inputStream));
     Gson g = getTsuroGson();

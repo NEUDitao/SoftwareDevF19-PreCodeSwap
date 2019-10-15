@@ -6,12 +6,18 @@ import javax.swing.JComponent;
 import javax.swing.plaf.LayerUI;
 import lombok.NonNull;
 
+/**
+ * A {@link LayerUI} for {@link TileComponent}s, where this Layer draws the token on a Tile.
+ */
 public class TokenLayer extends LayerUI<JComponent> {
 
   private final Location loc;
   private final Token token;
   private final double RADIUS = .1;
 
+  /**
+   * Normal constructor that calls super() for convention.
+   */
   public TokenLayer(@NonNull Token token, @NonNull Location loc) {
     super();
     this.token = token;

@@ -10,6 +10,10 @@ import com.tsuro.tile.ITile;
 import java.lang.reflect.Type;
 import lombok.NonNull;
 
+/**
+ * Deserializes a turn-pat as defined at https://ccs.neu.edu/home/matthias/4500-f19/5.html#%28tech._turn._pat%29
+ * into a {@link TurnPat}.
+ */
 public class TurnPatDeserializer implements JsonDeserializer<TurnPat> {
 
   @Override

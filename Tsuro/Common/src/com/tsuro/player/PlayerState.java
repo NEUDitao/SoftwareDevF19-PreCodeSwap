@@ -8,6 +8,10 @@ import java.util.Collection;
 import java.util.Collections;
 import lombok.NonNull;
 
+/**
+ * Represents a future Player's Action, the hand they were dealt, the {@link Token} that represents
+ * them, and the {@link IBoard} they're acting on.
+ */
 public class PlayerState {
 
   @NonNull
@@ -19,6 +23,10 @@ public class PlayerState {
   @NonNull
   public final IBoard board;
 
+  /**
+   * Constructor for PlayerState that instantiates all parameters. An unmodifiable version of hand
+   * is created for internal use.
+   */
   public PlayerState(@NonNull IAction action, @NonNull Collection<ITile> hand, @NonNull Token token,
       @NonNull IBoard board) {
     this.action = action;

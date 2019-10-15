@@ -11,12 +11,21 @@ import javax.swing.JLayer;
 import javax.swing.JPanel;
 import lombok.NonNull;
 
+/**
+ * A {@link JPanel} that renders an {@link IBoard}.
+ */
 public class BoardPanel extends JPanel {
 
+  /**
+   * Constructor calls super for {@link JPanel} convention.
+   */
   public BoardPanel() {
     super(new GridBagLayout());
   }
 
+  /**
+   * Draws the given {@link IBoard}
+   */
   public void drawBoard(@NonNull IBoard board) {
 
     this.removeAll();
@@ -24,6 +33,7 @@ public class BoardPanel extends JPanel {
     for (int x = 0; x < board.getSize().width; x++) {
       for (int y = 0; y < board.getSize().height; y++) {
 
+        // Draws individual tiles
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = x;
         c.gridy = y;

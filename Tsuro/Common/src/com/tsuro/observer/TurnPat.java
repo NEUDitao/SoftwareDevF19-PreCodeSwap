@@ -5,6 +5,10 @@ import com.tsuro.tile.ITile;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
+/**
+ * Represents a https://ccs.neu.edu/home/matthias/4500-f19/5.html#%28tech._turn._pat%29 as a Java
+ * Object.
+ */
 @AllArgsConstructor
 public class TurnPat {
 
