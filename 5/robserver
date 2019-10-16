@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+java -jar ../Tsuro/Common/out/artifacts/Robserver_jar/Robserver.jar $1 $2
