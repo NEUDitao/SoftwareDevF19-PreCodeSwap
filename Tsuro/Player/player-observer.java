@@ -11,15 +11,22 @@ import com.tsuro.board.IBoard;
 import com.tsuro.board.XBoard;
 import com.tsuro.board.statepat.IStatePat;
 import com.tsuro.observer.TurnPat;
+import com.tsuro.player.HandPanel;
 import com.tsuro.player.PlayerState;
 import com.tsuro.rulechecker.HackerIdealRuleChecker;
+import com.tsuro.utils.RenderUtils;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import lombok.NonNull;
 
@@ -33,6 +40,10 @@ class PlayerObserver implements IObserver<PlayerState> {
   private final JFrame frame;
   @NonNull
   private final BoardPanel panel;
+  @NonNull
+  private final HandPanel handPanel;
+  @NonNull
+  private final JPanel overallPanel;
 
   /**
    * Instantiates defaults for a {@link JFrame} and {@link BoardPanel} for rendering the state of
@@ -41,8 +52,18 @@ class PlayerObserver implements IObserver<PlayerState> {
   public PlayerObserver() {
     this.frame = new JFrame();
     this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    overallPanel = new JPanel(new GridBagLayout());
+    frame.add(overallPanel);
+
+    GridBagConstraints boardConstraints = RenderUtils.createDefaultGBC(0, 0);
+    boardConstraints.weightx = 2;
     panel = new BoardPanel();
-    frame.add(panel);
+    overallPanel.add(panel, boardConstraints);
+
+    GridBagConstraints handConstraints = RenderUtils.createDefaultGBC(1, 0);
+    handPanel = new HandPanel();
+    overallPanel.add(handPanel, handConstraints);
   }
 
   @Override
@@ -53,12 +74,36 @@ class PlayerObserver implements IObserver<PlayerState> {
     Optional<IBoard> newBoard = actionPat
         .doActionIfValid(new HackerIdealRuleChecker(), state.board, state.token, state.hand);
 
-    panel.drawBoard(
-        newBoard.orElseThrow(() -> new IllegalStateException("Board has invalid rules")));
+    IBoard theNewBoard = newBoard
+        .orElseThrow(() -> new IllegalStateException("Board has invalid rules"));
+
+    List<Point> highlightedPoints = getDifferences(state.board, theNewBoard);
+
+    panel.drawBoard(theNewBoard, highlightedPoints);
+
+    handPanel.paintHand(state.hand);
 
     frame.pack();
-    frame.setSize(1000, 1000);
+    frame.setSize(1500, 1000);
     frame.setVisible(true);
+  }
+
+  /**
+   * Returns a List of the Points that have differences between the old and new board.
+   */
+  private List<Point> getDifferences(IBoard oldBoard, IBoard theNewBoard) {
+
+    List<Point> highlightedPoints = new ArrayList<>();
+
+    for (int x = 0; x < theNewBoard.getSize().width; x++) {
+      for (int y = 0; y < theNewBoard.getSize().height; y++) {
+        if (!oldBoard.getTileAt(x, y).equals(theNewBoard.getTileAt(x, y))) {
+          highlightedPoints.add(new Point(x, y));
+        }
+      }
+    }
+
+    return highlightedPoints;
   }
 
 }

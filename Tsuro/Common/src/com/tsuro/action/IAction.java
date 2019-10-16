@@ -4,6 +4,7 @@ import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
+import java.awt.Point;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.NonNull;
@@ -24,4 +25,9 @@ public interface IAction {
    * Returns true if this Action represents an initial move.
    */
   boolean isInitialMove();
+
+  /**
+   * Gets the {@link Point} on the Board that this takes place on, if there is a {@link Point}.
+   */
+  Optional<Point> getLocationOnBoard();
 }

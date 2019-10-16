@@ -5,6 +5,7 @@ import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
+import java.awt.Point;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,11 @@ public class InitialAction implements IAction {
   @Override
   public boolean isInitialMove() {
     return true;
+  }
+
+  @Override
+  public Optional<Point> getLocationOnBoard() {
+    return Optional.of(new Point(loc.x, loc.y));
   }
 
 }

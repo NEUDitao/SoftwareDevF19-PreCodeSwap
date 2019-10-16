@@ -2,9 +2,13 @@ package com.tsuro.board;
 
 import com.tsuro.tile.TileComponent;
 import com.tsuro.tile.TokenLayer;
+import com.tsuro.utils.RenderUtils;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLayer;
@@ -24,9 +28,16 @@ public class BoardPanel extends JPanel {
   }
 
   /**
-   * Draws the given {@link IBoard}
+   * Draws the given {@link IBoard}.
    */
   public void drawBoard(@NonNull IBoard board) {
+    this.drawBoard(board, new ArrayList<>());
+  }
+
+  /**
+   * Draws the given {@link IBoard} where all points given are highlighted red.
+   */
+  public void drawBoard(@NonNull IBoard board, @NonNull List<Point> pointsToHighlight) {
 
     this.removeAll();
 
@@ -34,15 +45,14 @@ public class BoardPanel extends JPanel {
       for (int y = 0; y < board.getSize().height; y++) {
 
         // Draws individual tiles
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = x;
-        c.gridy = y;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.fill = GridBagConstraints.BOTH;
+        GridBagConstraints c = RenderUtils.createDefaultGBC(x, y);
 
         JComponent comp = new TileComponent(board.getTileAt(x, y));
-        comp.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        if (pointsToHighlight.contains(new Point(x, y))) {
+          comp.setBorder(BorderFactory.createLineBorder(Color.RED, 4));
+        } else {
+          comp.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        }
 
         for (Token t : board.getAllTokens()) {
 
