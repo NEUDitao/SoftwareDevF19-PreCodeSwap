@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a Tile Index as a Java Object.
@@ -24,7 +23,7 @@ public class TileIndex implements Comparable<TileIndex> {
   public int tileIndex;
 
   @Override
-  public int compareTo(@NotNull TileIndex tileIndex) {
+  public int compareTo(@NonNull TileIndex tileIndex) {
     return Integer.compare(this.tileIndex, tileIndex.tileIndex);
   }
 

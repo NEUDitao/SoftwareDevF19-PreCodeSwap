@@ -123,7 +123,6 @@ class RObserver {
    */
   public static void main(String[] args) throws IOException {
 
-    doStuff(System.in);
     if (args.length != 2) {
       throw new IllegalArgumentException("Proper usage is ./robserver ip-address port");
     }
