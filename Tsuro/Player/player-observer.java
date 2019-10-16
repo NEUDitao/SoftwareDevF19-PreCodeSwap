@@ -21,6 +21,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Optional;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import lombok.Cleanup;
 import lombok.NonNull;
 
 /**
@@ -122,7 +124,6 @@ class RObserver {
   public static void main(String[] args) throws IOException {
 
     doStuff(System.in);
-    /*
     if (args.length != 2) {
       throw new IllegalArgumentException("Proper usage is ./robserver ip-address port");
     }
@@ -131,7 +132,7 @@ class RObserver {
 
     @Cleanup Socket s = new Socket(ipAddress, Integer.parseInt(port));
 
-    doStuff(s.getInputStream());*/
+    doStuff(s.getInputStream());
   }
 
   /**
