@@ -7,7 +7,7 @@ An Administrator is a:
   - `List<Set<Player>> startTournament(List<Player>)`
     - This method will start a tournament of Tsuro using the `List<Player>` given, where the list is sorted by the ages of the Players, **ascending**. The `List<Set<Player>>` it returns is the rankings of the players, where earlier sets represent higher placings, and the sets contain the players who achieved that placing.
 
-**Interpretation**: An administrator starts a tournament of Tsuro, taking players and putting them in different games with referees, and eventually determines the rankings of the `Player`s.
+**Interpretation**: An administrator starts a tournament of Tsuro, taking players and putting them in different games with referees, and eventually determines the rankings of the `Player`s. The Administrator runs the tournament by creating games with random permutations of players, then ranking players based on performance.
 
 ```
 +-------+                                       +---------+                   +---------+ +---------+
