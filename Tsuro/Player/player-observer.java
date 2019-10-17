@@ -21,6 +21,8 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,13 +133,17 @@ class RObserver {
 
     @Cleanup Socket s = new Socket(ipAddress, Integer.parseInt(port));
 
-    doStuff(s.getInputStream());
+    doStuff(s.getOutputStream(), s.getInputStream());
   }
 
   /**
    * Reads the given input stream and creates a player observer based off the move.
    */
-  static void doStuff(InputStream inputStream) {
+  static void doStuff(OutputStream outputStream, InputStream inputStream) {
+    PrintWriter printWriter = new PrintWriter(outputStream);
+    printWriter.println("Eddiey and Notorious Daniel");
+    printWriter.flush();
+
     JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(inputStream));
     Gson g = getTsuroGson();
 
