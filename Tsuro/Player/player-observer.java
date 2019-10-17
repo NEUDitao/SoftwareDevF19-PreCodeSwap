@@ -141,7 +141,7 @@ class RObserver {
    */
   static void doStuff(OutputStream outputStream, InputStream inputStream) {
     PrintWriter printWriter = new PrintWriter(outputStream);
-    printWriter.println("Eddiey and Notorious Daniel");
+    printWriter.println("\"Eddiey and Notorious Daniel\"");
     printWriter.flush();
 
     JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(inputStream));
