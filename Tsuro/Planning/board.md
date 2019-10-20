@@ -106,14 +106,14 @@ Additionally, there are two static functions that produce Boards:
 	
 Both will throw exceptions if the boards given aren't valid. 
 
-# Action
+# IAction
 
-An Action represents an action to be taken on a Board, and is implemented by:
+An IAction represents an action to be taken on a Board, and is implemented by:
   - `new InitialAction(Tile, Token, BoardLocation)`
-    - and represents an Action during the initial phase of the game where players are
+    - and represents an IAction during the initial phase of the game where players are
       placing a on a Board and their Tokens.
   - `new IntermediateAction(Tile, Token)`
-    - and represents an Action during the course of the game, after the initial placements are done
+    - and represents an IAction during the course of the game, after the initial placements are done
   
   and implements the following methods:
   

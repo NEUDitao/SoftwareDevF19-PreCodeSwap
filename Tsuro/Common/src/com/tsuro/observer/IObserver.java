@@ -1,3 +1,5 @@
+package com.tsuro.observer;
+
 import lombok.NonNull;
 
 /**
@@ -6,7 +8,7 @@ import lombok.NonNull;
  *
  * @param <T> The value class for the update() method to receive.
  */
-interface IObserver<T> {
+public interface IObserver<T> {
 
   /**
    * Updates this based off the state given.

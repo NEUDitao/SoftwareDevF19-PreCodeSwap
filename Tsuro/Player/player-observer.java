@@ -10,6 +10,7 @@ import com.tsuro.board.BoardPanel;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.XBoard;
 import com.tsuro.board.statepat.IStatePat;
+import com.tsuro.observer.IObserver;
 import com.tsuro.observer.TurnPat;
 import com.tsuro.player.HandPanel;
 import com.tsuro.player.PlayerState;
