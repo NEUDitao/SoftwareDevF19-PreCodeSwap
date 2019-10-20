@@ -7,7 +7,7 @@ import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
 import java.util.List;
 
-public interface IStrategy {
+public interface IPlayerStrategy {
 
   IAction strategizeInitMove(List<ITile> hand, Token avatar, IBoard board, IRuleChecker checker);
 

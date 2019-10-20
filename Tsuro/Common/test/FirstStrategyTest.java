@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 class FirstStrategyTest {
 
-  FirstStrategy strat1 = new FirstStrategy();
+  FirstPlayerStrategy strat1 = new FirstPlayerStrategy();
 
   @BeforeEach
   void setUp() {

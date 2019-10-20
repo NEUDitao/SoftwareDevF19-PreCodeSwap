@@ -2,13 +2,13 @@ import com.tsuro.action.IAction;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.rulechecker.IRuleChecker;
-import com.tsuro.strategy.IStrategy;
+import com.tsuro.strategy.IPlayerStrategy;
 import com.tsuro.tile.ITile;
 import java.util.List;
 
 class Player implements IPlayer {
 
-  public Player(IStrategy s) {
+  public Player(IPlayerStrategy s) {
 
   }
 

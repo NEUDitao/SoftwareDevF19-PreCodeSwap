@@ -30,5 +30,6 @@
     <orderEntry type="library" name="ShellShare" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
     <orderEntry type="library" name="org.projectlombok:lombok:1.18.10" level="project" />
+    <orderEntry type="library" name="com.google.guava:guava:27.1-jre" level="project" />
   </component>
 </module>
