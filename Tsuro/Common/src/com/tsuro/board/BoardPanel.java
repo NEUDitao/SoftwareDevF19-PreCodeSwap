@@ -54,16 +54,21 @@ public class BoardPanel extends JPanel {
           comp.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         }
 
+        int index = 0;
+
         for (Token t : board.getAllTokens()) {
 
           BoardLocation loc = board.getLocationOf(t);
 
           if (loc.x == x && loc.y == y) {
-            comp = new JLayer<>(comp, new TokenLayer(t, loc.location));
+            comp = new JLayer<>(comp, new TokenLayer(t, loc.location, index));
           }
+
+          index++;
         }
 
         this.add(comp, c);
+
 
       }
     }

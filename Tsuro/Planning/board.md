@@ -70,7 +70,6 @@ A Board is an interface, implemented by:
   - `new TsuroBoard(int, int)`
   - `new TsuroBoard(Board)`
   - `new TsuroBoard()`
-  - `new ReadOnlyBoard(Board)`
 
 **Interpretation:** A TsuroBoard is a rectangular board based on either the dimensions given, or the board given. It contains x by y Tiles within, where x and y are the dimensions of the Board's width and height. A TsuroBoard can be acted on. A ReadOnlyBoard can only be queried. 
 

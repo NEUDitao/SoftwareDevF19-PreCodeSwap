@@ -16,12 +16,17 @@ import com.tsuro.player.HandPanel;
 import com.tsuro.player.PlayerState;
 import com.tsuro.rulechecker.HackerIdealRuleChecker;
 import com.tsuro.utils.RenderUtils;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import lombok.Cleanup;
 import lombok.NonNull;
+import net.danielmelcer.shellshare.ImageToShellKt;
 
 /**
  * A Graphical {@link IObserver} that watches a Player and renders the move they perform.
@@ -87,7 +93,26 @@ class PlayerObserver implements IObserver<PlayerState> {
     handPanel.paintHand(state.hand);
 
     frame.pack();
-    frame.setSize(1500, 1000);
+    frame.setSize(1900, 1000);
+
+    /*
+    Color p = panel.getBackground();
+
+    panel.setBackground(Color.BLACK);
+    handPanel.setBackground(Color.BLACK);
+    overallPanel.setBackground(Color.BLACK);
+
+    BufferedImage buff = new BufferedImage(1900, 1000, BufferedImage.TYPE_INT_RGB);
+
+    overallPanel.paint(buff.getGraphics());
+    System.out.print(ImageToShellKt.imageToShell(buff, new Dimension(279, 70), new Point(0,0)));
+
+    panel.setBackground(p);
+    handPanel.setBackground(p);
+    overallPanel.setBackground(p);
+
+     */
+
     frame.setVisible(true);
   }
 
@@ -132,13 +157,17 @@ class RObserver {
 
     @Cleanup Socket s = new Socket(ipAddress, Integer.parseInt(port));
 
-    doStuff(s.getInputStream());
+    doStuff(s.getOutputStream(), s.getInputStream());
   }
 
   /**
    * Reads the given input stream and creates a player observer based off the move.
    */
-  static void doStuff(InputStream inputStream) {
+  static void doStuff(OutputStream outputStream, InputStream inputStream) {
+    PrintWriter printWriter = new PrintWriter(outputStream);
+    printWriter.println("\"Eddiey and Notorious Daniel\"");
+    printWriter.flush();
+
     JsonStreamParser jsp = new JsonStreamParser(new InputStreamReader(inputStream));
     Gson g = getTsuroGson();
 
