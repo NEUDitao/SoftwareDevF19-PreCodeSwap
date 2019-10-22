@@ -12,7 +12,7 @@ public class RenderUtils {
   /**
    * Creates a GridBagConstraints with gridx and gridy of x and y.
    */
-  public GridBagConstraints createDefaultGBC(int x, int y) {
+  public static GridBagConstraints createDefaultGBC(int x, int y) {
     GridBagConstraints c = new GridBagConstraints();
     c.gridx = x;
     c.gridy = y;

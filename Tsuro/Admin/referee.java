@@ -9,6 +9,7 @@ import com.tsuro.board.TsuroStatus;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
 import com.tsuro.utils.QuintFunc;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,8 +21,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import lombok.NonNull;
 
+/**
+ * A referee that plays a game of Tsuro and deals with playing rounds of a game and abnormal conditions as described
+ * at https://ccs.neu.edu/home/matthias/4500-f19/6.html
+ */
 class TileStrategyTsuroReferee {
 
   @NonNull
@@ -35,11 +41,13 @@ class TileStrategyTsuroReferee {
 
   @NonNull
   private BiMap<Token, IPlayer> tokenPlayerMap;
-  //TODO
 
+  /**
+   * Creates a Referee that will adhere to the given rules, and plays a game with the given players, using the given {@link Iterator<ITile>} to determine which tiles to hand out next
+   */
   public TileStrategyTsuroReferee(@NonNull IRuleChecker rules,
-      @NonNull List<IPlayer> players,
-      @NonNull Iterator<ITile> tileStrategy) {
+                                  @NonNull List<IPlayer> players,
+                                  @NonNull Iterator<ITile> tileStrategy) {
     if (players.size() > 5 || players.size() < 3) {
       throw new IllegalArgumentException("Number of players must be between 3 and 5");
     }
@@ -50,6 +58,12 @@ class TileStrategyTsuroReferee {
     this.eliminatedPlayers = new ArrayList<>();
   }
 
+  /**
+   * Starts a game of Tsuro.
+   *
+   * @return a List<Set<IPlayer>> representing the placements of players. Each {@link Set<IPlayer>} represents an
+   * ordinal in placement, and the index in the list is the ordinal achieved.
+   */
   List<Set<IPlayer>> startGame() {
     IBoard board = new TsuroBoard();
 
@@ -64,7 +78,7 @@ class TileStrategyTsuroReferee {
     // TODO: less fishy?
     if (board.getAllTokens().size() == 1) {
       eliminatedPlayers
-          .add(Collections.singleton(tokenPlayerMap.get(board.getAllTokens().iterator().next())));
+              .add(Collections.singleton(tokenPlayerMap.get(board.getAllTokens().iterator().next())));
     }
 
     Collections.reverse(eliminatedPlayers);
@@ -72,8 +86,16 @@ class TileStrategyTsuroReferee {
 
   }
 
+  /**
+   * Plays a round of Tsuro.
+   *
+   * @param board    the board for the play to be done on
+   * @param numTiles the number of tiles to be handed out this round
+   * @param doAction the board created from the action that a player will take
+   * @return the {@link IBoard} at the end of the round of Tsuro
+   */
   private IBoard doRound(IBoard board, int numTiles,
-      QuintFunc<IPlayer, IRuleChecker, IBoard, Token, List<ITile>, IBoard> createAction) {
+                         QuintFunc<IPlayer, IRuleChecker, IBoard, Token, List<ITile>, IBoard> doAction) {
 
     Set<IPlayer> elimThisRound = new HashSet<>();
 
@@ -83,7 +105,7 @@ class TileStrategyTsuroReferee {
         List<ITile> hand = getNTiles(numTiles);
         Token t = tokenPlayerMap.inverse().get(p);
 
-        IBoard newMove = createAction.apply(p, rules, board, t, hand);
+        IBoard newMove = doAction.apply(p, rules, board, t, hand);
 
         Set<Token> boardAllTokens = board.getAllTokens();
         Set<IPlayer> elimThisTurn = new HashSet<>(players);
@@ -103,6 +125,12 @@ class TileStrategyTsuroReferee {
     return board;
   }
 
+  /**
+   * Does the first round of Tsuro, where players are placing down their first tiles.
+   *
+   * @param board the board for the game to be played on
+   * @return the board after the round
+   */
   private IBoard makeInitialMoves(IBoard board) {
     return doRound(board, 3, (player, rules, brd, t, hand) -> {
       IAction pAction = player.makeInitMove(hand, t, brd, rules);
@@ -122,6 +150,12 @@ class TileStrategyTsuroReferee {
     });
   }
 
+  /**
+   * Does any intermediate round of Tsuro, where players are working on eliminating each other.
+   *
+   * @param board The board for the round to be played on.
+   * @return the board at the end of the round
+   */
   private IBoard intermediateRound(IBoard board) {
     return doRound(board, 2, (player, rules, brd, t, hand) -> {
       IAction pAction = player.makeIntermediateMove(hand, t, brd, rules);
@@ -151,20 +185,29 @@ class TileStrategyTsuroReferee {
     });
   }
 
+  /**
+   * Gets the next i tiles for the referee's strategy as a List
+   */
   private List<ITile> getNTiles(int i) {
     return IntStream.range(0, i).mapToObj((a) -> tileStrategy.next()).collect(Collectors.toList());
   }
 
+  /**
+   * Creates a BiMap of assigned Tokens -> the Players
+   */
   private BiMap<Token, IPlayer> getTokenPlayerMap() {
     List<Token> tokens = Arrays.stream(ColorString.values())
-        .map(Token::new)
-        .collect(Collectors.toList());
+            .map(Token::new)
+            .collect(Collectors.toList());
 
     return IntStream.range(0, players.size())
-        .collect(HashBiMap::create, (bm, t) -> bm.put(tokens.get(t), players.get(t)),
-            BiMap::putAll);
+            .collect(HashBiMap::create, (bm, t) -> bm.put(tokens.get(t), players.get(t)),
+                    BiMap::putAll);
   }
 
+  /**
+   * Determines if the given {@link IPlayer} has already been eliminated or not.
+   */
   private boolean isEliminated(IPlayer p) {
     return eliminatedPlayers.stream().anyMatch(a -> a.contains(p));
   }
