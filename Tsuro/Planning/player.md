@@ -11,8 +11,6 @@ A Player has the following methods:
     - adds an Observer on the Player that expects a PlayerState. Returns the new Player w/ the Observer. **DOES NOT MODIFY ORIGINAL**
   - `Player removeObserver(Observer<PlayerState>)`
     - removes the Observer given (if it exists). Returns the new Player w/o the Observer. **DOES NOT MODIFY ORIGINAL**
-  - `void notifyObserver(PlayerState)`
-    - Takes a PlayerState and notifies all Observers on the Player with it.
 
  A Player represents some entity in a game of Tsuro. Its methods are only called by whoever is facilitating the game, and is fed immutable representations of the information it needs to know. 
 
