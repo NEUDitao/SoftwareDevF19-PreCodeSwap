@@ -10,9 +10,6 @@ A `TournamentState` holds:
   - a `List<Set<IPlayer>>`, which represents the overall standings of a tournament. Details are left up to implementations of tournaments. Can be left empty.
 
 
-
-
-
 ===
 ### Definitions
 
