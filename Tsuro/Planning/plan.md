@@ -16,7 +16,7 @@ Additionally, it receives updates when other players move, but cannot act on the
 
 The player knows the current state of the board, what actions are available to play, and if the move it posits
 is valid or not. The GameManager knows who each of the players are, and has the canonical order of players and
-game board. The GameManager, when calling on a Player to move, will provide a callback function. This callback
+game board. The GameManager, when calling on a StrategyPlayer to move, will provide a callback function. This callback
 function accepts a move, and checks the validity of the move. If the move is valid and legal, the manager will
 apply the move to the game board. Otherwise, it returns an error.
 
@@ -64,13 +64,13 @@ top of the tile at 1x2 is unconnected.
     - getNextPort returns the path that a given port is connected to, or null if it is unconnected.
     - If the port is at the edge of the board, edgeOfBoard for that port should return true.
 
-- A Player does need need to maintain state about the game. When it is the player's turn, it is fed the relevant info
+- A StrategyPlayer does need need to maintain state about the game. When it is the player's turn, it is fed the relevant info
 in the form of an instance of GameInfo created by the TsuroGameManager. As stated in Part 1, the TsuroGameManager
 will provide a callback function for the player to act on.
    - This callback function will return a MoveResult, which provides information about whether the selected move
      is successful.
 
-- A GameInfo is given to a Player when it is time to move, or to notify a Player when another Player has made a move.
+- A GameInfo is given to a StrategyPlayer when it is time to move, or to notify a StrategyPlayer when another StrategyPlayer has made a move.
    - The GameInfo allows the player to obtain a read-only copy of the current TsuroBoard.
-   - Additionally, the GameInfo lets the Player obtain its token's location, along with the locations of the
+   - Additionally, the GameInfo lets the StrategyPlayer obtain its token's location, along with the locations of the
 other players' tokens.

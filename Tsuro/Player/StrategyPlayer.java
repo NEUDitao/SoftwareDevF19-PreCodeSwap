@@ -15,7 +15,7 @@ import lombok.NonNull;
  * Represents a player for a game of Tsuro. Player strategies can differentiate through dependency
  * injection.
  */
-class Player implements IPlayer {
+class StrategyPlayer implements IPlayer {
 
   @NonNull
   private final IPlayerStrategy strat;
@@ -23,9 +23,9 @@ class Player implements IPlayer {
   private final List<IObserver<PlayerState>> observers = new ArrayList<>();
 
   /**
-   * The {@link IPlayerStrategy} this {@link Player} will use.
+   * The {@link IPlayerStrategy} this {@link StrategyPlayer} will use.
    */
-  public Player(IPlayerStrategy s) {
+  public StrategyPlayer(IPlayerStrategy s) {
     this.strat = s;
   }
 

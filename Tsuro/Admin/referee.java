@@ -1,5 +1,6 @@
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Sets;
 import com.tsuro.action.IAction;
 import com.tsuro.board.ColorString;
 import com.tsuro.board.IBoard;
@@ -102,24 +103,27 @@ class TileStrategyTsuroReferee {
     Set<IPlayer> elimThisRound = new HashSet<>();
 
     for (IPlayer p : players) {
-      if (!isEliminated(p) && !cheaters.contains(p)) {
+      if (!isEliminated(p) && !cheaters.contains(p) && !elimThisRound.contains(p)) {
 
         List<ITile> hand = getNTiles(numTiles);
         Token t = tokenPlayerMap.inverse().get(p);
 
         IBoard newMove = doAction.apply(p, rules, board, t, hand);
 
-        Set<Token> boardAllTokens = board.getAllTokens();
+        Set<Token> tokensPriorToTurn = board.getAllTokens();
+        Set<Token> boardAllTokens = newMove.getAllTokens();
+        Set<Token> eliminatedThisTurn = Sets.difference(tokensPriorToTurn, boardAllTokens);
 
         // Count up all players that were eliminated this turn specifically, not in round, not
         // cheaters, not if eliminated before, and not if in play.
-        Set<IPlayer> elimThisTurn = new HashSet<>(players);
-        elimThisTurn.removeIf(a -> boardAllTokens.contains(tokenPlayerMap.inverse().get(a)));
-        elimThisTurn.removeIf(elimThisRound::contains);
-        elimThisTurn.removeIf(cheaters::contains);
-        elimThisTurn.removeIf(this::isEliminated);
+        Set<IPlayer> elimPlayersThisTurn = eliminatedThisTurn.stream()
+            .map(tokenPlayerMap::get)
+            .filter(pl -> !cheaters.contains(pl))
+            .collect(Collectors.toSet());
 
-        elimThisRound.addAll(elimThisTurn);
+        elimThisRound.addAll(elimPlayersThisTurn);
+
+        board = newMove;
 
       }
     }

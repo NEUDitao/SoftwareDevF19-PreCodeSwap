@@ -20,7 +20,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 
-class PlayerTest {
+class StrategyPlayerTest {
 
   @Test
   void makeInitMove() {
@@ -34,7 +34,7 @@ class PlayerTest {
     when(s1.strategizeInitMove(anyList(), eq(WHITE_TOKEN), eq(board), eq(checker)))
         .thenReturn(action);
 
-    Player p1 = new Player(s1);
+    StrategyPlayer p1 = new StrategyPlayer(s1);
     p1.addObserver(playerStateIObserver);
 
     assertEquals(action,
@@ -63,7 +63,7 @@ class PlayerTest {
     when(s1.strategizeIntermediateMove(anyList(), eq(WHITE_TOKEN), eq(board), eq(checker)))
         .thenReturn(action);
 
-    Player p1 = new Player(s1);
+    StrategyPlayer p1 = new StrategyPlayer(s1);
     p1.addObserver(playerStateIObserver);
 
     assertEquals(action,
@@ -81,11 +81,4 @@ class PlayerTest {
     verifyNoMoreInteractions(playerStateIObserver);
   }
 
-  @Test
-  void addObserver() {
-  }
-
-  @Test
-  void removeObserver() {
-  }
 }

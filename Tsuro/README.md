@@ -58,8 +58,8 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
   ### Admin
   Admin/ contains code for a referee in Tsuro
   
-  ### Player
-  Player/ contains code for a player component in Tsuro
+  ### StrategyPlayer
+  StrategyPlayer/ contains code for a player component in Tsuro
   
   ### .idea
   - .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free
@@ -73,7 +73,7 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
   - An implementation for a Board of a game of Tsuro is now done. Code can be found at Common/src/com/tsuro/board
   - Rulecheckers have been implemented, check them out at Common/src/com/tsuro/rules
   - Observers for players have been implemented, check them out Common/src/com/tsuro/observer
-  - 10/22/19, Referees and Players have been implemented. Referees can be found at Admin/referee.java. Players can be found at Player/player.java.
+  - 10/22/19, Referees and Players have been implemented. Referees can be found at Admin/referee.java. Players can be found at StrategyPlayer/player.java.
 
 ## Tests
 
