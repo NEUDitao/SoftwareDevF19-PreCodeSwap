@@ -11,7 +11,6 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * Represents an {@link IAction} during the initial phase of the game where players are placing
@@ -19,7 +18,6 @@ import lombok.ToString;
  */
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class InitialAction implements IAction {
 
   @NonNull

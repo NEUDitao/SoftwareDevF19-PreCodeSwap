@@ -1,5 +1,8 @@
 package com.tsuro;
 
+import com.tsuro.action.IAction;
+import com.tsuro.action.InitialAction;
+import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.ColorString;
 import com.tsuro.board.IBoard;
@@ -54,6 +57,12 @@ public class TsuroTestHelper {
   public static Map<Token, BoardLocation> m2;
 
   public static IBoard b1;
+
+  public static IAction a1 = new InitialAction(t1, new BoardLocation(Location.EASTNORTH, 0, 0));
+  public static IAction a2 = new InitialAction(t2, new BoardLocation(Location.WESTNORTH, 2, 0));
+  public static IAction a3 = new InitialAction(loopy, new BoardLocation(Location.SOUTHEAST, 1, 0));
+  public static IAction a4 = new InitialAction(loopy, new BoardLocation(Location.NORTHWEST, 9, 9));
+  public static IAction a5 = new IntermediateAction(t1);
 
   public static void setUpBoard() {
 

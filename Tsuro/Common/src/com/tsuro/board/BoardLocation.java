@@ -4,12 +4,14 @@ import com.tsuro.tile.Location;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * A utility class that contains a coordinate and a {@link Location}. Represents a unique position
  * on a {@link IBoard}
  */
 @AllArgsConstructor
+@ToString
 public class BoardLocation {
 
   @NonNull

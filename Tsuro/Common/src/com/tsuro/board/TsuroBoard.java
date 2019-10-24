@@ -17,10 +17,12 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * An implementation of a board for the game of Tsuro
  */
+@ToString
 public class TsuroBoard implements IBoard {
 
   /**
@@ -498,6 +500,5 @@ public class TsuroBoard implements IBoard {
 
     return offSet;
   }
-
 
 }

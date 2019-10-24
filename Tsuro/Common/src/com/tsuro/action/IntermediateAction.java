@@ -10,14 +10,12 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * Represents an Action during the course of a game.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class IntermediateAction implements IAction {
 
   @NonNull
