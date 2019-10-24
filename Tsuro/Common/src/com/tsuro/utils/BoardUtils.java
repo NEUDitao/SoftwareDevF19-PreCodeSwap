@@ -27,7 +27,7 @@ public class BoardUtils {
         for (int x = board.getSize().width - 2; x >= 0; x--) {
             returanble.add(new Point(x, board.getSize().height - 1));
         }
-      for (int y = board.getSize().height - 2; y >= 0; y--) {
+      for (int y = board.getSize().height - 2; y > 0; y--) {
             returanble.add(new Point(0, y));
         }
 
