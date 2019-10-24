@@ -1,0 +1,9 @@
+158 / 140
++5 extra: your test (1-in.json 1-out.json) found 10 student bug(s)
++5 extra: your test (4-in.json 4-out.json) found 9 student bug(s)
++5 extra: your test (3-in.json 3-out.json) found 9 student bug(s)
++5 extra: your test (2-in.json 2-out.json) found 9 student bug(s)
++5 extra: your test (5-in.json 5-out.json) found 8 student bug(s)
++3 extra: good question on piazza: 'What if two things happen at the same time? e.g. red dies, and two other players collide?'
++10 extra: found instructor bug in test runner with bad JSON output
+-20: Code and design inspection. See grade-4-inspection.txt
