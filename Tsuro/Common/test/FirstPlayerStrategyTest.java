@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.tsuro.action.IAction;
 import com.tsuro.action.InitialAction;
+import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.TsuroBoard;
@@ -20,6 +21,7 @@ class FirstPlayerStrategyTest {
 
   @Test
   void strategizeInitMove() {
+
     IBoard theBoard = new TsuroBoard();
     IAction firstAction = new InitialAction(t1, new BoardLocation(Location.EASTNORTH, 1, 0));
     assertEquals(firstAction,
@@ -30,10 +32,13 @@ class FirstPlayerStrategyTest {
         WHITE_TOKEN, Arrays.asList(loopy, t2, t1))
         .get();
 
+    IAction intermediateAction = new IntermediateAction(loopy);
+    assertEquals(intermediateAction,
+        f.strategizeIntermediateMove(Arrays.asList(loopy, t1), WHITE_TOKEN, theBoard,
+            tsuroRuleChecker));
+
+
 
   }
 
-  @Test
-  void strategizeIntermediateMove() {
-  }
 }

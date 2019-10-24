@@ -6,12 +6,16 @@ import com.tsuro.board.Token;
 import com.tsuro.tile.ITile;
 import java.util.Collection;
 import java.util.Collections;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * Represents a future Player's Action, the hand they were dealt, the {@link Token} that represents
  * them, and the {@link IBoard} they're acting on.
  */
+@EqualsAndHashCode
+@ToString
 public class PlayerState {
 
   @NonNull

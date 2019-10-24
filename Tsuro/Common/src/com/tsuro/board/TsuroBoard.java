@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -23,20 +24,31 @@ import lombok.ToString;
  * An implementation of a board for the game of Tsuro
  */
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TsuroBoard implements IBoard {
 
   /**
    * The internal representation of the board
    */
+  @EqualsAndHashCode.Include
   private final ITile[][] board;
 
   /**
    * The locations of all the tokens
    */
+  @EqualsAndHashCode.Include
   private final Map<Token, BoardLocation> tokenLocations;
 
+  /**
+   * All tokens that are looping.
+   */
+  @EqualsAndHashCode.Include
   private final Set<Token> loopingTokens;
 
+  /**
+   * Any abnormal statuses on this board.
+   */
+  @EqualsAndHashCode.Include
   private final List<TsuroStatus> statuses;
 
   /**
