@@ -33,7 +33,7 @@ interface IPlayer {
   void addObserver(IObserver<PlayerState> obs);
 
   /**
-   * Removes the given Observer from thsi Player. Does not do anything if observer is not on the
+   * Removes the given Observer from this Player. Does not do anything if observer is not on the
    * Player.
    */
   void removeObserver(IObserver<PlayerState> obs);

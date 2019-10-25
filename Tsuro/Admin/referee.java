@@ -12,6 +12,7 @@ import com.tsuro.tile.ITile;
 import com.tsuro.utils.QuintFunc;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,11 +25,17 @@ import java.util.stream.IntStream;
 import lombok.NonNull;
 
 /**
- * A referee that plays a game of Tsuro and deals with playing rounds of a game. Abnormal conditions
- * are handled as described in https://ccs.neu.edu/home/matthias/4500-f19/6.html.
+ * A referee that plays a game of Tsuro and deals with playing rounds of a game. Abnormal local conditions
+ * are handled as described in https://ccs.neu.edu/home/matthias/4500-f19/6.html. (as of 10/24/19)
  * <p>
  * An instance of a Referee can only be used once (which is a call to startGame()), since Referees
  * are mutable.
+ * </p>
+ * <p>
+ * Referees also deal with any players that throw any sort of Exception by classifying them as a cheater.
+ * They do not as of yet handle time-outs, we leave that to the distributed phase.
+ * </p>
+ *
  */
 class TileStrategyTsuroReferee {
 
@@ -129,7 +136,15 @@ class TileStrategyTsuroReferee {
         List<ITile> hand = getNTiles(numTiles);
         Token t = tokenPlayerMap.inverse().get(p);
 
-        IBoard newMove = doAction.apply(p, rules, board, t, hand);
+        IBoard newMove = board;
+
+        try {
+          newMove = doAction.apply(p, rules, board, t, hand);
+        } catch (Exception e) {
+          // If the player does something shady and crashes, kick them
+          newMove = newMove.kickPlayer(t);
+          this.cheaters.add(p);
+        }
 
         Set<IPlayer> elimPlayersThisTurn = getEliminatedPlayers(board, newMove);
         elimThisRound.addAll(elimPlayersThisTurn);
@@ -168,23 +183,16 @@ class TileStrategyTsuroReferee {
    * @return the board after the round
    */
   private IBoard makeInitialMoves(IBoard board) {
-    return doRound(board, 3, (player, rules, brd, t, hand) -> {
-      IAction pAction = player.makeInitMove(hand, t, brd, rules);
+    return doRound(board, 3, (player, rules, oldBoard, t, hand) -> {
+      IAction pAction = player.makeInitMove(hand, t, oldBoard, rules);
 
       if (!pAction.isInitialMove()) {
         cheaters.add(player);
-        brd = brd.kickPlayer(t);
-        return brd;
+        oldBoard = oldBoard.kickPlayer(t);
+        return oldBoard;
       }
 
-      Optional<IBoard> newMove = pAction.doActionIfValid(rules, brd, t, hand);
-
-      if (newMove.isPresent()) {
-        return newMove.get();
-      } else {
-        cheaters.add(player);
-        return brd.kickPlayer(t);
-      }
+      return validateMoveHandleAbnormal(player, oldBoard, t, pAction, hand);
     });
   }
 
@@ -195,33 +203,49 @@ class TileStrategyTsuroReferee {
    * @return the board at the end of the round
    */
   private IBoard intermediateRound(IBoard board) {
-    return doRound(board, 2, (player, rules, brd, t, hand) -> {
-      IAction pAction = player.makeIntermediateMove(hand, t, brd, rules);
+    return doRound(board, 2, (player, rules, oldBoard, t, hand) -> {
+      IAction pAction = player.makeIntermediateMove(hand, t, oldBoard, rules);
 
       if (pAction.isInitialMove()) {
         cheaters.add(player);
-        return brd.kickPlayer(t);
+        return oldBoard.kickPlayer(t);
       }
 
-      Optional<IBoard> newMove = pAction.doActionIfValid(rules, brd, t, hand);
-
-      if (newMove.isPresent()) {
-        IBoard newBoard = newMove.get();
-        List<TsuroStatus> statii = newBoard.getStatuses();
-
-        if (statii.contains(TsuroStatus.CONTAINS_LOOP)) {
-          // This player's only option was to place a tile with a loop,
-          // behaviour is to kick player and keep board same as before
-          return brd.kickPlayer(t);
-        }
-
-        return newBoard;
-
-      } else {
-        cheaters.add(player);
-        return brd.kickPlayer(t);
-      }
+      return validateMoveHandleAbnormal(player, oldBoard, t, pAction, hand);
     });
+  }
+
+  /**
+   * Validates the move that was performed by the player.
+   *
+   * @param player   player performing the move
+   * @param oldBoard board before move done
+   * @param t        token of the player
+   * @param pAction  action player will take
+   * @param hand     tiles player had when taking move
+   * @return an Optional<IBoard> that contains an {@link IBoard} if the move passed this referee's
+   * rules.
+   */
+  private IBoard validateMoveHandleAbnormal(IPlayer player, IBoard oldBoard, Token t,
+      IAction pAction, Collection<ITile> hand) {
+    Optional<IBoard> newMove = pAction.doActionIfValid(rules, oldBoard, t, hand);
+
+    if (newMove.isPresent()) {
+      IBoard newBoard = newMove.get();
+      List<TsuroStatus> statii = newBoard.getStatuses();
+
+      if (statii.contains(TsuroStatus.CONTAINS_LOOP)) {
+        // This player's only option was to place a tile with a loop,
+        // behaviour is to kick player and keep board same as before
+        return oldBoard.kickPlayer(t);
+      }
+
+      return newBoard;
+
+    } else {
+      cheaters.add(player);
+      return oldBoard.kickPlayer(t);
+    }
   }
 
   /**

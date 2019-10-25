@@ -1,7 +1,7 @@
 
 # Referee
 
-A Referee is an `Interface` implemented by a `TsuroReferee` which is a:
+A Referee is represented by:
   - `new TileStrategyTsuroReferee(RuleChecker, [List-of StrategyPlayer], Iterator<ITile>)`
     - Which constructs a Referee that uses the set of rules in `RuleChecker` (check out more details at rules.md) to facilitate a game of Tsuro and monitors the game played by the `[List-of StrategyPlayer]`.
     - The players are in order of age, oldest first.

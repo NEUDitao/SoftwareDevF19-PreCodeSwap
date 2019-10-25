@@ -4,7 +4,7 @@ A `RefereeObserver` implements `IObserver<RefereeState>`.
 A `RefereeObserver` is updated every turn, which is whenever an `IPlayer` attempts an `IAction`.
 
 `RefereeState` holds the information that a RefereeObserver wants to see.
-A RefereeObserver holds:
+A RefereeState holds:
 
   - an `IBoard`, which represents the board prior to the turn
   - a `Token`, which represents the `Token` placing an `ITile` this turn
