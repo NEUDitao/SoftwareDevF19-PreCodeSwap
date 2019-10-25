@@ -1,4 +1,6 @@
 import static com.tsuro.TsuroTestHelper.loopy;
+import static com.tsuro.TsuroTestHelper.t1;
+import static com.tsuro.TsuroTestHelper.t2;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,10 +15,12 @@ import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.BoardLocation;
 import com.tsuro.referee.CycleThroughTiles;
 import com.tsuro.rulechecker.TsuroRuleChecker;
+import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.tiletypes.TileTypes;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -90,5 +94,21 @@ class TileStrategyTsuroRefereeTest {
 
   }
 
-  //TODO test Loop is only valid move
+  @Test
+  void testOnlyLoopAvailable() {
+    IPlayer topLeftCornerPlayer = spy(p1);
+    doReturn(new InitialAction(loopy, new BoardLocation(Location.EASTNORTH, 0, 0)))
+        .when(topLeftCornerPlayer).makeInitMove(any(), any(), any(), any());
+
+    Iterator<ITile> tiles = new CycleThroughTiles(
+        Arrays.asList(loopy, loopy, loopy, t1, t1, t1, t2, t2, t2));
+
+    TileStrategyTsuroReferee ref = new TileStrategyTsuroReferee(rc,
+        Arrays.asList(topLeftCornerPlayer, p2, p3), tiles);
+
+    assertEquals(
+        Arrays.asList(Collections.singleton(p3), Collections.singleton(topLeftCornerPlayer)),
+        ref.startGame());
+
+  }
 }
