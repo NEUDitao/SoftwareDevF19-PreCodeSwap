@@ -16,6 +16,8 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 
 ```
                                                     
+ - The Observer from `observer-interface.java` has been moved to Common/src/com/tsuro/observer/IObserver.java
+ - The Observer from `player-observer.java` has been moved to Common/src/com/tsuro/observer/robserver/PlayerObserver.java
 
  ### Planning
   - Planning contains all of the documents describing how we
