@@ -122,17 +122,15 @@ Both will throw exceptions if the boards given aren't valid.
 # IAction
 
 An IAction represents an action to be taken on a Board, and is implemented by:
-  - `new InitialAction(Tile, Token, BoardLocation)`
+  - `new InitialAction(Tile, BoardLocation)`
     - and represents an IAction during the initial phase of the game where players are
       placing a on a Board and their Tokens.
-  - `new IntermediateAction(Tile, Token)`
+  - `new IntermediateAction(Tile)`
     - and represents an IAction during the course of the game, after the initial placements are done
   
   and implements the following methods:
   
   - `Optional<IBoard> doActionIfValid(IRuleChecker rules, IBoard board, Token player, Collection<ITile> tiles)`
     - Performs the action described by the fields given 
-  - `Optional<Point> getLocationOnboard()`
-    - Gets the location of the move on a board if it was an initial move.
   - `boolean isInitialMove()`
     - Returns whether this is an initial move

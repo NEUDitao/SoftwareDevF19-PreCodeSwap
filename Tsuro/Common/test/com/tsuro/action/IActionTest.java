@@ -102,9 +102,4 @@ class IActionTest {
     assertFalse(a5.isInitialMove());
   }
 
-  @Test
-  void getLocationOnBoard() {
-    assertEquals(new Point(0, 0), a1.getLocationOnBoard().get());
-    assertFalse(a5.getLocationOnBoard().isPresent());
-  }
 }

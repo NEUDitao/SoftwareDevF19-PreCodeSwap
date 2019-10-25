@@ -26,8 +26,4 @@ public interface IAction {
    */
   boolean isInitialMove();
 
-  /**
-   * Gets the {@link Point} on the Board that this takes place on, if there is a {@link Point}.
-   */
-  Optional<Point> getLocationOnBoard();
 }
