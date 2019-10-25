@@ -4,10 +4,8 @@ import java.util.Set;
 import lombok.NonNull;
 
 /**
- * An IBoardState is one of:
- *   - {@link EmptySquare}
- *   - {@link TsuroTile}
- * and represents a Tile for a game. All implementations of this interface must be immutable.
+ * An IBoardState is one of: - {@link EmptySquare} - {@link TsuroTile} and represents a Tile for a
+ * game. All implementations of this interface must be immutable.
  */
 public interface ITile {
 

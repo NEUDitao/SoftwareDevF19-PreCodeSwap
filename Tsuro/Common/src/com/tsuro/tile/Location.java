@@ -44,6 +44,7 @@ public enum Location {
 
   /**
    * Constructs a location's ratios to be used when rendering where the location is
+   *
    * @param renderX x-coord
    * @param renderY y-coord
    */
@@ -54,6 +55,7 @@ public enum Location {
 
   /**
    * Rotates this Location
+   *
    * @return Location that's been rotated to
    */
   public Location rotate() {

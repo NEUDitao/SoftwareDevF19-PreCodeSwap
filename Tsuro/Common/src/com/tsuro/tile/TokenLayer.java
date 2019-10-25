@@ -26,6 +26,7 @@ public class TokenLayer extends LayerUI<JComponent> {
 
   /**
    * Normal constructor that calls super() for convention.
+   *
    * @param index Draws the token INDEX_PERCENT% smaller for each index so that tokens can overlap
    */
   public TokenLayer(@NonNull Token token, @NonNull Location loc, int index) {

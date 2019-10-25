@@ -24,32 +24,50 @@ import java.util.stream.IntStream;
 import lombok.NonNull;
 
 /**
- * A referee that plays a game of Tsuro and deals with playing rounds of a game and abnormal
- * conditions as described at https://ccs.neu.edu/home/matthias/4500-f19/6.html
+ * A referee that plays a game of Tsuro and deals with playing rounds of a game. Abnormal conditions
+ * are handled as described in https://ccs.neu.edu/home/matthias/4500-f19/6.html.
+ * <p>
+ * An instance of a Referee can only be used once (which is a call to startGame()), since Referees
+ * are mutable.
  */
 class TileStrategyTsuroReferee {
 
+  // rules to be used during game
   @NonNull
   private final IRuleChecker rules;
+
+  // players of a game
   @NonNull
   private final List<IPlayer> players;
+
+  // how the referee chooses tiles
   @NonNull
   private final Iterator<ITile> tileStrategy;
+
+  // eliminated players grouped by rankings (in reverse ordinals)
   @NonNull
   private final List<Set<IPlayer>> eliminatedPlayers;
+
+  // all cheaters
   @NonNull
   private final List<IPlayer> cheaters = new ArrayList<>();
 
+  // Mapping of a player's token -> them
   @NonNull
   private BiMap<Token, IPlayer> tokenPlayerMap;
 
   /**
    * Creates a Referee that will adhere to the given rules, and plays a game with the given players,
    * using the given {@link Iterator<ITile>} to determine which tiles to hand out next
+   *
+   * @param rules        rulechecker to be used
+   * @param players      players that will play a game (in order of age)
+   * @param tileStrategy how the {@link TileStrategyTsuroReferee} will choose the next tile
    */
   public TileStrategyTsuroReferee(@NonNull IRuleChecker rules,
       @NonNull List<IPlayer> players,
       @NonNull Iterator<ITile> tileStrategy) {
+
     if (players.size() > 5 || players.size() < 3) {
       throw new IllegalArgumentException("Number of players must be between 3 and 5");
     }
@@ -68,6 +86,7 @@ class TileStrategyTsuroReferee {
    * will never be returned.
    */
   List<Set<IPlayer>> startGame() {
+
     IBoard board = new TsuroBoard();
 
     tokenPlayerMap = getTokenPlayerMap();
@@ -78,12 +97,14 @@ class TileStrategyTsuroReferee {
       board = intermediateRound(board);
     }
 
-    // TODO: less fishy?
+    // If there is only one player remaining, they are the winner. In other cases, either players will
+    // be eliminated together, and already be in eliminatedPlayers.
     if (board.getAllTokens().size() == 1) {
       eliminatedPlayers
-          .add(Collections.singleton(tokenPlayerMap.get(board.getAllTokens().iterator().next())));
+          .add(board.getAllTokens().stream().map(tokenPlayerMap::get).collect(Collectors.toSet()));
     }
 
+    // correct ordinals
     Collections.reverse(eliminatedPlayers);
     return eliminatedPlayers;
 
@@ -110,21 +131,10 @@ class TileStrategyTsuroReferee {
 
         IBoard newMove = doAction.apply(p, rules, board, t, hand);
 
-        Set<Token> tokensPriorToTurn = board.getAllTokens();
-        Set<Token> boardAllTokens = newMove.getAllTokens();
-        Set<Token> eliminatedThisTurn = Sets.difference(tokensPriorToTurn, boardAllTokens);
-
-        // Count up all players that were eliminated this turn specifically, not in round, not
-        // cheaters, not if eliminated before, and not if in play.
-        Set<IPlayer> elimPlayersThisTurn = eliminatedThisTurn.stream()
-            .map(tokenPlayerMap::get)
-            .filter(pl -> !cheaters.contains(pl))
-            .collect(Collectors.toSet());
-
+        Set<IPlayer> elimPlayersThisTurn = getEliminatedPlayers(board, newMove);
         elimThisRound.addAll(elimPlayersThisTurn);
 
         board = newMove;
-
       }
     }
 
@@ -133,6 +143,22 @@ class TileStrategyTsuroReferee {
     }
 
     return board;
+  }
+
+
+  /**
+   * Creates a Set<IPlayer> that contains the players that are in oldBoard but not in newBoard.
+   * (excluding cheaters)
+   */
+  private Set<IPlayer> getEliminatedPlayers(IBoard oldBoard, IBoard newBoard) {
+    Set<Token> tokensPriorToTurn = oldBoard.getAllTokens();
+    Set<Token> boardAllTokens = newBoard.getAllTokens();
+    Set<Token> eliminatedThisTurn = Sets.difference(tokensPriorToTurn, boardAllTokens);
+
+    return eliminatedThisTurn.stream()
+        .map(tokenPlayerMap::get)
+        .filter(pl -> !cheaters.contains(pl))
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -206,9 +232,10 @@ class TileStrategyTsuroReferee {
   }
 
   /**
-   * Creates a BiMap of assigned Tokens -> the Players
+   * Creates a BiMap (reversible map) of assigned Tokens -> the Players
    */
   private BiMap<Token, IPlayer> getTokenPlayerMap() {
+
     List<Token> tokens = Arrays.stream(ColorString.values())
         .map(Token::new)
         .collect(Collectors.toList());
