@@ -68,6 +68,8 @@ public class XRef {
 
     System.out.println(retVal);
 
+    return;
+
   }
 
 }

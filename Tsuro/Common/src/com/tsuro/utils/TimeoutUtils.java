@@ -20,6 +20,7 @@ public class TimeoutUtils {
       return future.get(1000, TimeUnit.MILLISECONDS);
     } finally {
       future.cancel(true);
+      timeOutCatch.shutdown();
     }
   }
 
@@ -31,6 +32,7 @@ public class TimeoutUtils {
       future.get(1000, TimeUnit.MILLISECONDS);
     } finally {
       future.cancel(true);
+      timeOutCatch.shutdown();
     }
   }
 
