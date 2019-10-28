@@ -1,8 +1,10 @@
-import com.tsuro.action.IAction;
+package com.tsuro.player;
+
+import com.tsuro.action.InitialAction;
+import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.observer.IObserver;
-import com.tsuro.player.PlayerState;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.strategy.IPlayerStrategy;
 import com.tsuro.tile.ITile;
@@ -15,7 +17,7 @@ import lombok.NonNull;
  * Represents a player for a game of Tsuro. Player strategies can differentiate through dependency
  * injection.
  */
-class StrategyPlayer implements IPlayer {
+public class StrategyPlayer implements IPlayer {
 
   @NonNull
   private final IPlayerStrategy strat;
@@ -30,18 +32,19 @@ class StrategyPlayer implements IPlayer {
   }
 
   @Override
-  public IAction makeInitMove(List<ITile> hand, Token avatar, IBoard board,
+  public InitialAction makeInitMove(List<ITile> hand, Token avatar, IBoard board,
       IRuleChecker checker) {
-    IAction moveToBeMade = strat.strategizeInitMove(hand, avatar, board, checker);
+    InitialAction moveToBeMade = strat.strategizeInitMove(hand, avatar, board, checker);
     notifyObservers(new PlayerState(moveToBeMade, new LinkedList<>(hand), avatar, board));
     return moveToBeMade;
   }
 
   @Override
-  public IAction makeIntermediateMove(List<ITile> hand, Token avatar, IBoard board,
+  public IntermediateAction makeIntermediateMove(List<ITile> hand, Token avatar, IBoard board,
       IRuleChecker checker) {
 
-    IAction moveToBeMade = strat.strategizeIntermediateMove(hand, avatar, board, checker);
+    IntermediateAction moveToBeMade = strat
+        .strategizeIntermediateMove(hand, avatar, board, checker);
     notifyObservers(new PlayerState(moveToBeMade, new LinkedList<>(hand), avatar, board));
     return moveToBeMade;
   }

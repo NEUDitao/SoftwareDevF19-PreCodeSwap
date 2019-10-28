@@ -1,3 +1,5 @@
+package com.tsuro.referee;
+
 import static com.tsuro.TsuroTestHelper.loopy;
 import static com.tsuro.TsuroTestHelper.t1;
 import static com.tsuro.TsuroTestHelper.t2;
@@ -7,14 +9,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import com.tsuro.action.InitialAction;
-import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.BoardLocation;
-import com.tsuro.referee.CycleThroughTiles;
+import com.tsuro.player.IPlayer;
+import com.tsuro.player.StrategyPlayer;
 import com.tsuro.rulechecker.TsuroRuleChecker;
+import com.tsuro.strategy.FirstPlayerStrategy;
 import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.tiletypes.TileTypes;
@@ -24,8 +26,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-class TileStrategyTsuroRefereeTest {
+class RefereeTest {
 
   TileTypes tt = TileTypes.createTileTypes();
 
@@ -45,7 +48,7 @@ class TileStrategyTsuroRefereeTest {
     // PlayerObserver pob = new PlayerObserver();
     // players.forEach(p->p.addObserver(pob));
 
-    TileStrategyTsuroReferee ref = new TileStrategyTsuroReferee(rc, players,
+    Referee ref = new Referee(rc, players,
         new CycleThroughTiles(tt.getAllTiles()));
     assertEquals(Collections.singletonList(Collections.singleton(p1)), ref.startGame());
   }
@@ -53,10 +56,10 @@ class TileStrategyTsuroRefereeTest {
   @Test
   void testTooManyPlayers() {
     assertThrows(IllegalArgumentException.class,
-        () -> new TileStrategyTsuroReferee(rc, new LinkedList<>(),
+        () -> new Referee(rc, new LinkedList<>(),
             new CycleThroughTiles(tt.getAllTiles())));
     assertThrows(IllegalArgumentException.class,
-        () -> new TileStrategyTsuroReferee(rc, Arrays.asList(p1, p1, p1, p1, p1, p1),
+        () -> new Referee(rc, Arrays.asList(p1, p1, p1, p1, p1, p1),
             new CycleThroughTiles(tt.getAllTiles())));
   }
 
@@ -69,9 +72,9 @@ class TileStrategyTsuroRefereeTest {
 
     IPlayer cheatPlayer2 = mock(IPlayer.class);
     when(cheatPlayer2.makeInitMove(anyList(), any(), any(), any()))
-        .thenReturn(new IntermediateAction(loopy));
+        .thenReturn(new InitialAction(loopy, new BoardLocation(Location.SOUTHWEST, 6, 6)));
 
-    TileStrategyTsuroReferee ref = new TileStrategyTsuroReferee(rc,
+    Referee ref = new Referee(rc,
         Arrays.asList(cheatPlayer1, cheatPlayer2, p1),
         new CycleThroughTiles(tt.getAllTiles()));
 
@@ -80,30 +83,15 @@ class TileStrategyTsuroRefereeTest {
   }
 
   @Test
-  void testWrongMoveIntermediate() {
-    IPlayer cheatPlayer = spy(p1);
-    doReturn(new InitialAction(loopy, new BoardLocation(Location.SOUTHWEST, 6, 6)))
-        .when(cheatPlayer).makeIntermediateMove(any(), any(), any(), any());
-
-    TileStrategyTsuroReferee ref = new TileStrategyTsuroReferee(rc,
-        Arrays.asList(cheatPlayer, p2, p3),
-        new CycleThroughTiles(tt.getAllTiles()));
-
-    assertEquals(Collections.singletonList(Collections.singleton(p2)), ref.startGame());
-
-
-  }
-
-  @Test
   void testOnlyLoopAvailable() {
-    IPlayer topLeftCornerPlayer = spy(p1);
+    IPlayer topLeftCornerPlayer = Mockito.spy(p1);
     doReturn(new InitialAction(loopy, new BoardLocation(Location.EASTNORTH, 0, 0)))
         .when(topLeftCornerPlayer).makeInitMove(any(), any(), any(), any());
 
     Iterator<ITile> tiles = new CycleThroughTiles(
         Arrays.asList(loopy, loopy, loopy, t1, t1, t1, t2, t2, t2));
 
-    TileStrategyTsuroReferee ref = new TileStrategyTsuroReferee(rc,
+    Referee ref = new Referee(rc,
         Arrays.asList(topLeftCornerPlayer, p2, p3), tiles);
 
     assertEquals(

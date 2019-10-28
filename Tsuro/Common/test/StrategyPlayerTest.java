@@ -10,10 +10,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.tsuro.action.IAction;
+import com.tsuro.action.InitialAction;
+import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.IBoard;
 import com.tsuro.observer.IObserver;
 import com.tsuro.player.PlayerState;
+import com.tsuro.player.StrategyPlayer;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.strategy.IPlayerStrategy;
 import java.util.Arrays;
@@ -25,7 +27,7 @@ class StrategyPlayerTest {
   @Test
   void makeInitMove() {
     IPlayerStrategy s1 = mock(IPlayerStrategy.class);
-    IAction action = mock(IAction.class);
+    InitialAction action = mock(InitialAction.class);
     IBoard board = mock(IBoard.class);
     IRuleChecker checker = mock(IRuleChecker.class);
 
@@ -54,7 +56,7 @@ class StrategyPlayerTest {
   @Test
   void makeIntermediateMove() {
     IPlayerStrategy s1 = mock(IPlayerStrategy.class);
-    IAction action = mock(IAction.class);
+    IntermediateAction action = mock(IntermediateAction.class);
     IBoard board = mock(IBoard.class);
     IRuleChecker checker = mock(IRuleChecker.class);
 

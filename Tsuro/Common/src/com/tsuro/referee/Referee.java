@@ -1,3 +1,7 @@
+package com.tsuro.referee;
+
+import static com.tsuro.utils.TimeoutUtils.doFunctionForTime;
+
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Sets;
@@ -7,6 +11,7 @@ import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.board.TsuroBoard;
 import com.tsuro.board.TsuroStatus;
+import com.tsuro.player.IPlayer;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
 import com.tsuro.utils.QuintFunc;
@@ -28,16 +33,16 @@ import lombok.NonNull;
  * A referee that plays a game of Tsuro and deals with playing rounds of a game. Abnormal local conditions
  * are handled as described in https://ccs.neu.edu/home/matthias/4500-f19/6.html. (as of 10/24/19)
  * <p>
- * An instance of a Referee can only be used once (which is a call to startGame()), since Referees
+ * An instance of a com.tsuro.referee.Referee can only be used once (which is a call to startGame()), since Referees
  * are mutable.
  * </p>
  * <p>
  * Referees also deal with any players that throw any sort of Exception by classifying them as a cheater.
- * They do not as of yet handle time-outs, we leave that to the distributed phase.
+ * They also handle Timeouts.
  * </p>
  *
  */
-class TileStrategyTsuroReferee {
+public class Referee {
 
   // rules to be used during game
   @NonNull
@@ -64,14 +69,14 @@ class TileStrategyTsuroReferee {
   private BiMap<Token, IPlayer> tokenPlayerMap;
 
   /**
-   * Creates a Referee that will adhere to the given rules, and plays a game with the given players,
+   * Creates a com.tsuro.referee.Referee that will adhere to the given rules, and plays a game with the given players,
    * using the given {@link Iterator<ITile>} to determine which tiles to hand out next
    *
    * @param rules        rulechecker to be used
    * @param players      players that will play a game (in order of age)
-   * @param tileStrategy how the {@link TileStrategyTsuroReferee} will choose the next tile
+   * @param tileStrategy how the {@link Referee} will choose the next tile
    */
-  public TileStrategyTsuroReferee(@NonNull IRuleChecker rules,
+  public Referee(@NonNull IRuleChecker rules,
       @NonNull List<IPlayer> players,
       @NonNull Iterator<ITile> tileStrategy) {
 
@@ -88,15 +93,17 @@ class TileStrategyTsuroReferee {
   /**
    * Starts a game of Tsuro.
    *
-   * @return a List<Set<IPlayer>> representing the placements of players. Each {@link Set<IPlayer>}
+   * @return a List<Set<com.tsuro.player.IPlayer>> representing the placements of players. Each {@link Set<IPlayer>}
    * represents an ordinal in placement, and the index in the list is the ordinal achieved. Cheaters
    * will never be returned.
    */
-  List<Set<IPlayer>> startGame() {
+  public List<Set<IPlayer>> startGame() {
 
     IBoard board = new TsuroBoard();
 
     tokenPlayerMap = getTokenPlayerMap();
+
+    notifyPlayersOfColors();
 
     board = makeInitialMoves(board);
 
@@ -126,7 +133,7 @@ class TileStrategyTsuroReferee {
    * @return the {@link IBoard} at the end of the round of Tsuro
    */
   private IBoard doRound(IBoard board, int numTiles,
-      QuintFunc<IPlayer, IRuleChecker, IBoard, Token, List<ITile>, IBoard> doAction) {
+      QuintFunc<IPlayer, List<ITile>, Token, IBoard, IRuleChecker, IAction> doAction) {
 
     Set<IPlayer> elimThisRound = new HashSet<>();
 
@@ -139,7 +146,11 @@ class TileStrategyTsuroReferee {
         IBoard newMove = board;
 
         try {
-          newMove = doAction.apply(p, rules, board, t, hand);
+
+          IBoard finalBoard = board;
+          IAction actionPerformed = doFunctionForTime(() -> doAction.apply(p, hand, t,
+              finalBoard, rules));
+          newMove = validateMoveHandleAbnormal(p, board, t, actionPerformed, hand);
         } catch (Exception e) {
           // If the player does something shady and crashes, kick them
           newMove = newMove.kickPlayer(t);
@@ -162,7 +173,7 @@ class TileStrategyTsuroReferee {
 
 
   /**
-   * Creates a Set<IPlayer> that contains the players that are in oldBoard but not in newBoard.
+   * Creates a Set<com.tsuro.player.IPlayer> that contains the players that are in oldBoard but not in newBoard.
    * (excluding cheaters)
    */
   private Set<IPlayer> getEliminatedPlayers(IBoard oldBoard, IBoard newBoard) {
@@ -183,17 +194,7 @@ class TileStrategyTsuroReferee {
    * @return the board after the round
    */
   private IBoard makeInitialMoves(IBoard board) {
-    return doRound(board, 3, (player, rules, oldBoard, t, hand) -> {
-      IAction pAction = player.makeInitMove(hand, t, oldBoard, rules);
-
-      if (!pAction.isInitialMove()) {
-        cheaters.add(player);
-        oldBoard = oldBoard.kickPlayer(t);
-        return oldBoard;
-      }
-
-      return validateMoveHandleAbnormal(player, oldBoard, t, pAction, hand);
-    });
+    return doRound(board, 3, IPlayer::makeInitMove);
   }
 
   /**
@@ -203,16 +204,7 @@ class TileStrategyTsuroReferee {
    * @return the board at the end of the round
    */
   private IBoard intermediateRound(IBoard board) {
-    return doRound(board, 2, (player, rules, oldBoard, t, hand) -> {
-      IAction pAction = player.makeIntermediateMove(hand, t, oldBoard, rules);
-
-      if (pAction.isInitialMove()) {
-        cheaters.add(player);
-        return oldBoard.kickPlayer(t);
-      }
-
-      return validateMoveHandleAbnormal(player, oldBoard, t, pAction, hand);
-    });
+    return doRound(board, 2, IPlayer::makeIntermediateMove);
   }
 
   /**
@@ -267,6 +259,29 @@ class TileStrategyTsuroReferee {
     return IntStream.range(0, players.size())
         .collect(HashBiMap::create, (bm, t) -> bm.put(tokens.get(t), players.get(t)),
             BiMap::putAll);
+  }
+
+
+  private void notifyPlayersOfColors() {
+    tokenPlayerMap.inverse().forEach((key, value) -> {
+      try {
+        doFunctionForTime(() -> key.playingAs(value.color));
+      } catch (Exception e) {
+        cheaters.add(key);
+      }
+    });
+
+    tokenPlayerMap.inverse().forEach((key, value) -> {
+      try {
+        doFunctionForTime(() -> key.otherPlayerAre(
+            tokenPlayerMap.keySet().stream()
+                .map(a -> a.color)
+                .filter(a -> !a.equals(value.color))
+                .collect(Collectors.toList())));
+      } catch (Exception e) {
+        cheaters.add(key);
+      }
+    });
   }
 
   /**

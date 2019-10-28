@@ -8,7 +8,7 @@ import java.util.Queue;
 import lombok.NonNull;
 
 /**
- * An {@link Iterator<ITile>} that cycles through the injected Tiles.
+ * An {@link Iterator<ITile>} that cycles through the injected Tiles. Can only be used once.
  */
 public class CycleThroughTiles implements Iterator<ITile> {
 

@@ -1,3 +1,5 @@
+package com.tsuro.referee;
+
 import static com.tsuro.TsuroTestHelper.WHITE_TOKEN;
 import static com.tsuro.TsuroTestHelper.loopy;
 import static com.tsuro.TsuroTestHelper.t1;
@@ -11,11 +13,12 @@ import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.BoardLocation;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.TsuroBoard;
+import com.tsuro.strategy.FirstPlayerStrategy;
 import com.tsuro.tile.Location;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
-class FirstPlayerStrategyTest {
+public class FirstPlayerStrategyTest {
 
   FirstPlayerStrategy f = new FirstPlayerStrategy();
 
@@ -36,7 +39,6 @@ class FirstPlayerStrategyTest {
     assertEquals(intermediateAction,
         f.strategizeIntermediateMove(Arrays.asList(loopy, t1), WHITE_TOKEN, theBoard,
             tsuroRuleChecker));
-
 
 
   }
