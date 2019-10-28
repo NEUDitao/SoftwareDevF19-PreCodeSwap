@@ -1,0 +1,189 @@
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AQ/5-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/AY/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AY/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AY/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AY/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/AY/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/AY/5-out.json))
+((passed 5) (total 5) (partial-score 5))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/4-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/BH/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BH/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BH/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BH/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BH/4-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/BY/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BY/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BY/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BY/5-out.json))
+((passed 3) (total 3) (partial-score 3))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/4-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/BZ/4-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CF/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CF/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CF/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CF/3-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/CF/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CF/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/CF/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CF/3-out.json))
+((passed 2) (total 2) (partial-score 2))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/CU/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/CU/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/CU/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/CU/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/CU/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/CU/5-out.json))
+((passed 5) (total 5) (partial-score 5))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/4-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/DE/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/DE/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/DE/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/DE/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/DE/4-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/5-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/6-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/6-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/IP/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/IP/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/IP/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/IP/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/5-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/IP/6-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/IP/6-out.json))
+((passed 5) (total 5) (partial-score 5))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/JZ/5-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/4-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OJ/4-out.json))
+((passed 3) (total 3) (partial-score 3))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/OZ/5-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/RM/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/RM/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/RM/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/RM/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/RM/5-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/10-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/10-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/5-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/6-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/6-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/7-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/7-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/8-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/8-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/9-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/9-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/10-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/10-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/5-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/6-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/6-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/7-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/7-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/8-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/8-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UE/9-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UE/9-out.json))
+((passed 8) (total 8) (partial-score 8))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/5-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/6-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/6-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/5-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/6-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/UZ/6-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/4-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/VV/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/VV/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/VV/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/VV/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/VV/4-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/YQ/5-out.json))
+((passed 5) (total 5) (partial-score 5))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZB/5-out.json))
+((passed 3) (total 3) (partial-score 3))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/4-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZG/4-out.json))
+((passed 4) (total 4) (partial-score 4))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/2-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZM/2-out.json))
+((passed 2) (total 2) (partial-score 2))
+
+
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/1-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/2-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/3-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/4-out.json)
+(testing /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/5-out.json)
+(testing xrules)
+((/course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/1-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/1-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/2-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/2-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/3-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/3-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/4-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/4-out.json) (/course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/5-in.json /course/cs4500f19/swdev-private-fall2019/./6-tests/ZN/5-out.json))
+((passed 5) (total 5) (partial-score 5))
