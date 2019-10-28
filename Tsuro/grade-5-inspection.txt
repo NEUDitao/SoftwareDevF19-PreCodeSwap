@@ -1,4 +1,3 @@
-25
+35
 Dustin Jamner
 -5 you need to describe the way that the administrator runs a tournament (including referees) in more detail than just copying the protocol diagrams
--10 you need to document the interpretation of the data the observer receives
