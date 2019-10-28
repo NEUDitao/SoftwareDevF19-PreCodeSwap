@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -jar ../Tsuro/Common/out/artifacts/Xref_jar/Xref.jar
