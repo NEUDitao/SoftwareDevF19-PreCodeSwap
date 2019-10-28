@@ -1,0 +1,15 @@
+63
+Aditi Kacheria
+game-observer.md
+-5 Nothing mentioned about modifying the referee for registration.
+tournament-observer.md
+-5 Nothing mentioned about modifying the tournament manager for registration.
+player.java
+-2 No method for getting player's color 
+-2 No method for getting colors of other players
+-2 No method that eliminates an observer that is failing
+-2 No method for player to receive the 'end of tournament' information
++5 Supporting a notify method for multiple observers
+first-s.java
+-2 No purpose statement for initital turn method
+-2 No purpose statement for intermediate turn method
