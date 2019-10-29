@@ -22,18 +22,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * A Class for running the testing task described in https://ccs.neu.edu/home/matthias/4500-f19/7.html.
+ */
 public class XRef {
 
+  /**
+   * Reads from stdin for the input specified at https://ccs.neu.edu/home/matthias/4500-f19/7.html.
+   */
   public static void main(String[] args) {
     doStuff(System.in);
   }
 
+  /**
+   * Reads the player names from in, and runs a game on players with that number of names.
+   */
   private static void doStuff(InputStream in) {
 
     Gson g = GsonUtils.getTsuroGson();
 
     List<String> inputArray = g.fromJson(new InputStreamReader(in),
-        TypeToken.getParameterized(ArrayList.class, String.class).getType());
+            TypeToken.getParameterized(ArrayList.class, String.class).getType());
 
     BiMap<String, IPlayer> playerNames = HashBiMap.create();
 
@@ -50,17 +59,17 @@ public class XRef {
     List<ITile> allTiles = TileTypes.createTileTypes().getAllTiles();
 
     List<Set<IPlayer>> rankings = new Referee(new TsuroRuleChecker(), players,
-        new CycleThroughTiles(allTiles)).startGame();
+            new CycleThroughTiles(allTiles)).startGame();
 
     JsonArray cheaters = g.toJsonTree(inputArray.stream()
-        .filter(playerName -> rankings.stream()
-            .noneMatch(ordinal -> ordinal.contains(playerNames.get(playerName))))
-        .sorted()
-        .collect(Collectors.toList())).getAsJsonArray();
+            .filter(playerName -> rankings.stream()
+                    .noneMatch(ordinal -> ordinal.contains(playerNames.get(playerName))))
+            .sorted()
+            .collect(Collectors.toList())).getAsJsonArray();
 
     JsonArray winners = g.toJsonTree(rankings.stream().map(
-        ordinal -> ordinal.stream().map(playerNames.inverse()::get).sorted()
-            .collect(Collectors.toList())).collect(Collectors.toList())).getAsJsonArray();
+            ordinal -> ordinal.stream().map(playerNames.inverse()::get).sorted()
+                    .collect(Collectors.toList())).collect(Collectors.toList())).getAsJsonArray();
 
     JsonObject retVal = new JsonObject();
     retVal.add("winners", winners);
@@ -68,7 +77,6 @@ public class XRef {
 
     System.out.println(retVal);
 
-    return;
 
   }
 

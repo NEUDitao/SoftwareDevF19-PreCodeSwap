@@ -9,27 +9,40 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import lombok.experimental.UtilityClass;
 
+/**
+ * A utility class with functions to run functions asynchrously.
+ */
 @UtilityClass
 public class TimeoutUtils {
 
+  final int ONE_SECOND = 1000;
+
+  /**
+   * Runs the given callable. If it takes longer than one second, terminate the thread and throw an error.
+   *
+   * @return the result of c, or throws an exception if the callable takes longer than a second
+   */
   public static <T> T doFunctionForTime(Callable<T> c)
-      throws InterruptedException, ExecutionException, TimeoutException {
+          throws InterruptedException, ExecutionException, TimeoutException {
     ExecutorService timeOutCatch = Executors.newSingleThreadExecutor();
     Future<T> future = timeOutCatch.submit(c);
     try {
-      return future.get(1000, TimeUnit.MILLISECONDS);
+      return future.get(ONE_SECOND, TimeUnit.MILLISECONDS);
     } finally {
       future.cancel(true);
       timeOutCatch.shutdown();
     }
   }
 
+  /**
+   * Runs the given runnable. If it takes longer than a second, terminate the thread, and throw an error.
+   */
   public static void doFunctionForTime(Runnable r)
-      throws InterruptedException, ExecutionException, TimeoutException {
+          throws InterruptedException, ExecutionException, TimeoutException {
     ExecutorService timeOutCatch = Executors.newSingleThreadExecutor();
     Future<?> future = timeOutCatch.submit(r);
     try {
-      future.get(1000, TimeUnit.MILLISECONDS);
+      future.get(ONE_SECOND, TimeUnit.MILLISECONDS);
     } finally {
       future.cancel(true);
       timeOutCatch.shutdown();
