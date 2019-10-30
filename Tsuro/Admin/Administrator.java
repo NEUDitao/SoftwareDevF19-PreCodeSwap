@@ -17,6 +17,8 @@ import lombok.NonNull;
  * found https://ccs.neu.edu/home/matthias/4500-f19/7.html
  * <p>
  * Admins should only be used once.
+ * <p>
+ * We did not have to change anything specifically for the administrator.
  */
 public class Administrator {
 
