@@ -13,6 +13,9 @@ A RefereeState holds:
   - a `List<Token>`, which represents the players that have been eliminated in the current round
   - a `List<Set<Token>>`, which represents the order of which players were eliminated in previous rounds. See [the definition of `startGame()`](referee.md) in `referee.md` for more information on this. 
   
+  
+The `Referee` would have to be modified to implement `IObservable<RefereeState>` (and would probably want to extend `AObservable<RefereeState>`) to make this work.
+
 ---
 
 ### Definitions

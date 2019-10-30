@@ -6,7 +6,7 @@ import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.ColorString;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
-import com.tsuro.observer.IObserver;
+import com.tsuro.observer.IObservable;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * Represents a player performing {@link IAction}s, which involve the placing of {@link ITile}s on a
  * {@link IBoard}.
  */
-public interface IPlayer {
+public interface IPlayer extends IObservable<PlayerState> {
 
   /**
    * Makes an {@link com.tsuro.action.InitialAction} on the given {@link IBoard}, allowing the
@@ -33,23 +33,10 @@ public interface IPlayer {
       IRuleChecker checker);
 
   /**
-   * Adds the given Observer to this Player.
-   */
-  void addObserver(IObserver<PlayerState> obs);
-
-  /**
-   * Removes the given Observer from this Player. Does not do anything if observer is not on the
-   * Player.
-   */
-  void removeObserver(IObserver<PlayerState> obs);
-
-  /**
    * Tells the Player what color they're playing as. Default behaviour to do nothing.
    */
   default void playingAs(ColorString color) {
   }
-
-  ;
 
   /**
    * Tells the Player what colors their opponents are. Default behaviour to do nothing.
@@ -57,6 +44,10 @@ public interface IPlayer {
   default void otherPlayerAre(List<ColorString> otherColors) {
   }
 
-  ;
+  /**
+   * Tells the Player if they won or not.
+   */
+  default void notifyResults(boolean won) {
+  }
 
 }

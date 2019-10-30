@@ -29,10 +29,5 @@ public class IntermediateAction implements IAction {
     return Optional.empty();
   }
 
-  @Override
-  public boolean isInitialMove() {
-    return false;
-  }
-
 
 }

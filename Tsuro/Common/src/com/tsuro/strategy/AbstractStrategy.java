@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Abstract class that takes away common strategies among IPlayerStrategy's
+ */
 public abstract class AbstractStrategy implements IPlayerStrategy {
 
   @Override

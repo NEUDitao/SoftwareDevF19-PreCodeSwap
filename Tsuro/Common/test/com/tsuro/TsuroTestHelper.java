@@ -8,15 +8,21 @@ import com.tsuro.board.ColorString;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.board.TsuroBoard;
+import com.tsuro.player.IPlayer;
+import com.tsuro.player.StrategyPlayer;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.rulechecker.TsuroRuleChecker;
+import com.tsuro.strategy.FirstPlayerStrategy;
 import com.tsuro.tile.ITile;
 import com.tsuro.tile.Location;
 import com.tsuro.tile.Path;
 import com.tsuro.tile.TsuroTile;
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TsuroTestHelper {
 
@@ -79,5 +85,14 @@ public class TsuroTestHelper {
 
     // This calls fromIntermediatePlacements internally
     b1 = TsuroBoard.fromInitialPlacements(m1, m2);
+  }
+
+  /**
+   * Generates a list of numPlayers players.
+   */
+  public static List<IPlayer> generateNumPlayers(int numPlayers) {
+    return Stream.generate(() -> new StrategyPlayer(new FirstPlayerStrategy()))
+        .limit(numPlayers)
+        .collect(Collectors.toList());
   }
 }

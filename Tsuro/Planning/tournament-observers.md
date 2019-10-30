@@ -9,6 +9,7 @@ A `TournamentState` holds:
   - a `List<Set<com.tsuro.player.IPlayer>>`, which represents the standings of the most recent game that ended. See [administrator.md](administrator.md) for more information on this. 
   - a `List<Set<com.tsuro.player.IPlayer>>`, which represents the overall standings of a tournament. Details are left up to implementations of tournaments. Can be left empty.
 
+The `Administrator` would have to be modified to implement `IObservable<TournamentState>` (and would probably want to extend `AObservable<TournamentState>`) to make this work.
 
 ---
 ### Definitions

@@ -28,15 +28,11 @@ public class InitialAction implements IAction {
   @Override
   public Optional<IBoard> doActionIfValid(IRuleChecker rules, IBoard board, Token player,
       Collection<ITile> tiles) {
+
     if (rules.isValidInitialMove(board, tile, player, loc, tiles)) {
       return Optional.of(board.placeFirstTile(tile, player, loc));
     }
     return Optional.empty();
-  }
-
-  @Override
-  public boolean isInitialMove() {
-    return true;
   }
 
 }

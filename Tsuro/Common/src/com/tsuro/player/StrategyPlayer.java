@@ -4,6 +4,7 @@ import com.tsuro.action.InitialAction;
 import com.tsuro.action.IntermediateAction;
 import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
+import com.tsuro.observer.AObserverable;
 import com.tsuro.observer.IObserver;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.strategy.IPlayerStrategy;
@@ -17,7 +18,7 @@ import lombok.NonNull;
  * Represents a player for a game of Tsuro. Player strategies can differentiate through dependency
  * injection.
  */
-public class StrategyPlayer implements IPlayer {
+public class StrategyPlayer extends AObserverable<PlayerState> implements IPlayer {
 
   @NonNull
   private final IPlayerStrategy strat;
@@ -49,24 +50,8 @@ public class StrategyPlayer implements IPlayer {
     return moveToBeMade;
   }
 
-  @Override
-  public void addObserver(IObserver<PlayerState> obs) {
-    this.observers.add(obs);
-  }
 
-  @Override
-  public void removeObserver(IObserver<PlayerState> obs) {
-    this.observers.remove(obs);
-  }
 
-  /**
-   * Notifies all observer on this Player with the given State.
-   */
-  private void notifyObservers(PlayerState state) {
-    for (IObserver<PlayerState> obs : this.observers) {
-      obs.update(state);
-    }
-  }
 
 
 }

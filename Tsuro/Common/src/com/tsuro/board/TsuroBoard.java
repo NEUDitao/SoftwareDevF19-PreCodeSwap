@@ -52,9 +52,10 @@ public class TsuroBoard implements IBoard {
   private final List<TsuroStatus> statuses;
 
   /**
-   * Constructs a TsuroBoard with the given width and height, and no players
+   * Constructs a TsuroBoard with the given width and height, and no players. Width and height must be postiive.
    */
   public TsuroBoard(int width, int height) {
+
     board = new ITile[width][height];
 
     for (ITile[] t : board) {

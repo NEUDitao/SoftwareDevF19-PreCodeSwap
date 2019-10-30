@@ -47,6 +47,9 @@ public class TileTypes implements JsonSerializer<ITile>, JsonDeserializer<ITile>
 
   private final List<ITile> tiles;
 
+  /**
+   * Gets all of the tiles from the TileTypes.
+   */
   public List<ITile> getAllTiles() {
     return new LinkedList<>(tiles);
   }

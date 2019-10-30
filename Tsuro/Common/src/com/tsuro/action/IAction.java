@@ -4,7 +4,6 @@ import com.tsuro.board.IBoard;
 import com.tsuro.board.Token;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
-import java.awt.Point;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.NonNull;
@@ -20,10 +19,5 @@ public interface IAction {
    */
   Optional<IBoard> doActionIfValid(@NonNull IRuleChecker rules, @NonNull IBoard board,
       @NonNull Token player, @NonNull Collection<ITile> tiles);
-
-  /**
-   * Returns true if this Action represents an initial move.
-   */
-  boolean isInitialMove();
 
 }

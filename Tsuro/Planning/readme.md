@@ -22,6 +22,8 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
  - The Strategy from `first-s.java` has been moved to Common/src/com/tsuro/strategy/FirstPlayerStrategy.java
  - The Player from `player.java` has been moved to Common/src/com/tsuro/player/StrategyPlayer.java
  - The referee from `referee.java` has been moved to Common/src/com/tsuro/referee/Referee.java
+ 
+ There is a UML available here ![](UML.png)
 
  ### Planning
   - Planning contains all of the documents describing how we
@@ -62,10 +64,7 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
     - utils/ contains utility classes for different parts of Tsuro to use
 
   ### Admin
-  Admin/ contains code for a referee in Tsuro
-  
-  ### com.tsuro.player.StrategyPlayer
-  com.tsuro.player.StrategyPlayer/ contains code for a player component in Tsuro
+  Admin/ contains code for an administrator
   
   ### .idea
   - .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free
@@ -79,11 +78,12 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
   - An implementation for a Board of a game of Tsuro is now done. Code can be found at Common/src/com/tsuro/board
   - Rulecheckers have been implemented, check them out at Common/src/com/tsuro/rules
   - Observers for players have been implemented, check them out Common/src/com/tsuro/observer
-  - 10/22/19, Referees and Players have been implemented. Referees can be found at Admin/referee.java. Players can be found at com.tsuro.player.StrategyPlayer/player.java.
+  - 10/22/19, Referees and Players have been implemented. Referees can be found at Common/src/com/tsuro/referee. Players can be found at Common/src/com/tsuro/player.
+  - 10/27/19, Administrators have been implemented, can be found at Admin/
 
 ## Tests
 
-  - To run all tests, do ./Test in the Tsuro Directory. This will run all JUnit
+  - To run all tests, do ./xtest in the Tsuro Directory. This will run all JUnit
     tests
     
     

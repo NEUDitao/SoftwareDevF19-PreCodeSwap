@@ -26,7 +26,6 @@ import com.tsuro.board.TsuroBoard;
 import com.tsuro.rulechecker.HackerIdealRuleChecker;
 import com.tsuro.rulechecker.IRuleChecker;
 import com.tsuro.tile.ITile;
-import java.awt.Point;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -94,12 +93,6 @@ class IActionTest {
         a5.doActionIfValid(mockChecker, mockBoard, RED_TOKEN, Arrays.asList(t1, t1)).get());
 
 
-  }
-
-  @Test
-  void isInitialMove() {
-    assertTrue(a1.isInitialMove());
-    assertFalse(a5.isInitialMove());
   }
 
 }

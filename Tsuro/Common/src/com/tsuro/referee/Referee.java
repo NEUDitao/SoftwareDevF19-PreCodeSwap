@@ -72,22 +72,30 @@ public class Referee {
    * Creates a com.tsuro.referee.Referee that will adhere to the given rules, and plays a game with the given players,
    * using the given {@link Iterator<ITile>} to determine which tiles to hand out next
    *
-   * @param rules        rulechecker to be used
+   * @param rules        rulechecker to be used by the referee
    * @param players      players that will play a game (in order of age)
+   *                     REQUIREMENT: must be 3-5 players
    * @param tileStrategy how the {@link Referee} will choose the next tile
    */
   public Referee(@NonNull IRuleChecker rules,
       @NonNull List<IPlayer> players,
       @NonNull Iterator<ITile> tileStrategy) {
 
-    if (players.size() > 5 || players.size() < 3) {
-      throw new IllegalArgumentException("Number of players must be between 3 and 5");
-    }
+    checkConstructorContracts(players);
 
     this.rules = rules;
     this.players = new LinkedList<>(players);
     this.tileStrategy = tileStrategy;
     this.eliminatedPlayers = new ArrayList<>();
+  }
+
+  /**
+   * Checks the contracts for a referee. If more are required, add here.
+   */
+  private void checkConstructorContracts(@NonNull List<IPlayer> players) {
+    if (players.size() > 5 || players.size() < 3) {
+      throw new IllegalArgumentException("Number of players must be between 3 and 5");
+    }
   }
 
   /**
@@ -129,11 +137,11 @@ public class Referee {
    *
    * @param board    the board for the play to be done on
    * @param numTiles the number of tiles to be handed out this round
-   * @param doAction the board created from the action that a player will take
+   * @param createAction the {@link IAction} that will be performed this round.
    * @return the {@link IBoard} at the end of the round of Tsuro
    */
   private IBoard doRound(IBoard board, int numTiles,
-      QuintFunc<IPlayer, List<ITile>, Token, IBoard, IRuleChecker, IAction> doAction) {
+      QuintFunc<IPlayer, List<ITile>, Token, IBoard, IRuleChecker, IAction> createAction) {
 
     Set<IPlayer> elimThisRound = new HashSet<>();
 
@@ -145,10 +153,10 @@ public class Referee {
 
         IBoard newMove = board;
 
-        try {
 
+        try {
           IBoard finalBoard = board;
-          IAction actionPerformed = doFunctionForTime(() -> doAction.apply(p, hand, t,
+          IAction actionPerformed = doFunctionForTime(() -> createAction.apply(p, hand, t,
               finalBoard, rules));
           newMove = validateMoveHandleAbnormal(p, board, t, actionPerformed, hand);
         } catch (Exception e) {
@@ -261,7 +269,10 @@ public class Referee {
             BiMap::putAll);
   }
 
-
+  /**
+   * Tells all players what colors they're playing as, and what colors their opponents are playing
+   * as.
+   */
   private void notifyPlayersOfColors() {
     tokenPlayerMap.inverse().forEach((key, value) -> {
       try {
