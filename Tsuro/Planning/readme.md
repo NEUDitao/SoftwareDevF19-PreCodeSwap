@@ -4,6 +4,13 @@
 
 The specifications and rules for the game of Tsuro can be found [here](https://ccs.neu.edu/home/matthias/4500-f19/tsuro.html). 
 
+# Components
+
+A tournament of Tsuro starts with the `Administrator`. They're in charge of running the overall tournament for
+the `Player`s that register. Games of Tsuro are played by `Referee`s, which the `Administrator` creates. The `Referee`
+asks `Player`s to make `IAction`s, giving the player `ITile`s to place. The `Referee` will check the `IAction`s using an
+ `IRuleChecker`, and places them on an `IBoard`. `Observer`s are available for components that implement `IObservable`.   
+
 # Folders
 ```
  _    _  ___  ______ _   _ _____ _   _ _____ 
@@ -27,7 +34,8 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 
  ### Planning
   - Planning contains all of the documents describing how we
-  designed our implementation of Tsuro. Each .md file describes a different initial specification of components. 
+  designed our implementation of Tsuro. Each .md file describes a different initial specification of components.
+  - UML.png contains the UML seen above. 
 
 ### Common
   - Common contains shared code for our implementation. 
@@ -43,7 +51,7 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
   - out/ contains the artifacts created from building our game into Java executables. There should be an easier way to always run programs from the top-level directory, so out/ can be ignored.
 
 ##### src
-  src/ contains the source code for Tsuro
+  src/ contains most of the source code for Tsuro
 
   - Within src/com/tsuro are the separate packages for a game of Tsuro
     - action/ contains the implementation for actions that can be taken on the board 
@@ -65,6 +73,9 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 
   ### Admin
   Admin/ contains code for an administrator
+  
+  ### Player
+  Player/ contains code for a strategy of players that attempts to choose legal tiles.
   
   ### .idea
   - .idea includes some defaults for the editor we chose to use, IntelliJ. Feel free

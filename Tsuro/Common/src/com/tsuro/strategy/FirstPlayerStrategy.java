@@ -13,7 +13,9 @@ import java.util.List;
 public class FirstPlayerStrategy extends AbstractStrategy implements IPlayerStrategy {
 
 
-  @Override
+  /**
+   * Chooses the first tile given, without rotating.
+   */
   public IntermediateAction strategizeIntermediateMove(List<ITile> hand, Token avatar, IBoard board,
       IRuleChecker checker) {
     return new IntermediateAction(hand.get(0));

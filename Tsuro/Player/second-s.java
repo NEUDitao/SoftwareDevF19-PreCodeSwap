@@ -12,7 +12,12 @@ import java.util.List;
  */
 class SecondPlayerStrategy extends AbstractStrategy implements IPlayerStrategy {
 
-  @Override
+  /**
+   * Attempts to find a legal placement by searching for a legal option with the first tile of the
+   * hand, trying all possible rotations starting from 0 degrees. If none of these possibilities
+   * work out, it moves to the second one and repeats the process. If no possible action is legal,
+   * it chooses the first tile at 0 degrees.
+   */
   public IntermediateAction strategizeIntermediateMove(List<ITile> hand, Token avatar, IBoard board,
       IRuleChecker checker) {
 
