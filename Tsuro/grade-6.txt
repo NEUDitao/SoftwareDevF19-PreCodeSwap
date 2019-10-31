@@ -1,0 +1,6 @@
+193 / 170
++10 extra: your test (1-in.json 1-out.json) found 1 student bug(s)
++10 extra: your test (3-in.json 3-out.json) found 1 student bug(s)
++10 extra: your test (4-in.json 4-out.json) found 1 student bug(s)
++10 extra: your test (5-in.json 5-out.json) found 1 student bug(s)
+-17: Code and design inspection. See grade-6-inspection.txt
