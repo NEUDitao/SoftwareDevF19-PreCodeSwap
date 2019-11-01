@@ -9,7 +9,7 @@ The specifications and rules for the game of Tsuro can be found [here](https://c
 A tournament of Tsuro starts with the `Administrator`. They're in charge of running the overall tournament for
 the `Player`s that register. Games of Tsuro are played by `Referee`s, which the `Administrator` creates. The `Referee`
 asks `Player`s to make `IAction`s, giving the player `ITile`s to place. The `Referee` will check the `IAction`s using an
- `IRuleChecker`, and places them on an `IBoard`. `Observer`s are available for components that implement `IObservable`.   
+ `IRuleChecker`, and perform them on an `IBoard`. `Observer`s are available for components that implement `IObservable`.   
 
 # Folders
 ```
@@ -36,7 +36,8 @@ asks `Player`s to make `IAction`s, giving the player `ITile`s to place. The `Ref
  - The Administrator and Referee receive and use `StrategyPlayer`s.
  - The StrategyPlayer receives either `FirstPlayerStrategy` or `SecondPlayerStrategy`
  - The Administrator, Referee, and Player use `TsuroBoard`
- - The Administrator, Referee, Player, and Board use `TsuroTile`s
+ - The Administrator, Referee, and Player use `TsuroTile`s
+ - The Board uses both subclasses of `ITile` (which are `TsuroTile` and `EmptySquare`)
  - The Referee receives a `CycleThroughTiles` that the Administrator creates
  - The Referee, Player, and Actions all use `TsuroRuleChecker`
  - The Referee uses `InitialAction`s and `IntermediateAction`s that the player creates
