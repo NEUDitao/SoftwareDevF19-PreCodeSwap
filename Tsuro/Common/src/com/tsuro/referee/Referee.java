@@ -30,17 +30,17 @@ import java.util.stream.IntStream;
 import lombok.NonNull;
 
 /**
- * A referee that plays a game of Tsuro and deals with playing rounds of a game. Abnormal local conditions
- * are handled as described in https://ccs.neu.edu/home/matthias/4500-f19/6.html. (as of 10/24/19)
+ * A referee that plays a game of Tsuro and deals with playing rounds of a game. Abnormal local
+ * conditions are handled as described in https://ccs.neu.edu/home/matthias/4500-f19/6.html. (as of
+ * 10/24/19)
  * <p>
- * An instance of a com.tsuro.referee.Referee can only be used once (which is a call to startGame()), since Referees
- * are mutable.
+ * An instance of a com.tsuro.referee.Referee can only be used once (which is a call to
+ * startGame()), since Referees are mutable.
  * </p>
  * <p>
- * Referees also deal with any players that throw any sort of Exception by classifying them as a cheater.
- * They also handle Timeouts.
+ * Referees also deal with any players that throw any sort of Exception by classifying them as a
+ * cheater. They also handle Timeouts.
  * </p>
- *
  */
 public class Referee {
 
@@ -62,19 +62,20 @@ public class Referee {
 
   // all cheaters
   @NonNull
-  private final List<IPlayer> cheaters = new ArrayList<>();
+  private final Set<IPlayer> cheaters = new HashSet<>();
 
   // Mapping of a player's token -> them
   @NonNull
   private BiMap<Token, IPlayer> tokenPlayerMap;
 
   /**
-   * Creates a com.tsuro.referee.Referee that will adhere to the given rules, and plays a game with the given players,
-   * using the given {@link Iterator<ITile>} to determine which tiles to hand out next
+   * Creates a com.tsuro.referee.Referee that will adhere to the given rules, and plays a game with
+   * the given players, using the given {@link Iterator<ITile>} to determine which tiles to hand out
+   * next
    *
    * @param rules        rulechecker to be used by the referee
-   * @param players      players that will play a game (in order of age)
-   *                     REQUIREMENT: must be 3-5 players
+   * @param players      players that will play a game (in order of age) REQUIREMENT: must be 3-5
+   *                     players
    * @param tileStrategy how the {@link Referee} will choose the next tile
    */
   public Referee(@NonNull IRuleChecker rules,
@@ -101,9 +102,9 @@ public class Referee {
   /**
    * Starts a game of Tsuro.
    *
-   * @return a List<Set<com.tsuro.player.IPlayer>> representing the placements of players. Each {@link Set<IPlayer>}
-   * represents an ordinal in placement, and the index in the list is the ordinal achieved. Cheaters
-   * will never be returned.
+   * @return a List<Set<com.tsuro.player.IPlayer>> representing the placements of players. Each
+   * {@link Set<IPlayer>} represents an ordinal in placement, and the index in the list is the
+   * ordinal achieved. Cheaters will never be returned.
    */
   public List<Set<IPlayer>> startGame() {
 
@@ -135,40 +136,23 @@ public class Referee {
   /**
    * Plays a round of Tsuro.
    *
-   * @param board    the board for the play to be done on
-   * @param numTiles the number of tiles to be handed out this round
-   * @param createAction the {@link IAction} that will be performed this round.
+   * @param board        the board before the round starts
+   * @param numTiles     the number of tiles to be handed out this round
+   * @param createAction the function to make the {@link IAction} that will be performed this
+   *                     round.
    * @return the {@link IBoard} at the end of the round of Tsuro
    */
   private IBoard doRound(IBoard board, int numTiles,
       QuintFunc<IPlayer, List<ITile>, Token, IBoard, IRuleChecker, IAction> createAction) {
 
+    // set of players that have been eliminated in a single round of Tsuro
     Set<IPlayer> elimThisRound = new HashSet<>();
 
     for (IPlayer p : players) {
-      if (!isEliminated(p) && !cheaters.contains(p) && !elimThisRound.contains(p)) {
+      boolean canPlayTurn = !isEliminated(p) && !cheaters.contains(p) && !elimThisRound.contains(p);
+      if (canPlayTurn) {
 
-        List<ITile> hand = getNTiles(numTiles);
-        Token t = tokenPlayerMap.inverse().get(p);
-
-        IBoard newMove = board;
-
-
-        try {
-          IBoard finalBoard = board;
-          IAction actionPerformed = doFunctionForTime(() -> createAction.apply(p, hand, t,
-              finalBoard, rules));
-          newMove = validateMoveHandleAbnormal(p, board, t, actionPerformed, hand);
-        } catch (Exception e) {
-          // If the player does something shady and crashes, kick them
-          newMove = newMove.kickPlayer(t);
-          this.cheaters.add(p);
-        }
-
-        Set<IPlayer> elimPlayersThisTurn = getEliminatedPlayers(board, newMove);
-        elimThisRound.addAll(elimPlayersThisTurn);
-
-        board = newMove;
+        board = doSingleTurn(board, numTiles, createAction, elimThisRound, p);
       }
     }
 
@@ -181,8 +165,48 @@ public class Referee {
 
 
   /**
-   * Creates a Set<com.tsuro.player.IPlayer> that contains the players that are in oldBoard but not in newBoard.
-   * (excluding cheaters)
+   * Plays a single round of Tsuro
+   *
+   * @param board         the board before the turn
+   * @param numTiles      the number of tiles to be handed out this turn
+   * @param createAction  the function to make the {@link IAction} that will be performed this
+   *                      round.
+   * @param elimThisRound the Set of Players that have been eliminated
+   *                      <b>SIDE EFFECT</b> MAY BECOME MUTATED
+   * @param p             the player that this turn will play for
+   * @return the board after the player plays their turn.
+   */
+  private IBoard doSingleTurn(IBoard board, int numTiles,
+      QuintFunc<IPlayer, List<ITile>, Token, IBoard, IRuleChecker, IAction> createAction,
+      Set<IPlayer> elimThisRound, IPlayer p) {
+
+    List<ITile> hand = getNTiles(numTiles);
+    Token t = tokenPlayerMap.inverse().get(p);
+
+    IBoard newMove = board;
+
+    try {
+      IBoard finalBoard = board;
+      IAction actionPerformed = doFunctionForTime(() -> createAction.apply(p, hand, t,
+          finalBoard, rules));
+      newMove = validateMoveHandleAbnormal(p, board, t, actionPerformed, hand);
+    } catch (Exception e) {
+      // If the player does something shady and crashes, kick them
+      newMove = newMove.kickPlayer(t);
+      this.cheaters.add(p);
+    }
+
+    Set<IPlayer> elimPlayersThisTurn = getEliminatedPlayers(board, newMove);
+    elimThisRound.addAll(elimPlayersThisTurn);
+
+    board = newMove;
+    return board;
+  }
+
+
+  /**
+   * Creates a Set<com.tsuro.player.IPlayer> that contains the players that are in oldBoard but not
+   * in newBoard. (excluding cheaters)
    */
   private Set<IPlayer> getEliminatedPlayers(IBoard oldBoard, IBoard newBoard) {
     Set<Token> tokensPriorToTurn = oldBoard.getAllTokens();
@@ -216,7 +240,7 @@ public class Referee {
   }
 
   /**
-   * Validates the move that was performed by the player.
+   * Validates the move that was performed by the player, and kicks out cheaters.
    *
    * @param player   player performing the move
    * @param oldBoard board before move done
@@ -256,7 +280,8 @@ public class Referee {
   }
 
   /**
-   * Creates a BiMap (reversible map) of assigned Tokens -> the Players
+   * Creates a BiMap (reversible map) of assigned Tokens -> the Players in order as specified in
+   * {@link ColorString}.
    */
   private BiMap<Token, IPlayer> getTokenPlayerMap() {
 

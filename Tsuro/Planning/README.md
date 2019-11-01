@@ -31,6 +31,15 @@ asks `Player`s to make `IAction`s, giving the player `ITile`s to place. The `Ref
  - The referee from `referee.java` has been moved to Common/src/com/tsuro/referee/Referee.java
  
  There is a UML available here ![](UML.png)
+ 
+ ### Dynamic Dependencies
+ - The Administrator and Referee receive and use `StrategyPlayer`s.
+ - The StrategyPlayer receives either `FirstPlayerStrategy` or `SecondPlayerStrategy`
+ - The Administrator, Referee, and Player use `TsuroBoard`
+ - The Administrator, Referee, Player, and Board use `TsuroTile`s
+ - The Referee receives a `CycleThroughTiles` that the Administrator creates
+ - The Referee, Player, and Actions all use `TsuroRuleChecker`
+ - The Referee uses `InitialAction`s and `IntermediateAction`s that the player creates
 
  ### Planning
   - Planning contains all of the documents describing how we

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Strategy for a player that follows the behaviour as defined at https://ccs.neu.edu/home/matthias/4500-f19/7.html
  */
-class SecondPlayerStrategy extends AbstractStrategy implements IPlayerStrategy {
+public class SecondS extends AbstractStrategy implements IPlayerStrategy {
 
   /**
    * Attempts to find a legal placement by searching for a legal option with the first tile of the

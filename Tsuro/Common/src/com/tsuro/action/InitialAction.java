@@ -17,7 +17,7 @@ import lombok.NonNull;
  */
 @AllArgsConstructor
 @EqualsAndHashCode
-public class InitialAction implements IAction {
+public final class InitialAction implements IAction {
 
   @NonNull
   private final ITile tile;
