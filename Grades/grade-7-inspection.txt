@@ -1,0 +1,19 @@
+93
+Dustin Jamner
+README.md
+-3 purpose of board file insufficient
+-5 no purpose for the player interface
+-3 purpose for actions insufficient
+-5 no purpose for player file
+-5 no purpose for first-s
+-5 no purpose for second-s
+-3 purpose of referee file insufficient
+-5 no prupose for administrator file
+
+-5 static and dynamic sections not clearly distict
+-5 no reference to Tsuro, the local protocol
+
+second-s
+-2 no purpose statement for second-s initial move
+-6 no test for second-s intermediate move
+
