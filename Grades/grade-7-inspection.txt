@@ -1,6 +1,9 @@
-93
+113
 Dustin Jamner
 README.md
+
++30 descriptions of Admin, Common, and Player directories
+
 -3 purpose of board file insufficient
 -5 no purpose for the player interface
 -3 purpose for actions insufficient
@@ -10,7 +13,6 @@ README.md
 -3 purpose of referee file insufficient
 -5 no prupose for administrator file
 
--5 static and dynamic sections not clearly distict
 -5 no reference to Tsuro, the local protocol
 
 second-s
