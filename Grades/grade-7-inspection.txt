@@ -11,7 +11,7 @@ README.md
 -5 no purpose for first-s
 -5 no purpose for second-s
 -3 purpose of referee file insufficient
--5 no prupose for administrator file
+-5 no purpose for administrator file
 
 -5 no reference to Tsuro, the local protocol
 
