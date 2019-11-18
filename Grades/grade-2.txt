@@ -1,3 +1,2 @@
-35 / 50
--5 No file Tsuro/Common/tiles.PP
+40 / 50
 -10 Inspection---see grade-2.txt
